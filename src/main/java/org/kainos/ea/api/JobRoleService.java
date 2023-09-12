@@ -14,7 +14,7 @@ public class JobRoleService {
         this.jobRoleDao = jobRoleDao;
     }
 
-    public void deleteRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
+    public int deleteRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
         try {
             JobRole jobRole = jobRoleDao.getRoleById(id);
 
@@ -22,7 +22,9 @@ public class JobRoleService {
                 throw new JobRoleDoesNotExistException();
             }
 
-            jobRoleDao.deleteRole(id);
+            int rowsDeleted = jobRoleDao.deleteRole(id);
+
+            return rowsDeleted;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
 

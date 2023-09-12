@@ -6,19 +6,17 @@ public class JobRole {
     private String jobSpec;
     private String responsibilities;
     private String sharepointLink;
-    private int capability;
 
     private int bandID;
     private int familyID;
 
     public JobRole(int roleID, String name, String jobSpec, String responsibilities,
-                   String sharepointLink, int capability, int bandID, int familyID) {
+                   String sharepointLink, int bandID, int familyID) {
         this.roleID = roleID;
         this.name = name;
         this.jobSpec = jobSpec;
         this.responsibilities = responsibilities;
         this.sharepointLink = sharepointLink;
-        this.capability = capability;
         this.bandID = bandID;
         this.familyID = familyID;
     }
@@ -61,14 +59,6 @@ public class JobRole {
 
     public void setSharepointLink(String sharepointLink) {
         this.sharepointLink = sharepointLink;
-    }
-
-    public int getCapability() {
-        return capability;
-    }
-
-    public void setCapability(int capability) {
-        this.capability = capability;
     }
 
     public int getBandID() {

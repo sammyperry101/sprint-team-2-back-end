@@ -13,7 +13,7 @@ public class JobRoleDao {
     }
 
     // TODO: Ensure delete string is correct for database and connection works when added
-    public void deleteRole(int id) throws SQLException {
+    public int deleteRole(int id) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         String deleteStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
@@ -22,8 +22,9 @@ public class JobRoleDao {
 
         st.setInt(1, id);
 
-        st.executeUpdate();
+        int rowsDeleted = st.executeUpdate();
 
+        return rowsDeleted;
     }
 
     public JobRole getRoleById(int id) throws SQLException {
@@ -32,7 +33,7 @@ public class JobRoleDao {
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "CapabilityID, BandID, FamilyID FROM Job_Role WHERE RoleID = " + id);
+                "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id);
 
         while (rs.next()) {
             return new JobRole(
@@ -41,7 +42,6 @@ public class JobRoleDao {
                     rs.getString("Job_Spec"),
                     rs.getString("Responsibilities"),
                     rs.getString("Sharepoint_Link"),
-                    rs.getInt("CapabilityID"),
                     rs.getInt("BandID"),
                     rs.getInt("FamilyID")
             );
