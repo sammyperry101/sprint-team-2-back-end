@@ -5,14 +5,12 @@ import org.kainos.ea.cli.JobRole;
 import java.sql.*;
 
 public class JobRoleDao {
-    // TODO: Ensure works when DatabaseConnector added
     private DatabaseConnector databaseConnector;
 
     public JobRoleDao(DatabaseConnector databaseConnector) {
         this.databaseConnector = databaseConnector;
     }
 
-    // TODO: Ensure delete string is correct for database and connection works when added
     public int deleteRole(int id) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
