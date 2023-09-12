@@ -86,7 +86,14 @@ INSERT INTO Families(Name, CapabilityID) VALUES("Property Management", 14);
 INSERT INTO Families(Name, CapabilityID) VALUES("Travel Management", 14);
 INSERT INTO Families(Name, CapabilityID) VALUES("Corporate Social Responsibility Management", 14);
 
-
+INSERT INTO Bands(Name) VALUES("Leadership Community");
+INSERT INTO Bands(Name) VALUES("Principal");
+INSERT INTO Bands(Name) VALUES("Manager");
+INSERT INTO Bands(Name) VALUES("Consultant");
+INSERT INTO Bands(Name) VALUES("Senior Associate");
+INSERT INTO Bands(Name) VALUES("Associate");
+INSERT INTO Bands(Name) VALUES("Trainee");
+INSERT INTO Bands(Name) VALUES("Apprentice");
 
 
 
