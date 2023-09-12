@@ -36,8 +36,6 @@ CREATE TABLE Bands(
 	BandID SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     Name VARCHAR(70) NOT NULL,
     Level TINYINT UNSIGNED NOT NULL,
-    Training_Available TEXT,
-    Competencies TEXT,
     PRIMARY KEY(BandID)
 );
 
