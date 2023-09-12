@@ -29,7 +29,7 @@
         </module>
         <!--Checks for * imports-->
         <module name="AvoidStarImport"/>
-        <!--Checks for the right indentation-->
+        <!--Checks for the right amount of indentation-->
         <module name="Indentation">
             <property name="basicOffset" value="2"/>
             <property name="braceAdjustment" value="2"/>
@@ -40,8 +40,7 @@
         </module>
         <!--Checks type names follow a pattern-->
         <module name="TypeName">
-            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
-                    ANNOTATION_DEF, RECORD_DEF"/>
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern"
                      value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -57,13 +56,8 @@
             <message key="name.invalidPattern"
                      value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
-        <!--Checks the comment indentation-->
-        <module name="CommentsIndentation">
-            <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
-        </module>
         <!--Checks the top level classes resides in a source file of its own-->
         <module name="OneTopLevelClass"/>
-
 
     </module>
 
