@@ -29,12 +29,13 @@
         </module>
         <!--Checks for * imports-->
         <module name="AvoidStarImport"/>
-        <!--Checks that the max number of characters for a line is 136-->
-        <module name="LineLength">
-            <property name="ignorePattern" value="^ *\* *@see.+$"/>
-            <property name="max" value="136"/>
-        </module>
 
+    </module>
+
+    <!--Checks that the max number of characters for a line is 136-->
+    <module name="LineLength">
+        <property name="ignorePattern" value="^ *\* *@see.+$"/>
+        <property name="max" value="136"/>
     </module>
 
 
