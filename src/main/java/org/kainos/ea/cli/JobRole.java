@@ -6,7 +6,6 @@ public class JobRole {
     private String jobSpec;
     private String responsibilities;
     private String sharepointLink;
-
     private int bandID;
     private int familyID;
 

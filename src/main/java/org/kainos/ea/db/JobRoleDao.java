@@ -22,9 +22,7 @@ public class JobRoleDao {
 
         st.setInt(1, id);
 
-        int rowsDeleted = st.executeUpdate();
-
-        return rowsDeleted;
+        return st.executeUpdate();
     }
 
     public JobRole getRoleById(int id) throws SQLException {
@@ -49,5 +47,4 @@ public class JobRoleDao {
 
         return null;
     }
-
 }
