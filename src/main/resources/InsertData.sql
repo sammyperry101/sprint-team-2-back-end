@@ -1,7 +1,3 @@
-USE Team2_CallumE;
-
-Select * FROM Capabilities;
-
 INSERT INTO Capabilities(Name) VALUES("Engineering");
 INSERT INTO Capabilities(Name) VALUES("Platforms");
 INSERT INTO Capabilities(Name) VALUES("Data and Artificial Intelligence");
@@ -94,6 +90,141 @@ INSERT INTO Bands(Name, Level) VALUES("Senior Associate", 4);
 INSERT INTO Bands(Name, Level) VALUES("Associate", 5);
 INSERT INTO Bands(Name, Level) VALUES("Trainee", 6);
 INSERT INTO Bands(Name, Level) VALUES("Apprentice", 7);
+
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Technology Leader",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EbVmcbCjUW9GnuKIvWQl4ZEBu1OexK_ZLriei8AUoRozCg?e=pkpCiw",
+1, 1);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Principal Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EVF5r86T24NNpDy0weP5HdIBaCNWkL9__IzJXLHLzlpP4w?e=tsnXuj",
+2, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Principal Test Architect",
+"temp", "temp", "Principal Test Architect",
+2, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Dynamics 365 / Power Platform Solution Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EeDnnrtxghNNgbBQixu5Hw0BdAC7nQddZQZV6sMPQnUoRg?e=HpPNNC",
+3, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Solution Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/ESpp56fZyrhKi6uCuwpshDwB3nmo1BMkbQKYDXbNHCi_sw?e=muiHBJ",
+3, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Test Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EaUc6UK0VK9EkoQGonvGc7gBFq5BA44lWgyImt5s-810BA?e=oL7L2S",
+3, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Intelligent Automation Solution Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20Profile%20-%20Intelligent%20Automation%20Solution%20Architect%20(M).pdf?csf=1&web=1&e=0Nt9EZ",
+3, 5);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Innovation
+Lead",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EfDowM36RnBLtOSfM1n7ydsBrEhf4SrE_TGzS9ej432Cew?e=NCBKGp",
+4, 1);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Lead Software Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EZwjG2_68rZOiWicTIbaM7IBGNimvPpVhz3Z8iyefkmDQw?e=fIh91B",
+4, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Lead Managed Services Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EZURQr9PhANKgW_hsp4n47QBmjdD2in8Gz6Qi0R-62U7Bg?e=rGt6xD",
+4, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Technical Architect",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/ERa52ZFdOhxJuKYbwl5w27YBUGgHxFh6qz9AtTflB2YPGA?e=mMeOWH",
+4, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Lead Test Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20profile%20-%20Lead%20Test%20Engineer%20(Consultant).pdf?csf=1&web=1&e=uzHzAa",
+4, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Lead NFT Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EZb2TmMB0MBLlwWgFg4DLQ4B6gTWJbPbfzQqOqFTiEGWPA?e=lZxf1S",
+4, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Test Manager",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EWhQmoHJz6lDmruVQbXPukwBdORoWzoD5m-2AqEFkk7sJA?e=3L2xrU",
+4, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Lead Product
+Specialist",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EaiJVYASE4FHucsGvPY2t7IB9F-8yVVaCO--dBpBhCHubw?e=cyvAnW",
+4, 5);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior
+Software Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EeS73plMEQ9Fjf-tovttXuYBEo-0tlfT-U3bFMcgryapVw?e=wJFypU",
+5, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior Front-End Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/s/PeopleTeam-SharedDrive/Eatbo8zxX6tAtmbP8V1zp40B6IOOUSbmNXegGn_a9ooPVA?e=ozka8V",
+5, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior Support Technician",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20Profile%20-%20Senior%20Support%20Technician%20(SA).pdf?csf=1&web=1&e=2bIVHA",
+5, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior Test Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20profile%20-%20Senior%20Test%20Engineer%20(SA).pdf?csf=1&web=1&e=fhtv1A",
+5, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior NFT Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EcXYPU9ji3FGqThWcoPDzUgBMsRkQiRqaTvPoTgIT5VAgw?e=KIgOFw",
+5, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior Product
+Specialist",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/ERcJ7fgNODVBnTXPuYBH2pQB68ij729Vzb63GI7BEtzvhg?e=yRso1j",
+5, 5);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Software Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EYTCv1ssl6pOuH59zXtoF9YB8qNaEMNSkZIkCthDAY5Kjg?e=Ht84rW",
+6, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Front-End Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/s/PeopleTeam-SharedDrive/EX743Ml-LgpIgMy2NPsaMSQBWezle54-hIhKKJQVJJ3Hcw?e=xQfVue",
+6, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Support Technician ",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20Profile%20-%20Support%20Technician%20(As).pdf?csf=1&web=1&e=2ZNeHK",
+6, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Test Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20profile%20%20Test%20Engineer%20(Associate).pdf?csf=1&web=1&e=vhB9vK",
+6, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Product Specialist",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EfeMkAfUpYlDuqvBpgndb8EB5o___Gv8q5UKl7eNqDF8Ug?e=zR5zGI",
+6, 5);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Software Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/ERJlfMHOxRVHlMHiUcHDkI8BU2NafboSbetIJ3zNkKwTlw?e=jOY3Vq",
+7, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Test Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20profile%20Trainee%20Test%20Engineer%20(Trainee).pdf?csf=1&web=1&e=YW0Qo6",
+7, 4);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Software Engineer",
+"temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EbTM1UOLa0VBvOttkOL3ZNoB0sMjehxvkAaNQEj2dqKMbA?e=iXpeUf",
+8, 2);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
+INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
+"temp", "temp", "",
+1, 3);
 
 
 
