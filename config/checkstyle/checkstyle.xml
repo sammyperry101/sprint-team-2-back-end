@@ -66,8 +66,6 @@
         <property name="ignorePattern" value="^ *\* *@see.+$"/>
         <property name="max" value="136"/>
     </module>
-    <!--Checks for braces around code blocks-->
-    <module name="NeedBraces"/>
     <!--Checks for a left curly brace for code blocks-->
     <module name="LeftCurly"/>
     <!--Checks for a right curly brace for code blocks-->
