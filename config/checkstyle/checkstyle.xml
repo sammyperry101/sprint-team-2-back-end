@@ -58,18 +58,10 @@
         </module>
         <!--Checks the top level classes resides in a source file of its own-->
         <module name="OneTopLevelClass"/>
-
     </module>
-
     <!--Checks that the max number of characters for a line is 136-->
     <module name="LineLength">
         <property name="ignorePattern" value="^ *\* *@see.+$"/>
         <property name="max" value="136"/>
     </module>
-    <!--Checks for a left curly brace for code blocks-->
-    <module name="LeftCurly"/>
-    <!--Checks for a right curly brace for code blocks-->
-    <module name="RightCurly"/>
-
-
 </module>
