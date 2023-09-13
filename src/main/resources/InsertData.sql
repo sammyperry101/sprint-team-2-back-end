@@ -91,10 +91,6 @@ INSERT INTO Bands(Name, Level) VALUES("Associate", 5);
 INSERT INTO Bands(Name, Level) VALUES("Trainee", 6);
 INSERT INTO Bands(Name, Level) VALUES("Apprentice", 7);
 
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-
 INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Technology Leader",
 "temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EbVmcbCjUW9GnuKIvWQl4ZEBu1OexK_ZLriei8AUoRozCg?e=pkpCiw",
 1, 1);
@@ -249,132 +245,7 @@ INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID,
 INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("Senior Systems Support Engineer ",
 "temp", "temp", "https://kainossoftwareltd.sharepoint.com/:b:/g/people/EcFdYkCtSbRNtSSw50j9PtIBuhIP7K_7Qav4et3_t7Q-Mg",
 5, 11);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
-INSERT INTO Job_Roles(Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID) VALUES ("",
-"temp", "temp", "",
-1, 3);
+
 
 
 
