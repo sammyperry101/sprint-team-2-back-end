@@ -1,7 +1,6 @@
 package org.kainos.ea.db;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,10 +35,12 @@ public class DatabaseConnector {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        } finally{
-            System.out.println("I will always run!");
         }
 
         return null;
+    }
+
+    public static void setConn(Connection connection){
+        conn = connection;
     }
 }
