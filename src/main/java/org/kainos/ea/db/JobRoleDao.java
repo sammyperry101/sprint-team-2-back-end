@@ -20,6 +20,8 @@ public class JobRoleDao {
 
         st.setInt(1, id);
 
+        System.out.println(st.executeUpdate());
+
         return st.executeUpdate();
     }
 
