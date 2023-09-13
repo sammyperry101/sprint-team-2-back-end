@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
+import org.kainos.ea.client.FailedLoginException;
 
 import java.security.Key;
 import java.sql.Connection;
@@ -18,10 +19,14 @@ import java.util.Date;
 public class AuthDao {
     private static final String SECRET_KEY = "ccGLbrAIzIlPmvOY"; // Replace with a strong secret key
     private static final long EXPIRATION_TIME = 86400000; // 24 hours in milliseconds
+    private  DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    private final DatabaseConnector databaseConnector = new DatabaseConnector();
+    public AuthDao(DatabaseConnector databaseConnector) {
+        this.databaseConnector=databaseConnector;
+    }
 
-    public User validLogin(LoginRequest login) throws SQLException {
+
+    public User validLogin(LoginRequest login) throws SQLException, FailedLoginException {
         Connection c = databaseConnector.getConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email=?;");
@@ -39,7 +44,7 @@ public class AuthDao {
 
         }
 
-        return null;
+        throw new FailedLoginException();
     }
 
     public String generateToken(String email) {
