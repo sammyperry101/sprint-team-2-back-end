@@ -13,7 +13,8 @@ CREATE TABLE Users(
     RoleID SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY(UserID),
     CONSTRAINT FK_RoleUser FOREIGN KEY(RoleID)
-    REFERENCES Auth_Roles(RoleID)
+    REFERENCES Auth_Roles(RoleID),
+    CONSTRAINT UQ_User UNIQUE(Email)
 );
 
 CREATE TABLE Capabilities(
