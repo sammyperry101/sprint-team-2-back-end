@@ -51,7 +51,7 @@ public class JobRoleServiceTest {
         Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
 
         assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.deleteRole(id));
+           () -> jobRoleService.deleteRole(id));
     }
 
     @Test
@@ -63,6 +63,6 @@ public class JobRoleServiceTest {
         Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
 
         assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.deleteRole(id));
+            () -> jobRoleService.deleteRole(id));
     }
 }

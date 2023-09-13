@@ -1,8 +1,11 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class JobRoleDao {
     private DatabaseConnector databaseConnector;
