@@ -13,8 +13,7 @@ CREATE TABLE Users(
     RoleID SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY(UserID),
     CONSTRAINT FK_RoleUser FOREIGN KEY(RoleID)
-    REFERENCES Auth_Roles(RoleID),
-    CONSTRAINT UQ_User UNIQUE(Email)
+    REFERENCES Auth_Roles(RoleID)
 );
 
 CREATE TABLE Capabilities(
@@ -48,13 +47,9 @@ CREATE TABLE Job_Roles(
     Job_Spec TEXT NOT NULL,
     Responsibilities TEXT NOT NULL,
     Sharepoint_Link VARCHAR(255),
-    CapabilityID SMALLINT UNSIGNED NOT NULL,
     BandID SMALLINT UNSIGNED NOT NULL,
     FamilyID SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY(RoleID),
-    CONSTRAINT FK_CapabilityRole FOREIGN KEY(CapabilityID)
-    REFERENCES Capabilities(CapabilityID)
-    ON DELETE CASCADE,
     CONSTRAINT FK_FamilyRole FOREIGN KEY(FamilyID)
     REFERENCES Families(FamilyID)
     ON DELETE CASCADE,
