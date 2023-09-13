@@ -22,7 +22,8 @@ public class JobRoleDaoTest {
         int expectedResult = 1;
         String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeUpdate()).thenReturn(expectedResult);
 
@@ -37,7 +38,8 @@ public class JobRoleDaoTest {
         int expectedResult = 0;
         String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeUpdate()).thenReturn(expectedResult);
 
@@ -51,7 +53,8 @@ public class JobRoleDaoTest {
         int id = -1;
         String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeUpdate()).thenThrow(SQLException.class);
 
@@ -71,7 +74,8 @@ public class JobRoleDaoTest {
                 1,
                 1);
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.createStatement()).thenReturn(statement);
         Mockito.when(statement.executeQuery(query)).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true);
@@ -100,7 +104,8 @@ public class JobRoleDaoTest {
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
                 "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id;
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.createStatement()).thenReturn(statement);
         Mockito.when(statement.executeQuery(query)).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(false);
@@ -116,7 +121,8 @@ public class JobRoleDaoTest {
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
                 "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id;
 
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
+        DatabaseConnector.setConn(connection);
+
         Mockito.when(connection.createStatement()).thenReturn(statement);
         Mockito.when(statement.executeQuery(query)).thenThrow(SQLException.class);
 
