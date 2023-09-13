@@ -32,13 +32,6 @@ public class JobRoleControllerTest {
             FailedToDeleteJobRoleException {
         int id = 1;
         int expectedResult = 1;
-        JobRole jobRole = new JobRole(1,
-                "Job Spec",
-                "Responsibilities",
-                "responsibilities",
-                "sharepoint link",
-                1,
-                1);
 
         Mockito.when(jobRoleServiceMock.deleteRole(id)).thenReturn(expectedResult);
 
@@ -47,15 +40,28 @@ public class JobRoleControllerTest {
         assertEquals(200, response.getStatus());
     }
 
-//    @Test
-//    void deleteJobRoleWithInvalidID_shouldReturn200Response() {
-//        int id = 1;
-//
-//        Response response = APP.client().target("http://localhost:8080/api/job-roles/" + id)
-//                .request()
-//                .delete();
-//
-//        Assertions.assertEquals(200, response.getStatus());
-//    }
+    @Test
+    void deleteJobRole_shouldReturn400Response_whenServiceThrowsJobRoleDoesNotExistException()
+            throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
+        int id = -1;
+
+        Mockito.when(jobRoleServiceMock.deleteRole(id)).thenThrow(JobRoleDoesNotExistException.class);
+
+        Response response = jobRoleController.deleteRole(id);
+
+        Assertions.assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    void deleteJobRole_shouldReturn500Response_whenServiceThrowsFailedToDeleteRoleException()
+            throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
+        int id = -1;
+
+        Mockito.when(jobRoleServiceMock.deleteRole(id)).thenThrow(FailedToDeleteJobRoleException.class);
+
+        Response response = jobRoleController.deleteRole(id);
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
 
 }
