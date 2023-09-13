@@ -17,7 +17,7 @@ public class JobRoleDao {
     public int deleteRole(int id) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
-        String deleteStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
+        String deleteStatement = "DELETE FROM Job_Roles WHERE RoleID = ?";
 
         PreparedStatement st = c.prepareStatement(deleteStatement);
 
@@ -32,7 +32,7 @@ public class JobRoleDao {
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id);
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID = " + id);
 
         while (rs.next()) {
             return new JobRole(

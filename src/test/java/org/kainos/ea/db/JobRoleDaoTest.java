@@ -25,7 +25,7 @@ public class JobRoleDaoTest {
     void deleteJobRole_shouldReturn1IfJobExists_whenDaoDeletesJob() throws SQLException {
         int id = 1;
         int expectedResult = 1;
-        String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
+        String preparedStatement = "DELETE FROM Job_Roles WHERE RoleID = ?";
 
         DatabaseConnector.setConn(connection);
 
@@ -41,7 +41,7 @@ public class JobRoleDaoTest {
     void deleteJobRole_shouldReturn0IfJobNotExist_whenDatabaseDeletesNothing() throws SQLException {
         int id = -1;
         int expectedResult = 0;
-        String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
+        String preparedStatement = "DELETE FROM Job_Roles WHERE RoleID = ?";
 
         DatabaseConnector.setConn(connection);
 
@@ -56,7 +56,7 @@ public class JobRoleDaoTest {
     @Test
     void deleteJobRole_shouldThrowSQLException_whenDatabaseThrowsSQLException() throws SQLException {
         int id = -1;
-        String preparedStatement = "DELETE FROM Job_Role WHERE RoleID = ?";
+        String preparedStatement = "DELETE FROM Job_Roles WHERE RoleID = ?";
 
         DatabaseConnector.setConn(connection);
 
@@ -70,7 +70,7 @@ public class JobRoleDaoTest {
     void getJobRoleById_shouldReturnId_whenDatabaseReturnsJobRole() throws SQLException {
         int id = 1;
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id;
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID = " + id;
         JobRole expectedResult = new JobRole(1,
                 "Name",
                 "Job Spec",
@@ -107,7 +107,7 @@ public class JobRoleDaoTest {
     void getJobRoleById_shouldReturnNull_whenDatabaseReturnsNothing() throws SQLException {
         int id = 1;
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id;
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID = " + id;
 
         DatabaseConnector.setConn(connection);
 
@@ -124,7 +124,7 @@ public class JobRoleDaoTest {
     void getJobRoleById_shouldThrowSQLException_whenDatabaseThrowsSQLException() throws SQLException {
         int id = 1;
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Role WHERE RoleID = " + id;
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID = " + id;
 
         DatabaseConnector.setConn(connection);
 
