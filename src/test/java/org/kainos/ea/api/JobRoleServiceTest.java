@@ -48,7 +48,6 @@ public class JobRoleServiceTest {
         int expectedResult = 0;
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
-        Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
 
         assertThrows(JobRoleDoesNotExistException.class,
             () -> jobRoleService.deleteRole(id));
@@ -57,10 +56,9 @@ public class JobRoleServiceTest {
     @Test
     void deleteJobRole_shouldThrowFailedToDeleteJobRoleException_whenDaoThrowsSQLException() throws SQLException {
         int id = -1;
-        int expectedResult = 0;
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
-        Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
+        Mockito.when(jobRoleDaoMock.deleteRole(id)).thenThrow(SQLException.class);
 
         assertThrows(JobRoleDoesNotExistException.class,
             () -> jobRoleService.deleteRole(id));

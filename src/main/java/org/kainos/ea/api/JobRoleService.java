@@ -18,9 +18,6 @@ public class JobRoleService {
         try {
             JobRole jobRole = jobRoleDao.getRoleById(id);
 
-            System.out.println(id);
-            System.out.println(jobRole);
-
             if (jobRole == null) {
                 throw new JobRoleDoesNotExistException();
             }
