@@ -1,6 +1,9 @@
 package org.kainos.ea.db;
 import io.dropwizard.testing.junit5.DAOTestExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +16,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.security.Key;
 import java.sql.*;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,8 +45,8 @@ public class AuthDaoTest {
 
         String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
         DatabaseConnector.setConn(connection);
-        Mockito.when(connection.createStatement()).thenReturn(statement);
-        Mockito.when(statement.executeQuery(preparedStatement)).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true);
         Mockito.when(resultSet.getInt("UserID")).thenReturn(1);
         Mockito.when(resultSet.getString("Email")).thenReturn("mateenparkar4@gmail.com");
@@ -52,5 +57,19 @@ public class AuthDaoTest {
         assertEquals(expectedUser.getUserId(),user.getUserId());
         assertEquals(expectedUser.getEmail(),user.getEmail());
         assertEquals(expectedUser.getRole(),user.getRole());
+    }
+
+    @Test
+    void validLogin_ShouldReturnException_WhenLoginRequestIsInvalid() throws SQLException {
+        String email = "mateenparkar4@gmail.com";
+        LoginRequest invalidLoginRequest = new LoginRequest(email, "password");
+
+        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
+        Mockito.when(statement.executeQuery()).thenThrow(FailedLoginException.class);
+
+        assertThrows(FailedLoginException.class,
+                () -> authDao.validLogin(invalidLoginRequest));
     }
 }

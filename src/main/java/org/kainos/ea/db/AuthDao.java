@@ -29,18 +29,17 @@ public class AuthDao {
     public User validLogin(LoginRequest login) throws SQLException, FailedLoginException {
         Connection c = databaseConnector.getConnection();
 
-        PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email=?;");
-
-        ps.setString(1, login.getEmail());
+        PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='"
+                + login.getEmail() + "'");
 
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-                return new User(
-                        rs.getInt("UserID"),
-                        rs.getString("Email"),
-                        Role.fromId(rs.getInt("RoleID"))
-                );
+            return new User(
+                    rs.getInt("UserID"),
+                    rs.getString("Email"),
+                    Role.fromId(rs.getInt("RoleID"))
+            );
 
         }
 
