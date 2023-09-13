@@ -27,7 +27,8 @@ public class DatabaseConnector {
             name = props.getProperty("name");
 
             if(user == null || password == null || host == null){
-                throw new IllegalArgumentException("Properties file must exist and must contain user, password, name and host properties");
+                throw new IllegalArgumentException("Properties file must exist and must contain" +
+                        " user, password, name and host properties");
             }
 
             conn = DriverManager.getConnection("jdbc:mysql://" + host + "/" + name + "?useSSL=false", user, password);
