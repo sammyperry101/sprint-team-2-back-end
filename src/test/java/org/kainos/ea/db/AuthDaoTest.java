@@ -34,20 +34,23 @@ public class AuthDaoTest {
 
     @Test
     void validLogin_ShouldReturnUser_WhenLoginRequestIsValid() throws SQLException, FailedLoginException {
+        String email = "mateenparkar4@gmail.com";
         LoginRequest validLoginRequest = new LoginRequest("mateenparkar4@gmail.com", "password");
         User expectedUser = new User(1, "mateenparkar4@gmail.com", Role.ADMIN);
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email=?;";
-        Mockito.when(databaseConnector.getConnection()).thenReturn(connection);
-        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
+        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.createStatement()).thenReturn(statement);
+        Mockito.when(statement.executeQuery(preparedStatement)).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getInt("UserID")).thenReturn(1);
+        Mockito.when(resultSet.getString("Email")).thenReturn("mateenparkar4@gmail.com");
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
 
-
-
-        // Act
         User user = authDao.validLogin(validLoginRequest);
-        // Assert
-        assertEquals(expectedUser, user);
+
+        assertEquals(expectedUser.getUserId(),user.getUserId());
+        assertEquals(expectedUser.getEmail(),user.getEmail());
+        assertEquals(expectedUser.getRole(),user.getRole());
     }
-
-
 }

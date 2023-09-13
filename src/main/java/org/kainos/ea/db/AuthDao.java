@@ -19,7 +19,7 @@ import java.util.Date;
 public class AuthDao {
     private static final String SECRET_KEY = "ccGLbrAIzIlPmvOY"; // Replace with a strong secret key
     private static final long EXPIRATION_TIME = 86400000; // 24 hours in milliseconds
-    private  DatabaseConnector databaseConnector = new DatabaseConnector();
+    private  DatabaseConnector databaseConnector;
 
     public AuthDao(DatabaseConnector databaseConnector) {
         this.databaseConnector=databaseConnector;

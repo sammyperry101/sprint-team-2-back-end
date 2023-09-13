@@ -41,4 +41,7 @@ public class DatabaseConnector {
 
         return null;
     }
+    public static void setConn(Connection connection){
+        conn = connection;
+    }
 }
