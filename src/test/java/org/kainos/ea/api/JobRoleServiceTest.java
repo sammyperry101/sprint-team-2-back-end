@@ -23,49 +23,6 @@ public class JobRoleServiceTest {
     JobRoleDao jobRoleDaoMock = Mockito.mock(JobRoleDao.class);
 
     JobRoleService jobRoleService = new JobRoleService(jobRoleDaoMock);
-
-    /*@Test
-    void deleteJobRole_shouldReturn1_whenDaoDeletesJobRole() throws JobRoleDoesNotExistException,
-            FailedToDeleteJobRoleException, SQLException {
-        int id = 1;
-        int expectedResult = 1;
-        JobRole jobRole = new JobRole(1,
-                "Job Spec",
-                "Responsibilities",
-                "responsibilities",
-                "sharepoint link",
-                1,
-                1);
-
-        Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(jobRole);
-        Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
-
-        int result = jobRoleService.deleteRole(id);
-
-        assertEquals(result, expectedResult);
-    }
-
-    @Test
-    void deleteJobRole_shouldThrowJobDoesNotExistException_whenDaoReturnsNull() throws SQLException {
-        int id = -1;
-        int expectedResult = 0;
-
-        Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
-
-        assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.deleteRole(id));
-    }
-
-    @Test
-    void deleteJobRole_shouldThrowFailedToDeleteJobRoleException_whenDaoThrowsSQLException() throws SQLException {
-        int id = -1;
-
-        Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
-        Mockito.when(jobRoleDaoMock.deleteRole(id)).thenThrow(SQLException.class);
-
-        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.deleteRole(id));
-    }*/
-
     @Test
     void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
         JobRole jobRole = new JobRole(1,
