@@ -27,9 +27,7 @@ public class JobRoleController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteRole(@PathParam("id") int id) {
         try {
-            jobRoleService.deleteRole(id);
-
-            return Response.ok().build();
+            return Response.ok(jobRoleService.deleteRole(id)).build();
         } catch (JobRoleDoesNotExistException e) {
             System.err.println(e.getMessage());
 
