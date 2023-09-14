@@ -32,7 +32,7 @@ public class AuthServiceTest {
     @Test
     void login_ShouldReturnImmutablePair_WhenUserIsValid() throws Exception, FailedLoginException {
         int userId = 1;
-        String email = "mateenparkar4@gmail.com";
+        String email = "johndoe@gmail.com";
         Role role = Role.ADMIN;
         User mockUser = new User(userId, email, role);
         String mockToken = Jwts.builder()
@@ -46,7 +46,7 @@ public class AuthServiceTest {
 
         when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(mockUser);
 
-        when(authDaoMock.generateToken(mockUser.getEmail())).thenReturn(mockToken);
+        authService.generateToken(mockUser.getEmail());
 
         ImmutablePair<User, String> result = authService.login(mockLoginRequest);
 
