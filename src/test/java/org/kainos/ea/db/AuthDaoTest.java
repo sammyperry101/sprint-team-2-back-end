@@ -43,7 +43,7 @@ public class AuthDaoTest {
         LoginRequest validLoginRequest = new LoginRequest("mateenparkar4@gmail.com", "password");
         User expectedUser = new User(1, "mateenparkar4@gmail.com", Role.ADMIN);
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'" + "AND PASSWORD='" + validLoginRequest.getPassword() + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenReturn(resultSet);
@@ -61,10 +61,10 @@ public class AuthDaoTest {
 
     @Test
     void validLogin_ShouldReturnException_WhenLoginRequestIsInvalid() throws SQLException {
-        String email = "mateenparkar4@gmail.com";
+        String email = "mateenparkar21@gmail.com";
         LoginRequest invalidLoginRequest = new LoginRequest(email, "password");
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'" + "AND PASSWORD='" + invalidLoginRequest.getPassword() + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenThrow(FailedLoginException.class);
