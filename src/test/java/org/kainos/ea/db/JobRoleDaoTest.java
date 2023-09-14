@@ -153,7 +153,7 @@ public class JobRoleDaoTest {
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.createStatement()).thenReturn(statement);
         Mockito.when(statement.executeQuery(anyString())).thenReturn(resultSet);
-        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("Name");
         Mockito.when(resultSet.getString("Job_Spec")).thenReturn("Job Spec");
@@ -163,10 +163,17 @@ public class JobRoleDaoTest {
         Mockito.when(resultSet.getInt("FamilyID")).thenReturn(1);
 
         List<JobRole> actualRoles = jobRoleDao.getJobRoles();
+
         List<JobRole> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
 
-        assertIterableEquals(expectedRoles, actualRoles);
+        assertEquals(expectedRoles.get(0).getRoleID(), actualRoles.get(0).getRoleID());
+        assertEquals(expectedRoles.get(0).getName(), actualRoles.get(0).getName());
+        assertEquals(expectedRoles.get(0).getJobSpec(), actualRoles.get(0).getJobSpec());
+        assertEquals(expectedRoles.get(0).getResponsibilities(), actualRoles.get(0).getResponsibilities());
+        assertEquals(expectedRoles.get(0).getSharepointLink(), actualRoles.get(0).getSharepointLink());
+        assertEquals(expectedRoles.get(0).getBandID(), actualRoles.get(0).getBandID());
+        assertEquals(expectedRoles.get(0).getFamilyID(), actualRoles.get(0).getFamilyID());
     }
 
     @Test
