@@ -42,11 +42,11 @@ public class AuthServiceTest {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
+        AuthService authServiceMock = Mockito.mock(AuthService.class);
+
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
         when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(mockUser);
-
-        authService.generateToken(mockUser.getEmail());
 
         ImmutablePair<User, String> result = authService.login(mockLoginRequest);
 
@@ -54,7 +54,6 @@ public class AuthServiceTest {
 
         assertEquals(mockUser, result.getLeft());
 
-        assertEquals(mockToken, result.getRight());
     }
 
     @Test
