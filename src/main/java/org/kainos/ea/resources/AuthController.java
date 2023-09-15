@@ -29,13 +29,10 @@ public class AuthController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequest login) {
         try {
-            ImmutablePair<User, String> response = authService.login(login);
-            if(response == null){
-                return Response.status(400).build();
-            }
+            String response = authService.login(login);
+
             LoginResponse loginResponse = new LoginResponse(
-                    response.right,
-                    response.left.getEmail()
+                    response
             );
             return Response.ok(loginResponse).build();
         } catch (FailedLoginException e) {

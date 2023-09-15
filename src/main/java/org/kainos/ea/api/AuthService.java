@@ -27,13 +27,16 @@ public class AuthService {
 
 
 
-    public ImmutablePair<User, String> login(LoginRequest login) throws FailedLoginException {
+    public String login(LoginRequest login) throws FailedLoginException {
         try {
             User user = authDao.validLogin(login);
             if (user != null) {
-                return new ImmutablePair<>(user, generateToken(user.getEmail()));
-            }else {
-                throw new FailedLoginException();
+                String token = generateToken(user.getEmail());
+                if (token != null) {
+                    return token;
+                }
+            }else{
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,15 +44,13 @@ public class AuthService {
         throw new FailedLoginException();
     }
 
+
     public String generateToken(String email) {
-        // Create a key for signing the token (you can also use your own key management)
         Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-        // Define the claims for the token (e.g., subject, expiration)
         String subject = email;
         Date expiration = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
 
-        // Build the JWT token
         String token = Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(expiration)

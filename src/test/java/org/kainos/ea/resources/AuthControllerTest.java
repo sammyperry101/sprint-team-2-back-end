@@ -42,10 +42,10 @@ public class AuthControllerTest {
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-        LoginRequest loginRequest = new LoginRequest(email, "password");
+        LoginRequest loginRequest = new LoginRequest(email, System.getenv("PASSWORD"));
 
         when(authServiceMock.login(loginRequest))
-                .thenReturn(new ImmutablePair<>(new User(userId,email, role), token));
+                .thenReturn(token);
 
         Response response = authController.login(loginRequest);
 
@@ -53,15 +53,19 @@ public class AuthControllerTest {
     }
 
     @Test
-    void login_ShouldReturn400_WhenLoginUnsuccessful() {
-        String email = "mateenparkar21@gmail.com";
+    void login_ShouldReturn401_WhenLoginUnsuccessful() {
+        String email = "email@email.com";
 
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
+        when(authServiceMock.login(mockLoginRequest))
+                .thenThrow(new FailedLoginException());
 
         Response response = authController.login(mockLoginRequest);
 
-        assertEquals(400, response.getStatus());
+        assertEquals(401, response.getStatus());
 
     }
+
+
 }

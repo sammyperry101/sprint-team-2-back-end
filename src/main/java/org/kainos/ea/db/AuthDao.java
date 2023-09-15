@@ -7,6 +7,7 @@ import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.security.Key;
 import java.sql.Connection;
@@ -28,16 +29,21 @@ public class AuthDao {
         Connection c = databaseConnector.getConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='"
-                + login.getEmail() + "'" + "AND PASSWORD='" + login.getPassword() + "'");
+                + login.getEmail() + "'");
 
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            return new User(
-                    rs.getInt("UserID"),
-                    rs.getString("Email"),
-                    Role.fromId(rs.getInt("RoleID"))
-            );
+            String hashedPassword = rs.getString("Password");
+            String candidatePassword = login.getPassword();
+
+            if (BCrypt.checkpw(candidatePassword, hashedPassword)) {
+                return new User(
+                        rs.getInt("UserID"),
+                        rs.getString("Email"),
+                        Role.fromId(rs.getInt("RoleID"))
+                );
+            }
 
         }
 

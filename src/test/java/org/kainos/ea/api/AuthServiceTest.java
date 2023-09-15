@@ -14,11 +14,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.kainos.ea.client.FailedLoginException;
 import java.security.Key;
+import java.sql.SQLException;
 import java.util.Date;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,11 +48,11 @@ public class AuthServiceTest {
 
         when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(mockUser);
 
-        ImmutablePair<User, String> result = authService.login(mockLoginRequest);
+        String result = authService.login(mockLoginRequest);
 
         assertNotNull(result);
 
-        assertEquals(mockUser, result.getLeft());
+        assertEquals(mockUser, result);
 
     }
 
@@ -67,4 +67,29 @@ public class AuthServiceTest {
                 () -> authService.login(mockLoginRequest));
 
     }
+
+    @Test
+    void login_ShouldReturnNull_WhenDaoReturnsNull() throws Exception, FailedLoginException {
+        String email = "johndoe@gmail.com";
+
+        LoginRequest mockLoginRequest = new LoginRequest(email, "password");
+
+        when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(null);
+
+        String result = authService.login(mockLoginRequest);
+
+        assertNull(result);
+    }
+
+    @Test
+    void login_ShouldThrowException_WhenDaoThrowsException() throws SQLException {
+        String email = "johndoe@gmail.com";
+
+        LoginRequest mockLoginRequest = new LoginRequest(email, "password");
+
+        when(authDaoMock.validLogin(mockLoginRequest)).thenThrow(SQLException.class);
+
+        assertThrows(FailedLoginException.class, () -> authService.login(mockLoginRequest));
+    }
+
 }

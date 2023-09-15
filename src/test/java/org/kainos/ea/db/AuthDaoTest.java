@@ -11,6 +11,7 @@ import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -40,16 +41,18 @@ public class AuthDaoTest {
     @Test
     void validLogin_ShouldReturnUser_WhenLoginRequestIsValid() throws SQLException, FailedLoginException {
         String email = "mateenparkar4@gmail.com";
+        String salt = BCrypt.gensalt();
         LoginRequest validLoginRequest = new LoginRequest("mateenparkar4@gmail.com", "password");
         User expectedUser = new User(1, "mateenparkar4@gmail.com", Role.ADMIN);
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'" + "AND PASSWORD='" + validLoginRequest.getPassword() + "'";
+        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true);
         Mockito.when(resultSet.getInt("UserID")).thenReturn(1);
         Mockito.when(resultSet.getString("Email")).thenReturn("mateenparkar4@gmail.com");
+        Mockito.when(resultSet.getString("Password")).thenReturn(BCrypt.hashpw("password", salt));
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
 
         User user = authDao.validLogin(validLoginRequest);
