@@ -22,14 +22,14 @@ jobs:
     steps:
       - uses: DamianReeves/write-file-action@master
         with:
-          path: './db.properties'
+          path: 'db.properties'
           contents: |
               user: ${{ secrets.DB_USERNAME }}
               password: ${{ secrets.DB_PASSWORD }}
               host: ${{ secrets.DB_HOST }}
               name: ${{ secrets.DB_NAME }}
           write-mode: append
-          run: cat './db.properties'
+          run: cat 'db.properties'
 
       - uses: actions/checkout@v3
       - name: Set up JDK 11
