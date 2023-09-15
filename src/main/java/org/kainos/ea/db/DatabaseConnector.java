@@ -1,5 +1,7 @@
 package org.kainos.ea.db;
 
+import org.kainos.ea.client.FailedToGetJobRoles;
+
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +11,11 @@ import java.util.Properties;
 public class DatabaseConnector {
 
     private static Connection conn;
+    private static Properties props;
+
+    public DatabaseConnector(Properties properties) {
+        this.props = properties;
+    }
     public static Connection getConnection() throws SQLException {
         String user, password, host, name;
 
@@ -18,17 +25,15 @@ public class DatabaseConnector {
 
         try(FileInputStream propsStream = new FileInputStream("db.properties");){
 
-            Properties props = new Properties();
             props.load(propsStream);
 
             user = props.getProperty("user");
-            System.out.println(user);
             password = props.getProperty("password");
             host = props.getProperty("host");
             name = props.getProperty("name");
 
             if(user == null || password == null || host == null){
-                throw new IllegalArgumentException("Properties file must exist " +
+                throw new Exception("Properties file must exist " +
                         "and must contain user, password, name and host properties");
             }
 
@@ -37,16 +42,13 @@ public class DatabaseConnector {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
+
+            throw new IllegalArgumentException();
         }
 
-        return null;
     }
 
     public static void setConn(Connection connection){
         conn = connection;
-    }
-
-    public static void setProperties(Properties properties){
-        props = properties;
     }
 }

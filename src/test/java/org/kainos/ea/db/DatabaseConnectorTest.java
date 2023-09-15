@@ -2,22 +2,20 @@ package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(fullyQualifiedNames = "org.kainos.ea.*")
 public class DatabaseConnectorTest {
 
     private Connection conn = Mockito.mock(Connection.class);
     private Properties props = Mockito.mock(Properties.class);
-
+    private DatabaseConnector databaseConnector = new DatabaseConnector(props);
     @Test
     void getConnection_ShouldReturnConn_WhenConnIsNotNullAndNotClosed() throws SQLException {
         DatabaseConnector.setConn(conn);
@@ -27,11 +25,27 @@ public class DatabaseConnectorTest {
         Assertions.assertEquals(conn, returnedConn);
     }
     @Test
-    void getConnections_ThrowsIllegalArgumentException_WhenUserIsNull(){
-        Mockito.whenNew()
-
+    void getConnection_ThrowsIllegalArgumentException_WhenUserIsNull() throws Exception {
         Mockito.when(props.getProperty("user")).thenReturn(null);
-
-        Assertions.assertThrows(IllegalArgumentException.class, DatabaseConnector::getConnection);
+        Mockito.when(props.getProperty("password")).thenReturn("testpass");
+        Mockito.when(props.getProperty("host")).thenReturn("testhost");
+        Mockito.when(props.getProperty("name")).thenReturn("testname");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> databaseConnector.getConnection());
+    }
+    @Test
+    void getConnection_ThrowsIllegalArgumentException_WhenPassIsNull() throws Exception {
+        Mockito.when(props.getProperty("user")).thenReturn("testuser");
+        Mockito.when(props.getProperty("password")).thenReturn(null);
+        Mockito.when(props.getProperty("host")).thenReturn("testhost");
+        Mockito.when(props.getProperty("name")).thenReturn("testname");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> databaseConnector.getConnection());
+    }
+    @Test
+    void getConnection_ThrowsIllegalArgumentException_WhenHostIsNull() throws Exception {
+        Mockito.when(props.getProperty("user")).thenReturn("testuser");
+        Mockito.when(props.getProperty("password")).thenReturn("testpass");
+        Mockito.when(props.getProperty("host")).thenReturn(null);
+        Mockito.when(props.getProperty("name")).thenReturn("testname");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> databaseConnector.getConnection());
     }
 }
