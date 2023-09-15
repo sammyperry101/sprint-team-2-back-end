@@ -31,7 +31,7 @@ jobs:
           write-mode: append
 
       - name: output db.properties
-        run: echo './db.properties' >> $GITHUB_OUTPUT
+        run: echo "./db.properties" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v3
       - name: Set up JDK 11
