@@ -32,7 +32,7 @@ public class AuthControllerTest {
     @Test
     void login_ShouldReturn200Response_whenLoginSuccessful() throws FailedLoginException {
         int userId = 1;
-        String email = "mateenparkar4@gmail.com";
+        String email = "email@email.com";
         Role role = Role.ADMIN;
         User mockUser = new User(userId, email, role);
 

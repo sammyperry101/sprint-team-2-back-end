@@ -8,9 +8,11 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.db.AuthDao;
 
 import java.security.Key;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class AuthService {
@@ -30,19 +32,21 @@ public class AuthService {
     public String login(LoginRequest login) throws FailedLoginException {
         try {
             User user = authDao.validLogin(login);
-            if (user != null) {
-                String token = generateToken(user.getEmail());
-                if (token != null) {
-                    return token;
-                }
-            }else{
+            if (user == null) {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            String token = generateToken(user.getEmail());
+            if (token != null) {
+                return token;
+            }
+        } catch (SQLException e) {
+            throw new FailedToGenerateTokenException();
         }
+
         throw new FailedLoginException();
     }
+
 
 
     public String generateToken(String email) {

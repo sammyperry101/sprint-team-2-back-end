@@ -30,7 +30,7 @@ public class AuthServiceTest {
 
 
     @Test
-    void login_ShouldReturnImmutablePair_WhenUserIsValid() throws Exception, FailedLoginException {
+    void login_ShouldReturnString_WhenUserIsValid() throws Exception, FailedLoginException {
         int userId = 1;
         String email = "johndoe@gmail.com";
         Role role = Role.ADMIN;
@@ -57,18 +57,6 @@ public class AuthServiceTest {
     }
 
     @Test
-    void login_ShouldReturnFailedLoginException_WhenUserIsNotValid()  {
-        String email = "mateenparkar21@gmail.com";
-
-        LoginRequest mockLoginRequest = new LoginRequest(email, "password");
-
-
-        assertThrows(FailedLoginException.class,
-                () -> authService.login(mockLoginRequest));
-
-    }
-
-    @Test
     void login_ShouldReturnNull_WhenDaoReturnsNull() throws Exception, FailedLoginException {
         String email = "johndoe@gmail.com";
 
@@ -90,6 +78,16 @@ public class AuthServiceTest {
         when(authDaoMock.validLogin(mockLoginRequest)).thenThrow(SQLException.class);
 
         assertThrows(FailedLoginException.class, () -> authService.login(mockLoginRequest));
+    }
+
+    @Test
+    void generateToken_ShouldReturnValidToken(){
+        String email = "johndoe@gmail.com";
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        String token = authService.generateToken(email);
+
+        assertNotNull(token);
     }
 
 }

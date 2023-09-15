@@ -26,27 +26,39 @@ public class AuthDao {
 
 
     public User validLogin(LoginRequest login) throws SQLException, FailedLoginException {
-        Connection c = databaseConnector.getConnection();
+        Object[] userAndPassword = getUserByEmail(login.getEmail());
 
-        PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='"
-                + login.getEmail() + "'");
+        if (userAndPassword != null) {
+            User user = (User) userAndPassword[0];
+            String hashedPassword = (String) userAndPassword[1];
 
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            String hashedPassword = rs.getString("Password");
-            String candidatePassword = login.getPassword();
-
-            if (BCrypt.checkpw(candidatePassword, hashedPassword)) {
-                return new User(
-                        rs.getInt("UserID"),
-                        rs.getString("Email"),
-                        Role.fromId(rs.getInt("RoleID"))
-                );
+            if (isValidPassword(login.getPassword(), hashedPassword)) {
+                return user;
             }
-
         }
 
         throw new FailedLoginException();
     }
+
+    public Object[] getUserByEmail(String email) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+        PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'");
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            User user = new User(
+                    rs.getInt("UserID"),
+                    rs.getString("Email"),
+                    Role.fromId(rs.getInt("RoleID"))
+            );
+            String hashedPassword = rs.getString("Password");
+            return new Object[]{user, hashedPassword};
+        }
+
+        return null;
+    }
+    public boolean isValidPassword(String candidatePassword, String hashedPassword) {
+        return BCrypt.checkpw(candidatePassword, hashedPassword);
+    }
+
 }
