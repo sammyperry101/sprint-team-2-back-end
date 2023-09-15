@@ -20,20 +20,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Write value to db.properties file
-        uses: christian-draeger/write-properties@1.1.0
+      - uses: DamianReeves/write-file-action@master
         with:
           path: './db.properties'
-          property: |
-            'user'
-            'password'
-            'host'
-            'name'
-          value: |
-            ${{ secrets.DB_USERNAME }}
-            ${{ secrets.DB_PASSWORD }}
-            ${{ secrets.DB_HOST }}
-            ${{ secrets.DB_NAME }}
+          contents: |
+            user: ${{ secrets.DB_USERNAME }}
+            password: ${{ secrets.DB_PASSWORD }}
+            host: ${{ secrets.DB_HOST }}
+            name: ${{ secrets.DB_NAME }}
+          write-mode: append
 
       - uses: actions/checkout@v3
       - name: Set up JDK 11
