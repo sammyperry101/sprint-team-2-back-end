@@ -22,6 +22,7 @@ public class DatabaseConnector {
             props.load(propsStream);
 
             user = props.getProperty("user");
+            System.out.println(user);
             password = props.getProperty("password");
             host = props.getProperty("host");
             name = props.getProperty("name");
@@ -43,5 +44,9 @@ public class DatabaseConnector {
 
     public static void setConn(Connection connection){
         conn = connection;
+    }
+
+    public static void setProperties(Properties properties){
+        props = properties;
     }
 }
