@@ -23,14 +23,12 @@ public class DatabaseConnector {
             return conn;
         }
 
-        try(FileInputStream propsStream = new FileInputStream("db.properties");){
+        try {
 
-            props.load(propsStream);
-
-            user = props.getProperty("user");
-            password = props.getProperty("password");
-            host = props.getProperty("host");
-            name = props.getProperty("name");
+            user = System.getenv("DB_USERNAME");
+            password = System.getenv("DB_PASSWORD");
+            host = System.getenv("DB_HOST");
+            name = System.getenv("DB_NAME");
 
             if(user == null || password == null || host == null){
                 throw new Exception("Properties file must exist " +
