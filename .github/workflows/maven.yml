@@ -16,6 +16,8 @@ on:
 
 jobs:
   build:
+    env:
+      DB_USERNAME:
 
     runs-on: ubuntu-latest
 
