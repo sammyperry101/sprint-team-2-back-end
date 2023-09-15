@@ -40,10 +40,10 @@ public class AuthDaoTest {
 
     @Test
     void validLogin_ShouldReturnUser_WhenLoginRequestIsValid() throws SQLException, FailedLoginException {
-        String email = "mateenparkar4@gmail.com";
+        String email = "email@email.com";
         String salt = BCrypt.gensalt();
-        LoginRequest validLoginRequest = new LoginRequest("mateenparkar4@gmail.com", "password");
-        User expectedUser = new User(1, "mateenparkar4@gmail.com", Role.ADMIN);
+        LoginRequest validLoginRequest = new LoginRequest("email@email.com", "password");
+        User expectedUser = new User(1, "email@email.com", Role.ADMIN);
 
         String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
         DatabaseConnector.setConn(connection);
@@ -51,7 +51,7 @@ public class AuthDaoTest {
         Mockito.when(statement.executeQuery()).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true);
         Mockito.when(resultSet.getInt("UserID")).thenReturn(1);
-        Mockito.when(resultSet.getString("Email")).thenReturn("mateenparkar4@gmail.com");
+        Mockito.when(resultSet.getString("Email")).thenReturn("email@email.com");
         Mockito.when(resultSet.getString("Password")).thenReturn(BCrypt.hashpw("password", salt));
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
 
@@ -64,7 +64,7 @@ public class AuthDaoTest {
 
     @Test
     void validLogin_ShouldReturnException_WhenLoginRequestIsInvalid() throws SQLException {
-        String email = "mateenparkar21@gmail.com";
+        String email = "email@email.com";
         LoginRequest invalidLoginRequest = new LoginRequest(email, "password");
 
         String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
