@@ -1,9 +1,10 @@
 package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Test;
-import org.kainos.ea.client.JobSpec;
-import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.kainos.ea.model.JobSpec;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 
+@ExtendWith(MockitoExtension.class)
 public class JobSpecDAOTest {
     Connection conn = Mockito.mock(Connection.class);
     PreparedStatement st = Mockito.mock(PreparedStatement.class);
@@ -22,7 +24,8 @@ public class JobSpecDAOTest {
     void getJobRoleById_shouldReturnJobSpec_whenValidRoleId() throws SQLException {
         JobSpec expectedResult = new JobSpec(
                 "temp",
-                "https://kainossoftwareltd.sharepoint.com"
+                "https://kainossoftwareltd.sharepoint.com",
+                3
         );
 
         DatabaseConnector.setConn(conn);
@@ -34,6 +37,7 @@ public class JobSpecDAOTest {
 
         JobSpec result = jobSpecDAO.getJobSpecByRoleId(3);
 
+        assertEquals(expectedResult.getRoleId(), result.getRoleId());
         assertEquals(expectedResult.getJobSpec(), result.getJobSpec());
         assertEquals(expectedResult.getSharepointLink(), result.getSharepointLink());
     }

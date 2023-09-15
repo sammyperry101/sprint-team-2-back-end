@@ -1,11 +1,10 @@
 package org.kainos.ea.resources;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.JobSpec;
+import org.kainos.ea.model.JobSpec;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

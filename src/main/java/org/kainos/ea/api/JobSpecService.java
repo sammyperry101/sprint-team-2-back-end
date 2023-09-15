@@ -2,7 +2,7 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.JobSpec;
+import org.kainos.ea.model.JobSpec;
 import org.kainos.ea.db.JobSpecDAO;
 
 import java.sql.SQLException;

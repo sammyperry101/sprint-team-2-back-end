@@ -1,17 +1,19 @@
 package org.kainos.ea.api;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.JobSpec;
+import org.kainos.ea.model.JobSpec;
 import org.kainos.ea.db.JobSpecDAO;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+@ExtendWith(MockitoExtension.class)
 public class JobSpecServiceTest {
     JobSpecDAO jobSpecDAO = Mockito.mock(JobSpecDAO.class);
     JobSpecService jobSpecService = new JobSpecService(jobSpecDAO);
@@ -20,7 +22,7 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpecByRoleId_shouldReturnJobSpec_whenDaoReturnsJobSpec() throws SQLException, JobRoleDoesNotExistException, FailedToGetJobSpecException {
         JobSpec expectedResult = new JobSpec("Temp",
-                "https://kainossoftwareltd.sharepoint.com/");
+                "https://kainossoftwareltd.sharepoint.com/", roleId);
 
         Mockito.when(jobSpecDAO.getJobSpecByRoleId(roleId)).thenReturn(expectedResult);
         JobSpec result = jobSpecService.getJobSpecByRoleId(roleId);

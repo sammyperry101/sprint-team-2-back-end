@@ -1,16 +1,18 @@
 package org.kainos.ea.resources;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.JobSpec;
+import org.kainos.ea.model.JobSpec;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.core.Response;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@ExtendWith(MockitoExtension.class)
 public class JobSpecControllerTest {
     JobSpecService jobSpecService = Mockito.mock(JobSpecService.class);
     JobSpecController jobSpecController = new JobSpecController(jobSpecService);
@@ -20,14 +22,19 @@ public class JobSpecControllerTest {
             throws JobRoleDoesNotExistException, FailedToGetJobSpecException {
         int roleId = 3;
         JobSpec expectedJobSpec = new JobSpec("temp",
-                "https://kainossoftwareltd.sharepoint.com/");
+                "https://kainossoftwareltd.sharepoint.com/",
+            roleId);
 
         Mockito.when(jobSpecService.getJobSpecByRoleId(roleId)).thenReturn(expectedJobSpec);
 
         Response res = jobSpecController.getJobSpecByRoleId(roleId);
 
+        JobSpec resultJobSpec = (JobSpec) res.getEntity();
+
         assertEquals(200, res.getStatus());
-        assertTrue(res.hasEntity());
+        assertEquals(expectedJobSpec.getRoleId(), resultJobSpec.getRoleId());
+        assertEquals(expectedJobSpec.getJobSpec(), resultJobSpec.getJobSpec());
+        assertEquals(expectedJobSpec.getSharepointLink(), resultJobSpec.getSharepointLink());
     }
 
     @Test
