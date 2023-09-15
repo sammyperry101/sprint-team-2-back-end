@@ -31,7 +31,7 @@ public class JobRoleIntegrationTest {
         List responseBody = APP.client().target("http://localhost:8080/api/job-roles")
                 .request()
                 .get(List.class);
-        
+
         Assertions.assertFalse(responseBody.isEmpty());
     }
 }
