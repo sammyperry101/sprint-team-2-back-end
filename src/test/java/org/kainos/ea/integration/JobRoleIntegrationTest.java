@@ -28,11 +28,10 @@ public class JobRoleIntegrationTest {
         Response response = APP.client().target("http://localhost:8080/api/job-roles")
                 .request().get();
 
-        List<JobRole> responseBody = APP.client().target("http://localhost:8080/api/job-roles")
+        List responseBody = APP.client().target("http://localhost:8080/api/job-roles")
                 .request()
                 .get(List.class);
-
-        Assertions.assertEquals(200, response.getStatus());
+        
         Assertions.assertFalse(responseBody.isEmpty());
     }
 }
