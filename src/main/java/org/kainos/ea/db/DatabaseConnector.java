@@ -32,6 +32,8 @@ public class DatabaseConnector {
             host = props.getProperty("host");
             name = props.getProperty("name");
 
+            System.out.println(user + " " + password + " " + host);
+
             if(user == null || password == null || host == null){
                 throw new Exception("Properties file must exist " +
                         "and must contain user, password, name and host properties");
