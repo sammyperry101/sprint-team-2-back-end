@@ -2,14 +2,10 @@ package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.client.FailedToGetJobRoles;
-import org.kainos.ea.client.JobRolesNotFoundException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +17,12 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class JobRoleDaoTest {
     private DatabaseConnector databaseConnector = Mockito.mock(DatabaseConnector.class);
     private Connection connection = Mockito.mock(Connection.class);
-    private PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+    private PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+    private Statement statement = Mockito.mock(Statement.class);
     private ResultSet resultSet = Mockito.mock(ResultSet.class);
     private JobRoleDao jobRoleDao = new JobRoleDao(databaseConnector);
     @Test
     void getJobRoles_ShouldReturnRoles_WhenDatabaseReturnsRoles() throws SQLException {
-        String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Role";
         JobRole expectedRole = new JobRole(1,
                 "Name",
                 "Job Spec",
@@ -64,14 +59,13 @@ public class JobRoleDaoTest {
 
     @Test
     void getJobRoles_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
-        Statement statementHere = Mockito.mock(Statement.class); //statements need refactoring at some point in this class!
 
         String selectStatement = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID FROM Job_Role";
 
         DatabaseConnector.setConn(connection);
 
-        Mockito.when(connection.createStatement()).thenReturn(statementHere);
-        Mockito.when(statementHere.executeQuery(anyString())).thenThrow(SQLException.class);
+        Mockito.when(connection.createStatement()).thenReturn(statement);
+        Mockito.when(statement.executeQuery(anyString())).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class, () -> jobRoleDao.getJobRoles());
     }
