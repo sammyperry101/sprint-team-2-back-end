@@ -10,8 +10,6 @@ import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
 import org.kainos.ea.resources.JobRoleController;
 
-import java.util.Properties;
-
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
 
     public static void main(final String[] args) throws Exception {
@@ -36,7 +34,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     @Override
     public void run(final DropwizardWebServiceConfiguration configuration,
                     final Environment environment) {
-        environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector(new Properties())))));
+        environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
     }
 
 }
