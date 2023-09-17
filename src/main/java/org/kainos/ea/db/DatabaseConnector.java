@@ -7,7 +7,6 @@ public class DatabaseConnector {
 
     private static Connection conn;
     private static DatabasePropertiesManager props;
-
     public static Connection getConnection() throws SQLException {
         String user, password, host, name;
 
@@ -22,7 +21,7 @@ public class DatabaseConnector {
             host = props.returnString(System.getenv("DB_HOST"));
             name = props.returnString(System.getenv("DB_NAME"));
 
-            if(user.equals(null) || password.equals(null) || host.equals(null)){
+            if(user == null || password == null || host == null){
                 throw new Exception("Properties file must exist " +
                         "and must contain user, password, name and host properties");
             }
@@ -37,8 +36,11 @@ public class DatabaseConnector {
         }
 
     }
-
     public static void setConn(Connection connection){
         conn = connection;
+    }
+
+    public static void setProps(DatabasePropertiesManager properties){
+        props = properties;
     }
 }
