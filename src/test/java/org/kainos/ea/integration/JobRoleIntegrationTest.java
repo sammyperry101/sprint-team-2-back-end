@@ -22,8 +22,6 @@ public class JobRoleIntegrationTest {
 
     @Test
     void viewRoles_ShouldReturnListofJobRoles(){
-        Response response = APP.client().target("http://localhost:8080/api/job-roles")
-                .request().get();
 
         List responseBody = APP.client().target("http://localhost:8080/api/job-roles")
                 .request()
