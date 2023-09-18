@@ -27,7 +27,7 @@ public class AuthIntegrationTest {
     @Test
     void login_ShouldReturnCode200() {
         LoginRequest loginRequest = new LoginRequest(
-                "mateenparkar4@gmail.com",
+                "email@email.com",
                 "password"
         );
         Response response = APP.client().target("http://localhost:8080/api/login").request().post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
@@ -38,8 +38,8 @@ public class AuthIntegrationTest {
     @Test
     void login_ShouldReturnCode401() {
         LoginRequest loginRequest = new LoginRequest(
-                "mateenparkar21@gmail.com",
-                "password"
+                "email@email.com",
+                "invalidpassword"
         );
         Response response = APP.client().target("http://localhost:8080/api/login").request().post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
 

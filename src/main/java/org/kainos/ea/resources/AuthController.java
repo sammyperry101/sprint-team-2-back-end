@@ -14,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
+
 @Api("Authentication API")
 @Path("/api")
 public class AuthController {
@@ -35,7 +37,7 @@ public class AuthController {
                     response
             );
             return Response.ok(loginResponse).build();
-        } catch (FailedLoginException e) {
+        } catch (FailedLoginException | SQLException e) {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();

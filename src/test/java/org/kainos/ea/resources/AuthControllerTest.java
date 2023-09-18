@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.ws.rs.core.Response;
 
 import java.security.Key;
+import java.sql.SQLException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +31,7 @@ public class AuthControllerTest {
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     @Test
-    void login_ShouldReturn200Response_whenLoginSuccessful() throws FailedLoginException {
+    void login_ShouldReturn200Response_whenLoginSuccessful() throws FailedLoginException, SQLException {
         int userId = 1;
         String email = "email@email.com";
         Role role = Role.ADMIN;
@@ -53,7 +54,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void login_ShouldReturn401_WhenLoginUnsuccessful() {
+    void login_ShouldReturn401_WhenLoginUnsuccessful() throws SQLException {
         String email = "email@email.com";
 
 

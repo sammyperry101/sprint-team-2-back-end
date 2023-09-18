@@ -1,8 +1,7 @@
 package org.kainos.ea.db;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.checkerframework.checker.units.qual.A;
+import org.kainos.ea.api.AuthService;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
@@ -18,6 +17,7 @@ import java.util.Date;
 
 
 public class AuthDao {
+
     private  DatabaseConnector databaseConnector;
 
     public AuthDao(DatabaseConnector databaseConnector) {
@@ -26,21 +26,17 @@ public class AuthDao {
 
 
     public User validLogin(LoginRequest login) throws SQLException, FailedLoginException {
-        Object[] userAndPassword = getUserByEmail(login.getEmail());
+        User user = getUserByEmail(login.getEmail());
 
-        if (userAndPassword != null) {
-            User user = (User) userAndPassword[0];
-            String hashedPassword = (String) userAndPassword[1];
-
-            if (isValidPassword(login.getPassword(), hashedPassword)) {
-                return user;
-            }
+        if (user != null) {
+            return user;
         }
 
         throw new FailedLoginException();
     }
 
-    public Object[] getUserByEmail(String email) throws SQLException {
+
+    public User getUserByEmail(String email) throws SQLException {
         Connection c = databaseConnector.getConnection();
         PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'");
         ResultSet rs = ps.executeQuery();
@@ -49,16 +45,16 @@ public class AuthDao {
             User user = new User(
                     rs.getInt("UserID"),
                     rs.getString("Email"),
-                    Role.fromId(rs.getInt("RoleID"))
+                    Role.fromId(rs.getInt("RoleID")),
+                    rs.getString("Password")
             );
-            String hashedPassword = rs.getString("Password");
-            return new Object[]{user, hashedPassword};
+            return user;
         }
 
         return null;
     }
-    public boolean isValidPassword(String candidatePassword, String hashedPassword) {
-        return BCrypt.checkpw(candidatePassword, hashedPassword);
-    }
+
+
+
 
 }

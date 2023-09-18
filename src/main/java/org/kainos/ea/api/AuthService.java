@@ -10,6 +10,7 @@ import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
 import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.db.AuthDao;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.security.Key;
 import java.sql.SQLException;
@@ -29,10 +30,10 @@ public class AuthService {
 
 
 
-    public String login(LoginRequest login) throws FailedLoginException {
+    public String login(LoginRequest login) throws FailedLoginException, SQLException {
         try {
             User user = authDao.validLogin(login);
-            if (user == null) {
+            if (user == null && (isValidPassword(login.getPassword(), user.getHashedPassword()))){
                 return null;
             }
 
@@ -63,4 +64,10 @@ public class AuthService {
 
         return token;
     }
+
+    public boolean isValidPassword(String candidatePassword, String hashedPassword){
+        return BCrypt.checkpw(candidatePassword, hashedPassword);
+    }
+
+
 }
