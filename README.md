@@ -17,4 +17,4 @@ Docker on GitHub Actions
 ---
 
 When running pull request to main branch, the deploy.yml file will be run which will deploy the API to the AWS Server.
-The link to the server is https://sgrrqppfh2.eu-west-1.awsapprunner.com/swagger
+The link to the server is https://sgrrqppfh2.eu-west-1.awsapprunner.com/swagger and run requests using HTTPS Scheme instead of HTTP.
