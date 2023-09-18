@@ -1,11 +1,8 @@
 package org.kainos.ea.api;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.kainos.ea.auth.TokenService;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
@@ -15,13 +12,10 @@ import org.kainos.ea.db.AuthDao;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.*;
 import org.kainos.ea.client.FailedLoginException;
 import java.security.Key;
 import java.sql.SQLException;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;

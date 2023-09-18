@@ -30,7 +30,8 @@ public class AuthIntegrationTest {
                 "email@email.com",
                 "password"
         );
-        Response response = APP.client().target("http://localhost:8080/api/login").request().post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
+        Response response = APP.client().target("http://localhost:8080/api/login").request().
+                post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
 
         Assertions.assertEquals(200, response.getStatus());
     }
@@ -41,7 +42,8 @@ public class AuthIntegrationTest {
                 "email@email.com",
                 "invalidpassword"
         );
-        Response response = APP.client().target("http://localhost:8080/api/login").request().post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
+        Response response = APP.client().target("http://localhost:8080/api/login").request().
+                post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON_TYPE));
 
         Assertions.assertEquals(401, response.getStatus());
     }

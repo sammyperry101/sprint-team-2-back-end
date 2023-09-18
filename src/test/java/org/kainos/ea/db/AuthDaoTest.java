@@ -1,10 +1,4 @@
 package org.kainos.ea.db;
-import io.dropwizard.testing.junit5.DAOTestExtension;
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.LoginRequest;
@@ -12,20 +6,16 @@ import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
 import org.mindrot.jbcrypt.BCrypt;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.security.Key;
-import java.sql.*;
-import java.util.Date;
-import java.util.Optional;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthDaoTest {
@@ -73,7 +63,7 @@ public class AuthDaoTest {
         Mockito.when(statement.executeQuery()).thenThrow(FailedLoginException.class);
 
         assertThrows(FailedLoginException.class,
-                () -> authDao.getUserByEmail(invalidLoginRequest.getEmail()));
+            () -> authDao.getUserByEmail(invalidLoginRequest.getEmail()));
     }
 
     @Test
@@ -87,7 +77,7 @@ public class AuthDaoTest {
         Mockito.when(statement.executeQuery()).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
-                () -> authDao.getUserByEmail(validLoginRequest.getEmail()));
+            () -> authDao.getUserByEmail(validLoginRequest.getEmail()));
     }
 
 }
