@@ -1,10 +1,12 @@
 package org.kainos.ea.api;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.kainos.ea.auth.TokenService;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
@@ -13,48 +15,45 @@ import org.kainos.ea.db.AuthDao;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import static org.mockito.Mockito.*;
 import org.kainos.ea.client.FailedLoginException;
 import java.security.Key;
 import java.sql.SQLException;
-import java.util.Date;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
     AuthDao authDaoMock = Mockito.mock(AuthDao.class);
+    TokenService tokenService = Mockito.mock(TokenService.class);
+    AuthService authService = new AuthService(authDaoMock, tokenService);
 
-    AuthService authService = new AuthService(authDaoMock);
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
 
     @Test
     void login_ShouldReturnString_WhenUserIsValid() throws Exception, FailedLoginException {
-        int userId = 1;
-        String email = "johndoe@gmail.com";
+
+        int userId = 2;
+        String email = "email@email.com";
         Role role = Role.ADMIN;
-        User mockUser = new User(userId, email, role);
-        String mockToken = Jwts.builder()
-                .setSubject(mockUser.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+        String password = "$2a$09$NNN97Lre5WJPO5I7tQAKOOIfXNnkG4u.bDXlYlV2W3kS0wDEsuCyK";
 
-        AuthService authServiceMock = Mockito.mock(AuthService.class);
+        User mockUser = new User(userId, email, role, password);
 
+        String mockToken = "token";
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
-
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenReturn(mockUser);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(mockUser);
+        when(tokenService.generateToken(mockLoginRequest.getEmail())).thenReturn(mockToken);
 
         String result = authService.login(mockLoginRequest);
 
         assertNotNull(result);
-
-        assertEquals(mockToken, result);
+        assertEquals("token", result);
 
     }
 
@@ -64,11 +63,10 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenReturn(null);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(null);
 
-        String result = authService.login(mockLoginRequest);
 
-        assertNull(result);
+        assertThrows(FailedLoginException.class, () -> authService.login(mockLoginRequest));
     }
 
     @Test
@@ -77,19 +75,9 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenThrow(SQLException.class);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenThrow(SQLException.class);
 
         assertThrows(FailedToGenerateTokenException.class, () -> authService.login(mockLoginRequest));
-    }
-
-    @Test
-    void generateToken_ShouldReturnValidToken(){
-        String email = "johndoe@gmail.com";
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-        String token = authService.generateToken(email);
-
-        assertNotNull(token);
     }
 
     @Test

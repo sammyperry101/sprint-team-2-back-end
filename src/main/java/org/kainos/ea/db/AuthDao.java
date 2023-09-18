@@ -27,7 +27,7 @@ public class AuthDao {
 
 
 
-    public User getUserByEmail(String email, String password) throws SQLException {
+    public User getUserByEmail(String email) throws SQLException {
         Connection c = databaseConnector.getConnection();
         PreparedStatement ps = c.prepareStatement("SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'");
         ResultSet rs = ps.executeQuery();
