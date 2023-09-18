@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
-//import org.kainos.ea.client.FailedToDeleteJobRoleException;
-//import org.kainos.ea.client.JobRoleDoesNotExistException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
