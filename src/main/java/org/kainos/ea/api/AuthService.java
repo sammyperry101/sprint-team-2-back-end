@@ -32,9 +32,9 @@ public class AuthService {
 
     public String login(LoginRequest login) throws FailedLoginException, SQLException {
         try {
-            User user = authDao.validLogin(login);
+            User user = authDao.getUserByEmail(login.getEmail());
             if (user == null && (isValidPassword(login.getPassword(), user.getHashedPassword()))){
-                return null;
+                throw new FailedLoginException();
             }
 
             String token = generateToken(user.getEmail());

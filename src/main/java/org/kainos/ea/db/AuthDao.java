@@ -25,16 +25,6 @@ public class AuthDao {
     }
 
 
-    public User validLogin(LoginRequest login) throws SQLException, FailedLoginException {
-        User user = getUserByEmail(login.getEmail());
-
-        if (user != null) {
-            return user;
-        }
-
-        throw new FailedLoginException();
-    }
-
 
     public User getUserByEmail(String email) throws SQLException {
         Connection c = databaseConnector.getConnection();

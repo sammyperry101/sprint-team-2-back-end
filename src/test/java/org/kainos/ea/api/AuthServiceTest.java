@@ -8,7 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
+import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.db.AuthDao;
+import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -46,13 +48,13 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(mockUser);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(mockUser);
 
         String result = authService.login(mockLoginRequest);
 
         assertNotNull(result);
 
-        assertEquals(mockUser, result);
+        assertEquals(mockToken, result);
 
     }
 
@@ -62,7 +64,7 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.validLogin(mockLoginRequest)).thenReturn(null);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(null);
 
         String result = authService.login(mockLoginRequest);
 
@@ -75,9 +77,9 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.validLogin(mockLoginRequest)).thenThrow(SQLException.class);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenThrow(SQLException.class);
 
-        assertThrows(FailedLoginException.class, () -> authService.login(mockLoginRequest));
+        assertThrows(FailedToGenerateTokenException.class, () -> authService.login(mockLoginRequest));
     }
 
     @Test
@@ -89,5 +91,33 @@ public class AuthServiceTest {
 
         assertNotNull(token);
     }
+
+    @Test
+    void testValidPassword() {
+        // Given
+        String password = "myPassword123";
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // When
+        boolean isValid = authService.isValidPassword(password, hashedPassword);
+
+        // Then
+        assertTrue(isValid, String.valueOf(true));
+    }
+
+    @Test
+    void testInvalidPassword() {
+        // Given
+        String correctPassword = "myPassword123";
+        String wrongPassword = "wrongPassword123";
+        String hashedPassword = BCrypt.hashpw(correctPassword, BCrypt.gensalt());
+
+        // When
+        boolean isValid = authService.isValidPassword(wrongPassword, hashedPassword);
+
+        // Then
+        assertFalse(isValid, String.valueOf(true));
+    }
+
 
 }

@@ -55,7 +55,7 @@ public class AuthDaoTest {
         Mockito.when(resultSet.getString("Password")).thenReturn(BCrypt.hashpw("password", salt));
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
 
-        User user = authDao.validLogin(validLoginRequest);
+        User user = authDao.getUserByEmail(validLoginRequest.getEmail());
 
         assertEquals(expectedUser.getUserId(),user.getUserId());
         assertEquals(expectedUser.getEmail(),user.getEmail());
@@ -73,7 +73,7 @@ public class AuthDaoTest {
         Mockito.when(statement.executeQuery()).thenThrow(FailedLoginException.class);
 
         assertThrows(FailedLoginException.class,
-                () -> authDao.validLogin(invalidLoginRequest));
+                () -> authDao.getUserByEmail(invalidLoginRequest.getEmail()));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class AuthDaoTest {
         Mockito.when(statement.executeQuery()).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
-                () -> authDao.validLogin(validLoginRequest));
+                () -> authDao.getUserByEmail(validLoginRequest.getEmail()));
     }
 
 }
