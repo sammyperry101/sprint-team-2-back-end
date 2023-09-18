@@ -34,7 +34,7 @@ public class JobSpecDAOTest {
         Mockito.when(rs.next()).thenReturn(true);
         Mockito.when(rs.getString("Job_Spec")).thenReturn("temp");
         Mockito.when(rs.getString("Sharepoint_Link")).thenReturn("https://kainossoftwareltd.sharepoint.com");
-
+        Mockito.when(rs.getInt("RoleID")).thenReturn(3);
         JobSpec result = jobSpecDAO.getJobSpecByRoleId(3);
 
         assertEquals(expectedResult.getRoleId(), result.getRoleId());
