@@ -48,7 +48,7 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(mockUser);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenReturn(mockUser);
 
         String result = authService.login(mockLoginRequest);
 
@@ -64,7 +64,7 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(null);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenReturn(null);
 
         String result = authService.login(mockLoginRequest);
 
@@ -77,7 +77,7 @@ public class AuthServiceTest {
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
 
-        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenThrow(SQLException.class);
+        when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail(), mockLoginRequest.getPassword())).thenThrow(SQLException.class);
 
         assertThrows(FailedToGenerateTokenException.class, () -> authService.login(mockLoginRequest));
     }

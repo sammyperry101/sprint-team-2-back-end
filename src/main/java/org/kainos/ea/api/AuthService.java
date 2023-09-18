@@ -32,8 +32,8 @@ public class AuthService {
 
     public String login(LoginRequest login) throws FailedLoginException, SQLException {
         try {
-            User user = authDao.getUserByEmail(login.getEmail());
-            if (user == null && (isValidPassword(login.getPassword(), user.getHashedPassword()))){
+            User user = authDao.getUserByEmail(login.getEmail(), login.getPassword());
+            if (user == null || !(isValidPassword(login.getPassword(), user.getHashedPassword()))){
                 throw new FailedLoginException();
             }
 
