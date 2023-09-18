@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardWebServiceApplication;
 import org.kainos.ea.DropwizardWebServiceConfiguration;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.model.JobSpec;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,7 +1,7 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.client.FailedToGetJobSpecException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.JobSpecDoesNotExist;
 import org.kainos.ea.model.JobSpec;
 import org.kainos.ea.db.JobSpecDAO;
 
@@ -14,12 +14,12 @@ public class JobSpecService {
         this.jobSpecDAO = jobSpecDAO;
     }
 
-    public JobSpec getJobSpecByRoleId(int roleId) throws FailedToGetJobSpecException, JobRoleDoesNotExistException {
+    public JobSpec getJobSpecByRoleId(int roleId) throws FailedToGetJobSpecException, JobSpecDoesNotExist {
         try{
             JobSpec jobSpec = jobSpecDAO.getJobSpecByRoleId(roleId);
 
             if(jobSpec == null){
-                throw new JobRoleDoesNotExistException();
+                throw new JobSpecDoesNotExist();
             }
 
             return jobSpec;

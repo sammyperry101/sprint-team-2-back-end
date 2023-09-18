@@ -3,7 +3,7 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.client.FailedToGetJobSpecException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.JobSpecDoesNotExist;
 import org.kainos.ea.model.JobSpec;
 
 import javax.ws.rs.GET;
@@ -34,7 +34,7 @@ public class JobSpecController {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
-        } catch (JobRoleDoesNotExistException e){
+        } catch (JobSpecDoesNotExist e){
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).build();

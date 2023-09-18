@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.client.FailedToGetJobSpecException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.JobSpecDoesNotExist;
 import org.kainos.ea.model.JobSpec;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,7 +19,7 @@ public class JobSpecControllerTest {
 
     @Test
     void getJobSpecByRoleId_shouldReturn200_whenServiceReturnsJobSpec()
-            throws JobRoleDoesNotExistException, FailedToGetJobSpecException {
+            throws JobSpecDoesNotExist, FailedToGetJobSpecException {
         int roleId = 3;
         JobSpec expectedJobSpec = new JobSpec("temp",
                 "https://kainossoftwareltd.sharepoint.com/",
@@ -39,7 +39,7 @@ public class JobSpecControllerTest {
 
     @Test
     void getJobSpecByRoleId_shouldReturn500_whenServiceThrowsFailedToGetJobSpecException()
-            throws JobRoleDoesNotExistException, FailedToGetJobSpecException {
+            throws JobSpecDoesNotExist, FailedToGetJobSpecException {
         int roleId = 3;
 
         Mockito.when(jobSpecService.getJobSpecByRoleId(roleId)).thenThrow(FailedToGetJobSpecException.class);
@@ -52,9 +52,9 @@ public class JobSpecControllerTest {
 
     @Test
     void getJobSpecByRoleId_shouldReturn400_whenServiceThrowsJobRoleDoesNotExistException()
-            throws JobRoleDoesNotExistException, FailedToGetJobSpecException {
+            throws JobSpecDoesNotExist, FailedToGetJobSpecException {
         int roleId = 3;
-        Mockito.when(jobSpecService.getJobSpecByRoleId(roleId)).thenThrow(JobRoleDoesNotExistException.class);
+        Mockito.when(jobSpecService.getJobSpecByRoleId(roleId)).thenThrow(JobSpecDoesNotExist.class);
 
         Response res = jobSpecController.getJobSpecByRoleId(roleId);
 
