@@ -1,5 +1,24 @@
 # sprint-team-2-back-end
 
+# How to start the java-api application
+---
+
+1. Run the `mvn clean install` to build the application
+2. Start the application with `mvn start`
+3. To check that the application is running enter the url `http://localhost:8080`
+
+# How to test the java-api application
+---
+
+- To Run all the tests, Use the command `mvn clean test`
+
+# How to start the java-api application
+---
+
+1. Run the `mvn clean install` to build the application
+2. Start the application with `mvn start`
+3. To check that the application is running enter the url `http://localhost:8080`
+
 # Checkstyle
 ---
 In the Maven.yml, you can see that checkstyle is running a check on the code after the maven build:
@@ -10,16 +29,3 @@ In the Maven.yml, you can see that checkstyle is running a check on the code aft
 
 - To run Checkstyle, use the command `mvn checkstyle:check`
 
-# How to start the java-api application
----
-
-1. Run the `mvn clean install` to build the application
-2. Start the application with `mvn start`
-3. To check that the application is running enter the url `http://localhost:8080`
-
-# Tests
----
-
-1. Run `mvn clean test` to run the unit tests
-
-[//]: # (2. Run `mvn clean integration-test` to run integration)
