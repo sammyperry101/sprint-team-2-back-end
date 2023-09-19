@@ -26,6 +26,6 @@ public class JobRoleIntegrationTest {
                 .request()
                 .get(List.class);
 
-        Assertions.assertFalse(responseBody.isEmpty());
+        Assertions.assertTrue(responseBody.size() > 0);
     }
 }
