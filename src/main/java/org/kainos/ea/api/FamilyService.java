@@ -6,6 +6,7 @@ import org.kainos.ea.client.FamilyDoesNotExistException;
 import org.kainos.ea.db.FamilyDao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class FamilyService {
     private FamilyDao familyDao;
