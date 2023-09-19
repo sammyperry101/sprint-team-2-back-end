@@ -28,7 +28,8 @@ In the Maven.yml, you can see that checkstyle is running a check on the code aft
 - Navigate to checkstyle website to see what the full rule set that they provide at https://checkstyle.sourceforge.io/google_style.html
 
 - To run Checkstyle, use the command `mvn checkstyle:check`
-  Building and running the API using Docker
+
+# Building and running the API using Docker
 ---
 
 To build and deploy the API on Docker, you must first ensure you have Docker installed and set up.
