@@ -37,10 +37,14 @@ public class AuthController {
                     response
             );
             return Response.ok(loginResponse).build();
-        } catch (FailedLoginException | SQLException e) {
+        } catch (FailedLoginException e ) {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
         }
     }
 }

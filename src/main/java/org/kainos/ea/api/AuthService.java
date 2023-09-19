@@ -13,13 +13,11 @@ import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.db.AuthDao;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.security.Key;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class AuthService {
 
-    TokenService tokenService = new TokenService();
+    TokenService tokenService;
 
     public AuthService(AuthDao authDao, TokenService tokenService) {
         this.authDao = authDao;

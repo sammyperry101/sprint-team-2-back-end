@@ -56,7 +56,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void login_ShouldReturnNull_WhenDaoReturnsNull() throws Exception, FailedLoginException {
+    void login_ShouldThrowException_WhenDaoReturnsNull() throws Exception, FailedLoginException {
         String email = "johndoe@gmail.com";
 
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
@@ -88,7 +88,7 @@ public class AuthServiceTest {
         boolean isValid = authService.isValidPassword(password, hashedPassword);
 
         // Then
-        assertTrue(isValid, String.valueOf(true));
+        assertTrue(isValid);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AuthServiceTest {
         boolean isValid = authService.isValidPassword(wrongPassword, hashedPassword);
 
         // Then
-        assertFalse(isValid, String.valueOf(true));
+        assertFalse(isValid);
     }
 
 

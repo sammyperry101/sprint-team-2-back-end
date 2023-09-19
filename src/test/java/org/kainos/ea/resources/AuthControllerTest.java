@@ -68,5 +68,19 @@ public class AuthControllerTest {
 
     }
 
+    @Test
+    void login_ShouldReturn500_WhenServerError() throws SQLException{
+        String email = "email@email.com";
+
+
+        LoginRequest mockLoginRequest = new LoginRequest(email, "password");
+        when(authServiceMock.login(mockLoginRequest))
+                .thenThrow(new SQLException());
+
+        Response response = authController.login(mockLoginRequest);
+
+        assertEquals(500, response.getStatus());
+    }
+
 
 }
