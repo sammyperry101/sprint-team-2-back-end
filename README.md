@@ -3,8 +3,8 @@
 # How to start the java-api application
 ---
 
-1. Run the `mvn clean install` to build the application
-2. Start the application with `mvn start`
+1. Run the `mvn clean install` to build the application.
+2. Start the application with `java -jar target/SprintTeam2Backend-1.0-SNAPSHOT.jar server` to run it locally.
 3. To check that the application is running enter the url `http://localhost:8080`
 
 # How to test the java-api application
