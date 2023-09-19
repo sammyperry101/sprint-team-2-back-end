@@ -8,6 +8,7 @@ import org.kainos.ea.client.FamilyDoesNotExistException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,9 +24,9 @@ public class FamilyController {
     }
 
     @GET
-    @Path("/families")
+    @Path("/families/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFamilyByID(int id){
+    public Response getFamilyByID(@PathParam("id") int id){
         try{
 
             return Response.ok(familyService.getFamilyByID(id)).build();
