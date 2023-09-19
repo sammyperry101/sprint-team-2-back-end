@@ -37,7 +37,7 @@ public class JobFamilyControllerTest {
     @Test
     void getFamilyByCapability_shouldReturnResponse400_whenServerThrowsJobFamilyNotFoundException() throws
             FailedToGetJobFamilyException, JobFamilyNotFoundException {
-        int capabilityID = -1;
+        int capabilityID  = -1;
 
         Mockito.when(jobFamilyServiceMock.getFamilyByCapability(capabilityID))
                 .thenThrow(JobFamilyNotFoundException.class);
