@@ -30,7 +30,9 @@ public class JobRoleControllerTest {
     }
 
     @Test
-    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsJobRolesNotFoundException() throws JobRolesNotFoundException, FailedToGetJobRoles {
+    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsJobRolesNotFound()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
         Mockito.when(jobRoleServiceMock.viewRoles()).thenThrow(JobRolesNotFoundException.class);
 
         Response response = jobRoleController.viewRoles();
@@ -39,7 +41,9 @@ public class JobRoleControllerTest {
     }
 
     @Test
-    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRolesException() throws JobRolesNotFoundException, FailedToGetJobRoles {
+    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRoles()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
         Mockito.when(jobRoleServiceMock.viewRoles()).thenThrow(FailedToGetJobRoles.class);
 
         Response response = jobRoleController.viewRoles();
