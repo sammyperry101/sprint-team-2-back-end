@@ -11,7 +11,6 @@ import org.kainos.ea.DropwizardWebServiceConfiguration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class JobFamilyIntegrationTest {

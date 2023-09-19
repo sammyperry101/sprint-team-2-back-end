@@ -10,7 +10,8 @@ import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobFamilyDao;
 import org.kainos.ea.resources.JobFamilyController;
 
-public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
+public class DropwizardWebServiceApplication
+        extends Application<DropwizardWebServiceConfiguration> {
 
     public static void main(final String[] args) throws Exception {
         new DropwizardWebServiceApplication().run(args);
@@ -22,10 +23,13 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     }
 
     @Override
-    public void initialize(final Bootstrap<DropwizardWebServiceConfiguration> bootstrap) {
-        bootstrap.addBundle(new SwaggerBundle<DropwizardWebServiceConfiguration>() {
+    public void initialize(
+            final Bootstrap<DropwizardWebServiceConfiguration> bootstrap) {
+        bootstrap.addBundle(
+                new SwaggerBundle<DropwizardWebServiceConfiguration>() {
             @Override
-            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DropwizardWebServiceConfiguration configuration) {
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(
+                    DropwizardWebServiceConfiguration configuration) {
                 return configuration.getSwagger();
             }
         });
@@ -34,8 +38,11 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     @Override
     public void run(final DropwizardWebServiceConfiguration configuration,
                     final Environment environment) {
-        environment.jersey().register(new JobFamilyController(
-                new JobFamilyService(new JobFamilyDao(new DatabaseConnector()))));
+        environment.jersey().register(
+                new JobFamilyController(
+                new JobFamilyService(
+                        new JobFamilyDao(
+                                new DatabaseConnector()))));
     }
 
 }

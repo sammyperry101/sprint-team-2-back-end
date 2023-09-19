@@ -24,8 +24,6 @@ public class JobFamilyController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFamilyByCapability(@PathParam("id") int id) {
         try {
-            System.out.println(id);
-
             return Response.ok(jobFamilyService.getFamilyByCapability(id)).build();
         } catch (JobFamilyNotFoundException e) {
             System.err.println(e.getMessage());
