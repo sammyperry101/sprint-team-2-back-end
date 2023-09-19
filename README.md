@@ -9,7 +9,7 @@ To build and deploy the API on Docker, you must first ensure you have Docker ins
 
 2. Run `docker build -t <service name + optional tag> .` which will read the docker file, build the environment and create local image.
 
-3. Run `docker images` to verify your image is available after building.
+3. Run `docker images` to verify your image is available after building. 
 
 4. Run `docker run -p 8080:8080 <service name + optional tag>` to run the Docker build and display on port 8080.
 
