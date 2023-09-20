@@ -3,7 +3,7 @@ package org.kainos.ea.validator;
 import org.kainos.ea.cli.RegisterRequest;
 
 public class PasswordValidator {
-    public static String validateUser(RegisterRequest user) {
+    public String validateUser(RegisterRequest user) {
         String password = user.getPassword();
         String email = user.getUsername();
 

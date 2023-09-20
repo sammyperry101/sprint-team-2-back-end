@@ -114,11 +114,12 @@ public class AuthServiceTest {
     void register_ShouldThrowFailedRegisterException_WhenValidatorFails(){
         RegisterRequest registerRequest = new RegisterRequest("user8@user.com", "password", Role.ADMIN);
 
-        when(passwordValidatorMock.validateUser(registerRequest)).thenThrow(FailedToRegisterException.class);
-
+        when(passwordValidatorMock.validateUser(registerRequest)).thenReturn("failed");
         assertThrows(FailedToRegisterException.class, () -> authService.register(registerRequest));
-
     }
+
+    @Test
+    void register_ShouldThrowFailedToRegisterException_When
 
 
 }

@@ -17,12 +17,11 @@ import java.sql.SQLException;
 public class AuthService {
 
     TokenService tokenService;
-    PasswordValidator passwordValidator;
+    PasswordValidator passwordValidator = new PasswordValidator();
 
     public AuthService(AuthDao authDao, TokenService tokenService) {
         this.authDao = authDao;
         this.tokenService = tokenService;
-
     }
 
     private AuthDao authDao;
@@ -57,7 +56,7 @@ public class AuthService {
         String salt = BCrypt.gensalt(9);
 
 
-        if(!(PasswordValidator.validateUser(request).isEmpty())){
+        if(!(passwordValidator.validateUser(request).isEmpty())){
             throw new FailedToRegisterException();
         }
 
