@@ -1,10 +1,10 @@
 package org.kainos.ea.cli;
 
-public class Capability {
+public class JobCapability {
     private int capabilityID;
     private String name;
 
-    public Capability(int capabilityID, String name) {
+    public JobCapability(int capabilityID, String name) {
         this.capabilityID = capabilityID;
         this.name = name;
     }
