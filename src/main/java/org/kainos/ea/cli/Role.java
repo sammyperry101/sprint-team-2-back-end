@@ -1,7 +1,7 @@
 package org.kainos.ea.cli;
 
 public enum Role {
-    EMPLOYEE(0),
+    EMPLOYEE(2),
     ADMIN(1);
 
     private final int roleId;

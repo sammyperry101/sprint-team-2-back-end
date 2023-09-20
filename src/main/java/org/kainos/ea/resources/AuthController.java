@@ -54,6 +54,7 @@ public class AuthController {
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(RegisterRequest request) {
+
         try {
             authService.register(request);
 
@@ -62,7 +63,11 @@ public class AuthController {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }catch(SQLException e){
+            return Response.serverError().build();
         }
     }
+
+
 }
 

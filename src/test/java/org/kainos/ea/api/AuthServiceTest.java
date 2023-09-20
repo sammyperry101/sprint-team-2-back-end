@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.auth.TokenService;
 import org.kainos.ea.cli.LoginRequest;
+import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedToGenerateTokenException;
+import org.kainos.ea.client.FailedToRegisterException;
 import org.kainos.ea.db.AuthDao;
+import org.kainos.ea.validator.PasswordValidator;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,6 +32,8 @@ public class AuthServiceTest {
     AuthDao authDaoMock = Mockito.mock(AuthDao.class);
     TokenService tokenService = Mockito.mock(TokenService.class);
     AuthService authService = new AuthService(authDaoMock, tokenService);
+
+    PasswordValidator passwordValidatorMock = Mockito.mock(PasswordValidator.class);
 
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -79,7 +84,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testValidPassword() {
+    void login_testValidPassword() {
         // Given
         String password = "myPassword123";
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -92,7 +97,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void testInvalidPassword() {
+    void login_testInvalidPassword() {
         // Given
         String correctPassword = "myPassword123";
         String wrongPassword = "wrongPassword123";
@@ -103,6 +108,16 @@ public class AuthServiceTest {
 
         // Then
         assertFalse(isValid);
+    }
+
+    @Test
+    void register_ShouldThrowFailedRegisterException_WhenValidatorFails(){
+        RegisterRequest registerRequest = new RegisterRequest("user8@user.com", "password", Role.ADMIN);
+
+        when(passwordValidatorMock.validateUser(registerRequest)).thenThrow(FailedToRegisterException.class);
+
+        assertThrows(FailedToRegisterException.class, () -> authService.register(registerRequest));
+
     }
 
 

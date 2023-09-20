@@ -44,4 +44,16 @@ public class AuthDao {
 
         return null;
     }
+
+    public void register(String username, String password, Role role) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        PreparedStatement ps = c.prepareStatement("INSERT INTO `Users` (Email, Password, RoleID) VALUES (?, ?, ?)");
+
+        ps.setString(1, username);
+        ps.setString(2, password);
+        ps.setInt(3, role.getRoleId());
+
+        ps.executeUpdate();
+    }
 }
