@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Api("Team 2 Capability API")
-@Path("/api/capabilities")
+@Path("/api")
 public class CapabilityController {
 
     CapabilityService capabilityService;
@@ -22,7 +22,7 @@ public class CapabilityController {
     }
 
     @GET
-    @Path("/familyID")
+    @Path("/capabilities/familyID")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCapabilitiesWithFamilyID(){
         try{
