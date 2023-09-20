@@ -2,7 +2,7 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.CapabilityService;
-import org.kainos.ea.client.CapabilitiesWithFamilyIDNotFound;
+import org.kainos.ea.client.CapabilitiesWithFamilyIDNotFoundException;
 import org.kainos.ea.client.FailedToGetCapabilitiesWithFamilyIDException;
 
 import javax.ws.rs.GET;
@@ -27,7 +27,7 @@ public class CapabilityController {
     public Response getCapabilitiesWithFamilyID(){
         try{
             return Response.ok(capabilityService.getCapabilitiesWithFamilyID()).build();
-        } catch (CapabilitiesWithFamilyIDNotFound e) {
+        } catch (CapabilitiesWithFamilyIDNotFoundException e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();

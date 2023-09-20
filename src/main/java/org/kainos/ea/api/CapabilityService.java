@@ -1,7 +1,7 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.cli.CapabilityFamilyJoinRequest;
-import org.kainos.ea.client.CapabilitiesWithFamilyIDNotFound;
+import org.kainos.ea.client.CapabilitiesWithFamilyIDNotFoundException;
 import org.kainos.ea.client.FailedToGetCapabilitiesWithFamilyIDException;
 import org.kainos.ea.db.CapabilityDao;
 
@@ -16,12 +16,12 @@ public class CapabilityService {
         this.capabilityDao = capabilityDao;
     }
 
-    public List<CapabilityFamilyJoinRequest> getCapabilitiesWithFamilyID() throws FailedToGetCapabilitiesWithFamilyIDException, CapabilitiesWithFamilyIDNotFound {
+    public List<CapabilityFamilyJoinRequest> getCapabilitiesWithFamilyID() throws FailedToGetCapabilitiesWithFamilyIDException, CapabilitiesWithFamilyIDNotFoundException {
         try{
             List<CapabilityFamilyJoinRequest> list = capabilityDao.getCapabilitiesWithFamilyID();
 
             if(list.isEmpty()){
-                throw new CapabilitiesWithFamilyIDNotFound();
+                throw new CapabilitiesWithFamilyIDNotFoundException();
             }
 
             return list;
