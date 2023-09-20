@@ -8,6 +8,7 @@ import org.kainos.ea.cli.LoginResponse;
 import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.kainos.ea.client.FailedToGetRoleException;
 import org.kainos.ea.client.FailedToRegisterException;
 
 
@@ -58,12 +59,12 @@ public class AuthController {
         try {
             authService.register(request);
 
-            return Response.ok().build();
+            return Response.status(Response.Status.CREATED).build();
         } catch (FailedToRegisterException e) {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }catch(SQLException e){
+        }catch(SQLException | FailedToGetRoleException e){
             return Response.serverError().build();
         }
     }

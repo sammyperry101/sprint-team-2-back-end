@@ -7,8 +7,10 @@ import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
 import org.kainos.ea.client.FailedToGenerateTokenException;
+import org.kainos.ea.client.FailedToGetRoleException;
 import org.kainos.ea.client.FailedToRegisterException;
 import org.kainos.ea.db.AuthDao;
+import org.kainos.ea.db.AuthRoleDao;
 import org.mindrot.jbcrypt.BCrypt;
 import org.kainos.ea.validator.PasswordValidator;
 
@@ -25,6 +27,7 @@ public class AuthService {
     }
 
     private AuthDao authDao;
+    private AuthRoleService authRoleService = new AuthRoleService(new AuthRoleDao());
 
 
 
@@ -52,11 +55,14 @@ public class AuthService {
     }
 
 
-    public void register(RegisterRequest request) throws FailedToRegisterException, SQLException {
+    public void register(RegisterRequest request) throws FailedToRegisterException, SQLException, FailedToGetRoleException {
         String salt = BCrypt.gensalt(9);
 
 
         if(!(passwordValidator.validateUser(request).isEmpty())){
+            throw new FailedToRegisterException();
+        }
+        if(authRoleService.getRoleById(request.getRole().getRoleId()) == null){
             throw new FailedToRegisterException();
         }
 

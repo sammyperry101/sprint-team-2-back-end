@@ -12,6 +12,7 @@ import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.kainos.ea.client.FailedToGetRoleException;
 import org.kainos.ea.client.FailedToRegisterException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,8 +32,6 @@ public class AuthControllerTest {
     AuthService authServiceMock = Mockito.mock(AuthService.class);
 
     AuthController authController = new AuthController(authServiceMock);
-
-    AuthController authControllerMock = Mockito.mock(AuthController.class);
 
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -89,15 +88,15 @@ public class AuthControllerTest {
     }
 
     @Test
-    void register_ShouldReturn200_WhenRegisterSuccessful() throws FailedToRegisterException {
+    void register_ShouldReturn201_WhenRegisterSuccessful() throws FailedToRegisterException {
         RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "Password$", Role.ADMIN);
         Response response = authController.register(registerRequest);
 
-        assertEquals(200, response.getStatus());
+        assertEquals(201, response.getStatus());
     }
 
     @Test
-    void register_ShouldReturn400_WhenRegisterUnsuccessful() throws FailedToRegisterException, SQLException {
+    void register_ShouldReturn400_WhenRegisterUnsuccessful() throws FailedToRegisterException, SQLException, FailedToGetRoleException {
         RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "password$", Role.ADMIN);
         Mockito.doThrow(new FailedToRegisterException()).when(authServiceMock).register(registerRequest);
 
@@ -107,7 +106,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void register_ShouldReturn500_WhenInternalServerError() throws FailedToRegisterException, SQLException {
+    void register_ShouldReturn500_WhenInternalServerError() throws FailedToRegisterException, SQLException, FailedToGetRoleException {
         RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "PASSWORD$", Role.ADMIN);
         Mockito.doThrow(new SQLException()).when(authServiceMock).register(registerRequest);
 

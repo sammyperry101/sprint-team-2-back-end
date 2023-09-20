@@ -8,6 +8,7 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
+import org.kainos.ea.resources.AuthRoleController;
 import org.kainos.ea.resources.JobRoleController;
 import org.kainos.ea.api.AuthService;
 import org.kainos.ea.auth.TokenService;
@@ -43,6 +44,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
         environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService())));
         environment.jersey().register(new HelloWorldController());
+        environment.jersey().register(new AuthRoleController());
     }
 
 }
