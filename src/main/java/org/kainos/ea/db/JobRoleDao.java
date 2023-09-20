@@ -23,18 +23,18 @@ public class JobRoleDao {
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name, c.Name FROM Job_Roles AS j INNER JOIN" +
+        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName FROM Job_Roles AS j INNER JOIN" +
                 " Bands AS b ON j.BandID=b.BandID" +
                 " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
                 " INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID;");
 
         while (rs.next()) {
             JobRoleRequest role = new JobRoleRequest(
-                    rs.getInt("Job_Roles.RoleID"),
-                    rs.getString("Job_Roles.Name"),
-                    rs.getString("Job_Roles.Sharepoint_Link"),
-                    rs.getString("Bands.Name"),
-                    rs.getString("Capabilities.Name")
+                    rs.getInt("RoleID"),
+                    rs.getString("Name"),
+                    rs.getString("Sharepoint_Link"),
+                    rs.getString("bandName"),
+                    rs.getString("capabilityName")
             );
 
             roles.add(role);

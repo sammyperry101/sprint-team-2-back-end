@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.mockito.Mockito;
@@ -20,7 +21,7 @@ public class JobRoleControllerTest {
     JobRoleController jobRoleController = new JobRoleController(jobRoleServiceMock);
     @Test
     void viewRoles_ShouldReturnResponse200_WhenJobRolesRetrieved() throws JobRolesNotFoundException, FailedToGetJobRoles {
-        List<JobRole> expectedRoles = new ArrayList<>();
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
 
         Mockito.when(jobRoleServiceMock.viewRoles()).thenReturn(expectedRoles);
 
