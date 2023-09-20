@@ -22,7 +22,7 @@ public class CapabilityController {
     }
 
     @GET
-    @Path("/capabilities/familyID")
+    @Path("/capabilities")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCapabilitiesWithFamilyID(){
         try{
