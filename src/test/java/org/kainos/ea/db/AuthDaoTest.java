@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthDaoTest {
@@ -84,17 +85,15 @@ public class AuthDaoTest {
         String email = "user@user.com";
         String password = "Password$";
         Role role = Role.ADMIN;
-        authDao.register(email, password, role);
 
-        String preparedStatement = "SELECT * FROM Users WHERE Email = ?";
         DatabaseConnector.setConn(connection);
-        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
-        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(statement);
+        Mockito.when(statement.executeUpdate()).thenReturn(1);
         Mockito.when(resultSet.next()).thenReturn(true);
         Mockito.when(resultSet.getString("Email")).thenReturn(email);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
 
-
+        authDao.register(email, password, role);
         assertTrue(resultSet.next());
 
         assertEquals(email, resultSet.getString("Email"));
