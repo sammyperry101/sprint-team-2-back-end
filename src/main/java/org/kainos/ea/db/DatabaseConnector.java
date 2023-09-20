@@ -14,7 +14,6 @@ public class DatabaseConnector {
         }
 
         try{
-
             user = System.getenv("DB_USERNAME");
             password = System.getenv("DB_PASSWORD");
             host = System.getenv("DB_HOST");
@@ -33,7 +32,6 @@ public class DatabaseConnector {
 
             throw new IllegalArgumentException();
         }
-
     }
     public static void setConn(Connection connection){
         conn = connection;
