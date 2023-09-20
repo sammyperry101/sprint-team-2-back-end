@@ -1,7 +1,5 @@
 package org.kainos.ea.db;
 
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +11,7 @@ public class DatabaseConnector {
         if(conn != null && !conn.isClosed()){
             return conn;
         }
+
         try{
             user = System.getenv("DB_USERNAME");
             password = System.getenv("DB_PASSWORD");
@@ -23,10 +22,13 @@ public class DatabaseConnector {
                 throw new Exception("Properties file must exist " +
                         "and must contain user, password, name and host properties");
             }
+
             conn = DriverManager.getConnection("jdbc:mysql://" + host + "/" + name + "?useSSL=false", user, password);
             return conn;
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
+
             throw new IllegalArgumentException();
         }
     }
