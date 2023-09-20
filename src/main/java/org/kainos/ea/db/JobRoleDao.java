@@ -1,6 +1,8 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,5 +42,13 @@ public class JobRoleDao {
         }
 
         return roles;
+    }
+
+    //todo Only admins can use this endpoint
+    public int createJobRole(JobRoleRequest jobRole) throws SQLException{
+        //todo Validate BandID
+        //todo Validate FamilyID
+        //todo Insert into DB
+        return -1;
     }
 }
