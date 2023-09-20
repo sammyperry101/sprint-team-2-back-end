@@ -13,7 +13,6 @@ import org.kainos.ea.db.JobFamilyDao;
 import org.kainos.ea.resources.JobCapabilityController;
 import org.kainos.ea.resources.JobFamilyController;
 import org.kainos.ea.api.JobRoleService;
-import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
 import org.kainos.ea.resources.JobRoleController;
 import org.kainos.ea.api.AuthService;
