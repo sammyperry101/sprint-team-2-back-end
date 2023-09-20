@@ -43,7 +43,8 @@ public class PasswordValidatorTest {
         RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "Password", Role.ADMIN);
         String result = passwordValidator.validateUser(registerRequest);
 
-        assertEquals("Password must contain at least one special character (@#$%^&+=).", result, "Expected an error message for a wrong password");
+        assertEquals("Password must contain at least one special character (@#$%^&+=)."
+                , result, "Expected an error message for a wrong password");
     }
 
     @Test
