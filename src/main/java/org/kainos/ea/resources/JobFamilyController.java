@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Team 2 Role API")
+@Api("Team 2 Family API")
 @Path("/api")
 public class JobFamilyController {
 
