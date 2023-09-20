@@ -21,11 +21,8 @@ import java.sql.SQLException;
 
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
@@ -119,7 +116,24 @@ public class AuthServiceTest {
     }
 
     @Test
-    void register_ShouldThrowFailedToRegisterException_When
+    void register_ShouldThrowFailedToRegisterException_WhenDaoThrowsException() throws SQLException {
 
+        RegisterRequest registerRequest = new RegisterRequest("user8@user.com", "", Role.ADMIN);
+
+        Mockito.doThrow(new SQLException()).when(authDaoMock).register("user8@user.com", "", Role.ADMIN);
+        assertThrows(FailedToRegisterException.class, () -> authService.register(registerRequest));
+
+    }
+
+    @Test
+    void register_ShouldDoNothing_WhenInputIsValid(){
+        RegisterRequest validRequest = new RegisterRequest("user8@user.com", "Password$", Role.ADMIN);
+
+        Mockito.when(passwordValidatorMock.validateUser(validRequest)).thenReturn("");
+
+        assertDoesNotThrow(() -> authService.register(validRequest));
+
+
+    }
 
 }

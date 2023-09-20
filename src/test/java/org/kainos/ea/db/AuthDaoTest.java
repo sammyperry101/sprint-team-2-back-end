@@ -14,8 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthDaoTest {
@@ -80,4 +79,25 @@ public class AuthDaoTest {
             () -> authDao.getUserByEmail(validLoginRequest.getEmail()));
     }
 
+    @Test
+    void register_ShouldRegister_WithValidDetails() throws SQLException {
+        String email = "user@user.com";
+        String password = "Password$";
+        Role role = Role.ADMIN;
+        authDao.register(email, password, role);
+
+        String preparedStatement = "SELECT * FROM Users WHERE Email = ?";
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getString("Email")).thenReturn(email);
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
+
+
+        assertTrue(resultSet.next());
+
+        assertEquals(email, resultSet.getString("Email"));
+        assertEquals(role.getRoleId(), resultSet.getInt("RoleID"));
+    }
 }
