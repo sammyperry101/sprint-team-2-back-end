@@ -61,7 +61,8 @@ public class JobRoleDaoTest {
     @Test
     void getJobRoles_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
 
-        String selectStatement = "SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName FROM Job_Roles AS j INNER JOIN" +
+        String selectStatement = "SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
+                " FROM Job_Roles AS j INNER JOIN" +
                 " Bands AS b ON j.BandID=b.BandID" +
                 " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
                 " INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID;";
