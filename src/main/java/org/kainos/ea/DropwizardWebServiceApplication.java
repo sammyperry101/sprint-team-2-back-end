@@ -13,6 +13,7 @@ import org.kainos.ea.resources.JobRoleController;
 import org.kainos.ea.api.AuthService;
 import org.kainos.ea.auth.TokenService;
 import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.AuthDao;
 import org.kainos.ea.resources.AuthController;
 import org.kainos.ea.resources.HelloWorldController;
 
