@@ -15,7 +15,7 @@ public class AuthRoleService {
         this.authRoleDao = authRoleDao;
     }
 
-    public List<AuthRole> getAuthRoles() throws FailedToGetAuthRoles {
+    public List<AuthRole> getAuthRoles() throws FailedToGetAuthRoles, SQLException {
         try{
             return authRoleDao.getAuthRoles();
         }catch (SQLException e) {
@@ -25,7 +25,7 @@ public class AuthRoleService {
         }
     }
 
-    public AuthRole getRoleById(int roleId) throws SQLException, FailedToGetRoleException {
+    public AuthRole getRoleById(int roleId) throws FailedToGetRoleException {
         try{
             return authRoleDao.getRoleById(roleId);
         }catch(SQLException e){
