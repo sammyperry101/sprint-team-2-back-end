@@ -13,8 +13,8 @@ public class AuthRole {
         return role_name;
     }
 
-    public void setRoleName(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String roleName) {
+        this.role_name = roleName;
     }
 
     public AuthRole(int roleID, String roleName) {
