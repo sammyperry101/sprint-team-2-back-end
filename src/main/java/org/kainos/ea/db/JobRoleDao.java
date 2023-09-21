@@ -41,4 +41,11 @@ public class JobRoleDao {
 
         return roles;
     }
+
+    public void editJobRole(int id) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        String editStatement = "UPDATE Job_Roles SET Name = ?, Salary = ?, BankAccountNumber = ? WHERE DeliveryEmployeeID = ?";
+
+    }
 }
