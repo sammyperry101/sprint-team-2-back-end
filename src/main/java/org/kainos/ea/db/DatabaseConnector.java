@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseConnector {
-
     private static Connection conn;
     public static Connection getConnection() throws SQLException {
         String user, password, host, name;
@@ -16,18 +15,14 @@ public class DatabaseConnector {
             return conn;
         }
 
-        try(FileInputStream propsStream = new FileInputStream("db.properties");){
-
-            Properties props = new Properties();
-            props.load(propsStream);
-
-            user = props.getProperty("user");
-            password = props.getProperty("password");
-            host = props.getProperty("host");
-            name = props.getProperty("name");
+        try{
+            user = System.getenv("DB_USERNAME");
+            password = System.getenv("DB_PASSWORD");
+            host = System.getenv("DB_HOST");
+            name = System.getenv("DB_NAME");
 
             if(user == null || password == null || host == null){
-                throw new IllegalArgumentException("Properties file must exist " +
+                throw new Exception("Properties file must exist " +
                         "and must contain user, password, name and host properties");
             }
 
@@ -36,11 +31,10 @@ public class DatabaseConnector {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
+
+            throw new IllegalArgumentException();
         }
-
-        return null;
     }
-
     public static void setConn(Connection connection){
         conn = connection;
     }

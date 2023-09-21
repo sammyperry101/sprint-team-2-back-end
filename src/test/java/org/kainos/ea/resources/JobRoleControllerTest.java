@@ -10,6 +10,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import javax.ws.rs.core.Response;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class JobRoleControllerTest {
@@ -51,6 +56,39 @@ public class JobRoleControllerTest {
         Mockito.when(jobRoleServiceMock.deleteRole(id)).thenThrow(FailedToDeleteJobRoleException.class);
 
         Response response = jobRoleController.deleteRole(id);
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void viewRoles_ShouldReturnResponse200_WhenJobRolesRetrieved() throws JobRolesNotFoundException, FailedToGetJobRoles {
+        List<JobRole> expectedRoles = new ArrayList<>();
+
+        Mockito.when(jobRoleServiceMock.viewRoles()).thenReturn(expectedRoles);
+
+        Response response = jobRoleController.viewRoles();
+
+        Assertions.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsJobRolesNotFound()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
+        Mockito.when(jobRoleServiceMock.viewRoles()).thenThrow(JobRolesNotFoundException.class);
+
+        Response response = jobRoleController.viewRoles();
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void viewRoles_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRoles()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
+        Mockito.when(jobRoleServiceMock.viewRoles()).thenThrow(FailedToGetJobRoles.class);
+
+        Response response = jobRoleController.viewRoles();
 
         Assertions.assertEquals(500, response.getStatus());
     }

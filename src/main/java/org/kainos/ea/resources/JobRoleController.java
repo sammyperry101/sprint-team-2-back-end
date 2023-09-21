@@ -8,6 +8,9 @@ import org.kainos.ea.client.JobRoleDoesNotExistException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
+import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,6 +25,7 @@ public class JobRoleController {
         this.jobRoleService = jobRoleService;
     }
 
+
     @DELETE
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -33,6 +37,23 @@ public class JobRoleController {
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (FailedToDeleteJobRoleException e) {
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/job-roles")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewRoles(){
+        try{
+            return Response.ok(jobRoleService.viewRoles()).build();
+        } catch (JobRolesNotFoundException e) {
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
+        } catch (FailedToGetJobRoles e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
