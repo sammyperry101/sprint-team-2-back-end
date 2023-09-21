@@ -104,9 +104,13 @@ public class AuthRoleDaoTest {
     @Test
     public void testGetRoleById_SQLException() throws SQLException {
         int roleId = 3;
-        Mockito.when(statement.executeQuery()).thenThrow(new SQLException());
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(statement);
 
-        authRoleDao.getRoleById(roleId);
+
+        Mockito.when(statement.executeQuery()).thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> authRoleDao.getRoleById(roleId));
     }
 
 
