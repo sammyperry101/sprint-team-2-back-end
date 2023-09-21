@@ -11,7 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.core.Response;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 @ExtendWith(MockitoExtension.class)
 public class JobSpecControllerTest {
     JobSpecService jobSpecService = Mockito.mock(JobSpecService.class);

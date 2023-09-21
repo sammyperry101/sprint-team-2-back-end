@@ -20,7 +20,8 @@ public class JobSpecServiceTest {
     int roleId = 3;
 
     @Test
-    void getJobSpecByRoleId_shouldReturnJobSpec_whenDaoReturnsJobSpec() throws SQLException, JobSpecDoesNotExist, FailedToGetJobSpecException {
+    void getJobSpecByRoleId_shouldReturnJobSpec_whenDaoReturnsJobSpec()
+            throws SQLException, JobSpecDoesNotExist, FailedToGetJobSpecException {
         JobSpec expectedResult = new JobSpec("Temp",
                 "https://kainossoftwareltd.sharepoint.com/", roleId);
 

@@ -2,10 +2,13 @@ package org.kainos.ea.db;
 
 import org.kainos.ea.model.JobSpec;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class JobSpecDAO {
-    public JobSpec getJobSpecByRoleId(int roleId) throws SQLException{
+    public JobSpec getJobSpecByRoleId(int roleId) throws SQLException {
         Connection connection = DatabaseConnector.getConnection();
 
         String selectQuery = "SELECT `RoleID`, `Job_Spec`, `Sharepoint_Link` FROM Job_Roles WHERE `RoleID` = ?;";
