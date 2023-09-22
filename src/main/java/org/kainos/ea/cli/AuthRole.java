@@ -1,5 +1,7 @@
 package org.kainos.ea.cli;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuthRole {
     public int getRoleID() {
         return roleID;
@@ -17,7 +19,7 @@ public class AuthRole {
         this.role_name = roleName;
     }
 
-    public AuthRole(int roleID, String roleName) {
+    public AuthRole(@JsonProperty("roleId") int roleID, @JsonProperty("roleName") String roleName) {
         this.roleID = roleID;
         this.role_name = roleName;
     }

@@ -3,7 +3,6 @@ package org.kainos.ea.validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.RegisterRequest;
-import org.kainos.ea.cli.Role;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -16,7 +15,7 @@ public class PasswordValidatorTest {
 
     @Test
     void passwordValidator_ShouldReturnErrorString_WhenPasswordIsLessThan8Characters(){
-        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "pass", Role.ADMIN);
+        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "pass", 1);
         String result = passwordValidator.validateUser(registerRequest);
 
         assertEquals("Password must be at least 8 characters long", result, "Expected an error message for a short password");
@@ -24,7 +23,7 @@ public class PasswordValidatorTest {
 
     @Test
     void passwordValidator_ShouldReturnErrorString_WhenPasswordHasNoUpperCaseLetters(){
-        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "password", Role.ADMIN);
+        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "password", 1);
         String result = passwordValidator.validateUser(registerRequest);
 
         assertEquals("Password must contain at least one upper case letter.", result, "Expected an error message for a wrong password");
@@ -32,7 +31,7 @@ public class PasswordValidatorTest {
 
     @Test
     void passwordValidator_ShouldReturnErrorString_WhenPasswordHasNoLowerCaseLetters(){
-        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "PASSWORD", Role.ADMIN);
+        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "PASSWORD", 1);
         String result = passwordValidator.validateUser(registerRequest);
 
         assertEquals("Password must contain at least one lower case letter.", result, "Expected an error message for a wrong password");
@@ -40,7 +39,7 @@ public class PasswordValidatorTest {
 
     @Test
     void passwordValidator_ShouldReturnErrorString_WhenPasswordHasSpecialCharacters(){
-        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "Password", Role.ADMIN);
+        RegisterRequest registerRequest = new RegisterRequest("user2@user.com", "Password",1);
         String result = passwordValidator.validateUser(registerRequest);
 
         assertEquals("Password must contain at least one special character (@#$%^&+=)."

@@ -24,22 +24,22 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public Role getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
-    private Role role;
+    private int role;
 
 
     @JsonCreator
     public RegisterRequest(
             @JsonProperty("username") String username,
             @JsonProperty("password") String password,
-            @JsonProperty("role") Role role
+            @JsonProperty("role") int role
     ) {
         this.username = username;
         this.password = password;

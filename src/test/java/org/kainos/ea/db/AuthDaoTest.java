@@ -1,8 +1,8 @@
 package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kainos.ea.cli.AuthRole;
 import org.kainos.ea.cli.LoginRequest;
-import org.kainos.ea.cli.Role;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -35,7 +35,7 @@ public class AuthDaoTest {
         String email = "email@email.com";
         String salt = BCrypt.gensalt();
         LoginRequest validLoginRequest = new LoginRequest("email@email.com", "password");
-        User expectedUser = new User(1, "email@email.com", Role.ADMIN);
+        User expectedUser = new User(1, "email@email.com", new AuthRole(1, "Admin"));
 
         String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
         DatabaseConnector.setConn(connection);
@@ -86,7 +86,7 @@ public class AuthDaoTest {
     void register_ShouldRegister_WithValidDetails() throws SQLException {
         String email = "user@user.com";
         String password = "Password$";
-        Role role = Role.ADMIN;
+        int role = 1;
 
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(anyString())).thenReturn(statement);
@@ -99,6 +99,6 @@ public class AuthDaoTest {
         assertTrue(resultSet.next());
 
         assertEquals(email, resultSet.getString("Email"));
-        assertEquals(role.getRoleId(), resultSet.getInt("RoleID"));
+        assertEquals(role, resultSet.getInt("RoleID"));
     }
 }
