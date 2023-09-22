@@ -1,6 +1,8 @@
 package org.kainos.ea.cli;
 
-public class User {
+import java.security.Principal;
+
+public class User implements Principal {
     private final int userId;
     private final String email;
     private final Role role;
@@ -37,6 +39,11 @@ public class User {
         return email;
     }
 
+
+    @Override
+    public String getName(){
+        return getEmail();
+    }
     public Role getRole() {
         return role;
     }

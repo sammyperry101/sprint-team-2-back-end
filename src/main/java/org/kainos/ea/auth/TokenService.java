@@ -1,11 +1,15 @@
 package org.kainos.ea.auth;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.kainos.ea.cli.Role;
+import org.kainos.ea.cli.User;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
 
 public class TokenService {
 
@@ -24,5 +28,41 @@ public class TokenService {
                 .compact();
 
         return token;
+    }
+
+    public Optional<User> decodeToken(String token) {
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            int userId = claims.get("userId", Integer.class);
+            String email = claims.get("email", String.class);
+            Role role = claims.get("role", Role.class);
+            User user = new User(userId, email, role);
+
+            return Optional.of(user);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public boolean isValidToken(String token) {
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
