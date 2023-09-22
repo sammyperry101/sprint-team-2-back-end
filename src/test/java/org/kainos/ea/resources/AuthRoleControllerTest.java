@@ -40,7 +40,7 @@ public class AuthRoleControllerTest {
         Mockito.when(authRoleServiceMock.getAuthRoles()).thenThrow(FailedToGetAuthRoles.class);
         Response response = authRoleController.getRoles();
 
-        assertEquals(401, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     @Test
