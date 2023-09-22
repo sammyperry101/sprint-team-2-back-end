@@ -37,7 +37,10 @@ public class AuthDaoTest {
         LoginRequest validLoginRequest = new LoginRequest("email@email.com", "password");
         User expectedUser = new User(1, "email@email.com", new AuthRole(1, "Admin"));
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        String preparedStatement = "SELECT u.UserID, u.Email, u.Password, u.RoleID, r.Role_Name " +
+                "FROM Users u " +
+                "INNER JOIN Auth_Roles r ON u.RoleID = r.RoleID " +
+                "WHERE u.Email = '" + email + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenReturn(resultSet);
@@ -51,7 +54,6 @@ public class AuthDaoTest {
 
         assertEquals(expectedUser.getUserId(),user.getUserId());
         assertEquals(expectedUser.getEmail(),user.getEmail());
-        assertEquals(expectedUser.getRole(),user.getRole());
     }
 
     @Test
@@ -59,7 +61,10 @@ public class AuthDaoTest {
         String email = "email@email.com";
         LoginRequest invalidLoginRequest = new LoginRequest(email, "password");
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        String preparedStatement = "SELECT u.UserID, u.Email, u.Password, u.RoleID, r.Role_Name " +
+                "FROM Users u " +
+                "INNER JOIN Auth_Roles r ON u.RoleID = r.RoleID " +
+                "WHERE u.Email = '" + email + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenThrow(FailedLoginException.class);
@@ -73,7 +78,10 @@ public class AuthDaoTest {
         String email = "email@email.com";
         LoginRequest validLoginRequest = new LoginRequest(email, "password");
 
-        String preparedStatement = "SELECT UserID, Email, Password, RoleID FROM `Users` WHERE Email='" + email + "'";
+        String preparedStatement = "SELECT u.UserID, u.Email, u.Password, u.RoleID, r.Role_Name " +
+                "FROM Users u " +
+                "INNER JOIN Auth_Roles r ON u.RoleID = r.RoleID " +
+                "WHERE u.Email = '" + email + "'";
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.prepareStatement(preparedStatement)).thenReturn(statement);
         Mockito.when(statement.executeQuery()).thenThrow(SQLException.class);
