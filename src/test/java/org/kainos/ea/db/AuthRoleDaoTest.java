@@ -1,5 +1,6 @@
 package org.kainos.ea.db;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.AuthRole;
@@ -30,7 +31,12 @@ public class AuthRoleDaoTest {
     private ResultSet resultSet = Mockito.mock(ResultSet.class);
 
 
-    private AuthRoleDao authRoleDao = new AuthRoleDao();
+    private AuthRoleDao authRoleDao;
+
+    @BeforeEach
+    void setUp() {
+        authRoleDao = new AuthRoleDao();
+    }
 
 
     @Test

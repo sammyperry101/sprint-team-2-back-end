@@ -24,7 +24,7 @@ public class AuthRoleServiceTest {
     private AuthRoleService authRoleService = new AuthRoleService(authRoleDaoMock);
 
     @Test
-    void shouldReturnList() throws SQLException, FailedToGetAuthRoles {
+    void getRoles_shouldReturnListOfRoles_WhenDaoReturnsRoles() throws SQLException, FailedToGetAuthRoles {
         List<AuthRole> authRoles = new ArrayList<>();
         authRoles.add(new AuthRole(1, "Role1"));
         authRoles.add(new AuthRole(2, "Role2"));
@@ -37,14 +37,14 @@ public class AuthRoleServiceTest {
     }
 
     @Test
-    void testGetAuthRolesSQLException() throws SQLException {
+    void getRoles_ShouldThrowSQLException_WhenDaoThrowsException() throws SQLException {
         Mockito.when(authRoleDaoMock.getAuthRoles()).thenThrow(new SQLException("Test SQL Exception"));
 
         assertThrows(FailedToGetAuthRoles.class, () -> authRoleService.getAuthRoles());
     }
 
     @Test
-    void testGetRoleById() throws FailedToGetRoleException, SQLException {
+    void getRoleById_ShouldReturnRole_WhenRoleIdIsValid() throws FailedToGetRoleException, SQLException {
         AuthRole authRole = new AuthRole(1, "Role1");
 
         Mockito.when(authRoleDaoMock.getRoleById(1)).thenReturn(authRole);
@@ -55,7 +55,7 @@ public class AuthRoleServiceTest {
     }
 
     @Test
-    void testGetRoleByIdSQLException() throws SQLException {
+    void getRoleById_ShouldThrowSQLException_WhenDaoThrowsException() throws SQLException {
         Mockito.when(authRoleDaoMock.getRoleById(1)).thenThrow(new SQLException("Test SQL Exception"));
 
         assertThrows(FailedToGetRoleException.class, () -> authRoleService.getRoleById(1));
