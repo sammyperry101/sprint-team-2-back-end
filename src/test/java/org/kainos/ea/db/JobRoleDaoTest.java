@@ -74,4 +74,9 @@ public class JobRoleDaoTest {
 
         assertThrows(SQLException.class, () -> jobRoleDao.getJobRoles());
     }
+
+    @Test
+    void getJobRolesWithFilter_ShouldReturnJobRoles_WhenDatabaseReturnsRoles() throws SQLException{
+
+    }
 }
