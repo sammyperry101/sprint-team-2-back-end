@@ -3,6 +3,7 @@ package org.kainos.ea.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToGetJobRoles;
@@ -73,27 +74,25 @@ public class JobRoleServiceTest {
 
     @Test
     void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
-        JobRole jobRole = new JobRole(1,
-                "Job Spec",
-                "Responsibilities",
-                "responsibilities",
-                "sharepoint link",
-                1,
-                1);
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testname",
+                "testname");
 
-        List<JobRole> expectedRoles = new ArrayList<>();
-        expectedRoles.add(jobRole);
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
+        expectedRoles.add(expectedRole);
 
         Mockito.when(jobRoleDaoMock.getJobRoles()).thenReturn(expectedRoles);
 
-        List<JobRole> resultRoles = jobRoleService.viewRoles();
+        List<JobRoleRequest> actualRoles = jobRoleService.viewRoles();
 
-        assertIterableEquals(resultRoles, expectedRoles);
+        assertIterableEquals(actualRoles, expectedRoles);
     }
 
     @Test
     void viewRoles_ShouldThrowJobRolesNotFoundException_WhenRolesIsEmpty() throws SQLException {
-        List<JobRole> expectedRoles = new ArrayList<>();
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
 
         Mockito.when(jobRoleDaoMock.getJobRoles()).thenReturn(expectedRoles);
 

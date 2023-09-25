@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.mockito.Mockito;
@@ -15,7 +16,6 @@ import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
 @ExtendWith(MockitoExtension.class)
 public class JobRoleControllerTest {
 
