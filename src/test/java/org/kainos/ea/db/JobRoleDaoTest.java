@@ -3,6 +3,7 @@ package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -29,44 +30,42 @@ public class JobRoleDaoTest {
     private JobRoleDao jobRoleDao = new JobRoleDao(databaseConnector);
     @Test
     void getJobRoles_ShouldReturnRoles_WhenDatabaseReturnsRoles() throws SQLException {
-        JobRole expectedRole = new JobRole(1,
-                "Name",
-                "Job Spec",
-                "responsibilities",
-                "sharepoint link",
-                1,
-                1);
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testname",
+                "testname");
 
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.createStatement()).thenReturn(statement);
         Mockito.when(statement.executeQuery(anyString())).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
-        Mockito.when(resultSet.getString("Name")).thenReturn("Name");
-        Mockito.when(resultSet.getString("Job_Spec")).thenReturn("Job Spec");
-        Mockito.when(resultSet.getString("Responsibilities")).thenReturn("responsibilities");
-        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("sharepoint link");
-        Mockito.when(resultSet.getInt("BandID")).thenReturn(1);
-        Mockito.when(resultSet.getInt("FamilyID")).thenReturn(1);
+        Mockito.when(resultSet.getString("Name")).thenReturn("testname");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("testname");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("testname");
 
-        List<JobRole> actualRoles = jobRoleDao.getJobRoles();
+        List<JobRoleRequest> actualRoles = jobRoleDao.getJobRoles();
 
-        List<JobRole> expectedRoles = new ArrayList<>();
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
 
         assertEquals(expectedRoles.get(0).getRoleID(), actualRoles.get(0).getRoleID());
-        assertEquals(expectedRoles.get(0).getName(), actualRoles.get(0).getName());
-        assertEquals(expectedRoles.get(0).getJobSpec(), actualRoles.get(0).getJobSpec());
-        assertEquals(expectedRoles.get(0).getResponsibilities(), actualRoles.get(0).getResponsibilities());
+        assertEquals(expectedRoles.get(0).getRoleName(), actualRoles.get(0).getRoleName());
         assertEquals(expectedRoles.get(0).getSharepointLink(), actualRoles.get(0).getSharepointLink());
-        assertEquals(expectedRoles.get(0).getBandID(), actualRoles.get(0).getBandID());
-        assertEquals(expectedRoles.get(0).getFamilyID(), actualRoles.get(0).getFamilyID());
+        assertEquals(expectedRoles.get(0).getBandName(), actualRoles.get(0).getBandName());
+        assertEquals(expectedRoles.get(0).getCapabilityName(), actualRoles.get(0).getCapabilityName());
     }
 
     @Test
     void getJobRoles_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
 
-        String selectStatement = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, BandID, FamilyID FROM Job_Role";
+        String selectStatement = "SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
+                " FROM Job_Roles AS j INNER JOIN" +
+                " Bands AS b ON j.BandID=b.BandID" +
+                " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
+                " INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID;";
 
         DatabaseConnector.setConn(connection);
 
