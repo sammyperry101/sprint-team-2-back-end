@@ -3,9 +3,12 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.JobRoleDao;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -51,6 +54,9 @@ public class JobRoleController {
         } catch (JobRoleDoesNotExistException e) {
             System.err.println(e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (FailedToGetJobRole e) {
+            System.err.println(e.getMessage());
+            return Response.serverError().build();
         }
     }
 }

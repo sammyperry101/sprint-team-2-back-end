@@ -69,8 +69,8 @@ public class JobRoleDao {
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT j.RoleID, j.Name, j.Job_Spec, j.Responsibilities, j.Sharepoint_Link, " +
-                "j.BandID, j.FamilyID FROM Job_Roles j WHERE j.RoleID =" + id);
+        ResultSet rs = st.executeQuery("SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID =" + id);
 
         while(rs.next()) {
             return new JobRole(
