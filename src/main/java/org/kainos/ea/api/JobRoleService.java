@@ -4,7 +4,11 @@ import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToCreateJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.InvalidJobRoleException;
 import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.core.BandValidator;
+import org.kainos.ea.core.JobRoleValidator;
+import org.kainos.ea.db.BandDao;
 import org.kainos.ea.db.JobRoleDao;
 
 import java.sql.SQLException;
@@ -32,9 +36,19 @@ public class JobRoleService {
         }
     }
 
-    public Integer createJobRole(JobRoleRequest jobRole) throws FailedToCreateJobRoleException {
+    public Integer createJobRole(JobRoleRequest jobRole)
+            throws FailedToCreateJobRoleException, InvalidJobRoleException
+    {
         try{
-            return jobRoleDao.createJobRole(jobRole);
+            BandDao bandDAO = new BandDao();
+            BandService bandService = new BandService(bandDAO);
+            BandValidator bandValidator = new BandValidator(bandService);
+
+            //todo familyDAO, Service & Validator
+
+            JobRoleValidator jobRoleValidator = new JobRoleValidator(bandValidator, bandService);
+
+            return jobRoleDao.createJobRole(jobRole, jobRoleValidator);
         } catch (SQLException e){
             throw new FailedToCreateJobRoleException();
         }

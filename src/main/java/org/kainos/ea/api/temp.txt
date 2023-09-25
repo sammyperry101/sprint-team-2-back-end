@@ -1,3 +1,0 @@
-Placeholder to ensure folder appears on GitHub
-
-Remove when other classes have been added

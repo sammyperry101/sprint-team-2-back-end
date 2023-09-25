@@ -1,7 +1,13 @@
 package org.kainos.ea.db;
 
+import org.kainos.ea.api.BandService;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.client.BandDoesNotExistException;
+import org.kainos.ea.client.FailedToGetBandException;
+import org.kainos.ea.client.InvalidJobRoleException;
+import org.kainos.ea.core.BandValidator;
+import org.kainos.ea.core.JobRoleValidator;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +23,7 @@ public class JobRoleDao {
         this.databaseConnector = databaseConnector;
     }
 
-    public List<JobRole> getJobRoles() throws SQLException{
+    public List<JobRole> getJobRoles() throws SQLException {
         List<JobRole> roles = new ArrayList<>();
 
         Connection c = databaseConnector.getConnection();
@@ -45,10 +51,16 @@ public class JobRoleDao {
     }
 
     //todo Only admins can use this endpoint
-    public int createJobRole(JobRoleRequest jobRole) throws SQLException{
-        //todo Validate BandID
-        //todo Validate FamilyID
-        //todo Insert into DB
-        return -1;
+    public int createJobRole(JobRoleRequest jobRole, JobRoleValidator jobRoleValidator)
+            throws SQLException, InvalidJobRoleException {
+        try {
+            jobRoleValidator.isValidJobRole(jobRole);
+            //todo Insert into DB
+            return -1;
+
+        } catch (FailedToGetBandException | BandDoesNotExistException e){
+            throw new InvalidJobRoleException(e.getMessage());
+        }
+
     }
 }
