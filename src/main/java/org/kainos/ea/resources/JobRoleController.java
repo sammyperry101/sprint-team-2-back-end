@@ -2,9 +2,11 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
+import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
@@ -26,6 +28,23 @@ public class JobRoleController {
     public Response viewRoles(){
         try{
             return Response.ok(jobRoleService.viewRoles()).build();
+        } catch (JobRolesNotFoundException e) {
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
+        } catch (FailedToGetJobRoles e) {
+            System.err.println(e.getMessage());
+
+            return Response.serverError().build();
+        }
+    }
+
+    @POST
+    @Path("/job-roles/filter")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response viewRolesWithFilter(JobRoleFilter filter){
+        try{
+            return Response.ok(jobRoleService.viewRolesWithFilter(filter)).build();
         } catch (JobRolesNotFoundException e) {
             System.err.println(e.getMessage());
 
