@@ -1,14 +1,11 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.db.JobRoleDao;
 
 import java.sql.SQLException;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToGetJobRoles;
-import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 
 import java.sql.SQLException;
@@ -23,7 +20,7 @@ public class JobRoleService {
 
     public int deleteRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
         try {
-            JobRole jobRole = jobRoleDao.getRoleById(id);
+            JobRoleRequest jobRole = jobRoleDao.getRoleById(id);
 
             if (jobRole == null) {
                 throw new JobRoleDoesNotExistException();
@@ -34,6 +31,22 @@ public class JobRoleService {
             System.err.println(e.getMessage());
 
             throw new FailedToDeleteJobRoleException();
+        }
+    }
+
+    public JobRoleRequest getRoleById(int id) throws JobRoleDoesNotExistException, FailedToGetJobRole {
+        try {
+            JobRoleRequest jobRole = jobRoleDao.getRoleById(id);
+
+            if (jobRole == null) {
+                throw new JobRoleDoesNotExistException();
+            }
+
+            return jobRole;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+
+            throw new FailedToGetJobRole();
         }
     }
 

@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.FailedToGetJobRoles;
-import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @ExtendWith(MockitoExtension.class)
 public class JobRoleServiceTest {
@@ -34,13 +32,12 @@ public class JobRoleServiceTest {
         int id = 1;
         int expectedResult = 1;
 
-        JobRole jobRole = new JobRole(1,
+        JobRoleRequest jobRole = new JobRoleRequest(1,
                 "Job Spec",
-                "Responsibilities",
-                "responsibilities",
                 "sharepoint link",
-                1,
-                1);
+                "band name",
+                "capability name"
+        );
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(jobRole);
         Mockito.when(jobRoleDaoMock.deleteRole(id)).thenReturn(expectedResult);
@@ -104,5 +101,42 @@ public class JobRoleServiceTest {
         Mockito.when(jobRoleDaoMock.getJobRoles()).thenThrow(SQLException.class);
 
         assertThrows(FailedToGetJobRoles.class, () -> jobRoleService.viewRoles());
+    }
+
+    @Test
+    void getJobRoleById_shouldReturnJobRole_whenDaoReturnsJobRole() throws JobRoleDoesNotExistException,
+            SQLException, FailedToGetJobRole {
+        int id = 1;
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testname",
+                "testname");
+
+        Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(expectedRole);
+
+        JobRoleRequest resultRole = jobRoleService.getRoleById(id);
+
+        assertEquals(expectedRole, resultRole);
+    }
+
+    @Test
+    void getJobRoleById_shouldThrowJobRoleDoesNotExist_whenDaoReturnsNull() throws SQLException {
+        int id = -1;
+
+        Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(null);
+
+        assertThrows(JobRoleDoesNotExistException.class,
+                () -> jobRoleService.getRoleById(id));
+    }
+
+    @Test
+    void getJobRoleById_shouldThrowFailedToDeleteJobRole_whenDaoThrowsSQLException() throws SQLException {
+        int id = -1;
+
+        Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenThrow(SQLException.class);
+
+        assertThrows(FailedToGetJobRole.class,
+                () -> jobRoleService.getRoleById(id));
     }
 }
