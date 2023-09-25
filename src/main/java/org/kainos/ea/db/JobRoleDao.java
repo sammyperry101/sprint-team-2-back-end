@@ -45,7 +45,7 @@ public class JobRoleDao {
         return roles;
     }
 
-    public void editJobRole(int id, JobRoleRequest jobRoleRequest) throws SQLException {
+    public int editJobRole(int id, JobRoleRequest jobRoleRequest) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         String editStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, " +
@@ -62,6 +62,8 @@ public class JobRoleDao {
         st.setInt(7, id);
 
         st.executeUpdate();
+
+        return id;
     }
 
     public JobRole getJobRoleById(int id) throws SQLException {
