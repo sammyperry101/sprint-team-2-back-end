@@ -6,13 +6,20 @@ import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+
 
 @ExtendWith(MockitoExtension.class)
 public class JobCapabilityDaoTest {

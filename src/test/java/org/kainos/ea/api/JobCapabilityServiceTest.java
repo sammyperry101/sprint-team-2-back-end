@@ -3,12 +3,12 @@ package org.kainos.ea.api;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
-import org.kainos.ea.cli.JobFamily;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobCapabilityNotFoundException;
+import org.kainos.ea.client.FailedToGetJobCapabilityException;
+import org.kainos.ea.client.JobCapabilityNotAddedException;
+import org.kainos.ea.client.FailedToAddJobCapabilityException;
 import org.kainos.ea.db.JobCapabilityDao;
-import org.kainos.ea.db.JobFamilyDao;
 import org.mockito.Mockito;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
