@@ -79,6 +79,33 @@ public class JobRoleDaoTest {
     }
 
     @Test
+    void editRole_ShouldUpdateJobRole_WhenSuccessful() throws SQLException {
+        int id = 5;
+        JobRoleRequest jobRoleRequest = new JobRoleRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
+
+        DatabaseConnector.setConn(connection);
+
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeUpdate()).thenReturn(1); // Simulate a successful update (1 row affected).
+
+        jobRoleDao.editJobRole(id, jobRoleRequest);
+
+        // Verify that the PreparedStatement was created with the correct SQL statement and parameters
+        Mockito.verify(connection).prepareStatement("UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, BandID = ?, FamilyID = ? WHERE RoleID = ?");
+        Mockito.verify(preparedStatement).setString(1, "NewName");
+        Mockito.verify(preparedStatement).setString(2, "NewSpec");
+        Mockito.verify(preparedStatement).setString(3, "NewResponsibilities");
+        Mockito.verify(preparedStatement).setString(4, "NewLink");
+        Mockito.verify(preparedStatement).setInt(5, 2);
+        Mockito.verify(preparedStatement).setInt(6, 2);
+        Mockito.verify(preparedStatement).setInt(7, id);
+
+        // Verify that executeUpdate() was called
+        Mockito.verify(preparedStatement).executeUpdate();
+    }
+
+    @Test
     void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
         int id = 5;
         String updateStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, BandID = ?, FamilyID = ? WHERE RoleID = ?";
