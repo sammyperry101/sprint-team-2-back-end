@@ -62,7 +62,7 @@ public class AuthService {
         if(!(passwordValidator.validateUser(request).isEmpty())){
             throw new FailedToRegisterException();
         }
-        if(authRoleService.getRoleById(request.getRole().getRoleId()) == null){
+        if(authRoleService.getRoleById(request.getRole()) == null){
             throw new FailedToRegisterException();
         }
 

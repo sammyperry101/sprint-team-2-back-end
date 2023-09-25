@@ -32,7 +32,7 @@ public class AuthRoleController {
 
             return Response.ok(authRoles).build();
         } catch (FailedToGetAuthRoles e){
-            return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }catch(SQLException e) {
             return  Response.serverError().build();
         }

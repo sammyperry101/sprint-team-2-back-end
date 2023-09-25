@@ -5,7 +5,6 @@ import org.kainos.ea.cli.RegisterRequest;
 public class PasswordValidator {
     public String validateUser(RegisterRequest user) {
         String password = user.getPassword();
-        String email = user.getUsername();
 
         if (password.length() < 8) {
             return "Password must be at least 8 characters long";
@@ -22,11 +21,6 @@ public class PasswordValidator {
         // Check if password contains at least one special character
         if (!password.matches(".*[@#$%^&+=].*")) {
             return "Password must contain at least one special character (@#$%^&+=).";
-        }
-
-        String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-        if (!email.matches(emailPattern)) {
-            return "Invalid email address";
         }
 
         return "";
