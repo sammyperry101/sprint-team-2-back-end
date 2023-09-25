@@ -49,7 +49,7 @@ public class JobRoleDao {
         Connection c = databaseConnector.getConnection();
 
         String editStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, " +
-                "BandID = ?, FamilyID = ? FROM Job_Roles WHERE RoleID = ?";
+                "BandID = ?, FamilyID = ? WHERE RoleID = ?";
 
         PreparedStatement st = c.prepareStatement(editStatement);
 
@@ -69,12 +69,12 @@ public class JobRoleDao {
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT JobRoleId, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
-                "BandID, FamilyID FROM Job_Roles Where RoleID =" + id);
+        ResultSet rs = st.executeQuery("SELECT j.RoleID, j.Name, j.Job_Spec, j.Responsibilities, j.Sharepoint_Link, " +
+                "j.BandID, j.FamilyID FROM Job_Roles j WHERE j.RoleID =" + id);
 
         while(rs.next()) {
             return new JobRole(
-                    rs.getInt("JobRoleId"),
+                    rs.getInt("RoleID"),
                     rs.getString("Name"),
                     rs.getString("Job_Spec"),
                     rs.getString("Responsibilities"),

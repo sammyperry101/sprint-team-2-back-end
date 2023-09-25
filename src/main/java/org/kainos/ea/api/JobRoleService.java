@@ -43,6 +43,5 @@ public class JobRoleService {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-
     }
 }
