@@ -2,11 +2,13 @@ package org.kainos.ea;
 
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.kainos.ea.api.AuthRoleService;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.api.JobFamilyService;
@@ -54,9 +56,12 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     @Override
     public void run(final DropwizardWebServiceConfiguration configuration,
                     final Environment environment) {
-        JWTAuthenticator jwtAuthenticator = new JWTAuthenticator(new TokenService());
+        JWTAuthenticator jwtAuthenticator = new JWTAuthenticator(new TokenService(new AuthDao(new DatabaseConnector())));
 
         environment.jersey().register(new AuthDynamicFeature(new JWTFilter.Builder().setAuthenticator(jwtAuthenticator).setAuthorizer(new JWTAuthorizer()).setPrefix("Bearer").buildAuthFilter()));
+
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         environment.jersey().register(new JobFamilyController(
                 new JobFamilyService(new JobFamilyDao(new DatabaseConnector()))));
@@ -66,7 +71,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
 
         environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
 
-        environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService())));
+        environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService(new AuthDao(new DatabaseConnector())))));
 
         environment.jersey().register(new HelloWorldController());
 

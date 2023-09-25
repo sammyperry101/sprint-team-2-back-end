@@ -54,7 +54,7 @@ public class AuthServiceTest {
         String mockToken = "token";
         LoginRequest mockLoginRequest = new LoginRequest(email, "password");
         when(authDaoMock.getUserByEmail(mockLoginRequest.getEmail())).thenReturn(mockUser);
-        when(tokenService.generateToken(mockLoginRequest.getEmail())).thenReturn(mockToken);
+        when(tokenService.generateToken(mockUser)).thenReturn(mockToken);
 
         String result = authService.login(mockLoginRequest);
 

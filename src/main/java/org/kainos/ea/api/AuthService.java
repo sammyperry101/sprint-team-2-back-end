@@ -39,7 +39,7 @@ public class AuthService {
                 throw new FailedLoginException();
             }
 
-            String token = tokenService.generateToken(user.getEmail());
+            String token = tokenService.generateToken(user);
             if (token != null) {
                 return token;
             }

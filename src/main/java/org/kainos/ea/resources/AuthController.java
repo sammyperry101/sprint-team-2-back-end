@@ -1,6 +1,9 @@
 package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiKeyAuthDefinition;
+import io.swagger.annotations.SecurityDefinition;
+import io.swagger.annotations.SwaggerDefinition;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.kainos.ea.api.AuthService;
 import org.kainos.ea.cli.LoginRequest;
@@ -15,12 +18,24 @@ import org.kainos.ea.client.FailedToRegisterException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 @Api("Authentication API")
 @Path("/api")
+@SwaggerDefinition(
+        securityDefinition = @SecurityDefinition(
+                apiKeyAuthDefinitions = {
+                        @ApiKeyAuthDefinition(
+                                key = HttpHeaders.AUTHORIZATION,
+                                name = HttpHeaders.AUTHORIZATION,
+                                in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER
+                        )
+                }
+        )
+)
 public class AuthController {
     private AuthService authService;
 
