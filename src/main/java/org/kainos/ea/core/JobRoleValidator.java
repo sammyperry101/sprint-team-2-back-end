@@ -13,35 +13,29 @@ import org.kainos.ea.client.FamilyDoesNotExistException;
 
 public class JobRoleValidator {
     BandValidator bandValidator;
-    BandService bandService;
-    FamilyService familyService;
+    FamilyValidator familyValidator;
 
     public JobRoleValidator(
             BandValidator bandValidator,
-            BandService bandService,
-            FamilyService familyService)
+            FamilyValidator familyValidator)
     {
         this.bandValidator = bandValidator;
-        this.bandService = bandService;
-        this.familyService = familyService;
+        this.familyValidator = familyValidator;
     }
 
     public String isValidJobRole(JobRoleRequest jobRole)
-            throws FailedToGetBandException, BandDoesNotExistException,
-            FamilyDoesNotExistException, FailedToGetFamilyException
+            throws FailedToGetBandException, FailedToGetFamilyException
     {
-        //todo no need to call getBandById and then validator
-        //todo Either create object and then validate or just getById and then handle exceptions
-        // Validate BandID
-        Band band = bandService.getBandById(jobRole.getBandID());
-        String invalidBand =  bandValidator.isValidBand(band);
 
-        if(invalidBand != null){
-            return invalidBand;
-        }
+        boolean bandExists =  bandValidator.bandExists(jobRole.getBandID());
+        if(!bandExists) return "Band does not exist.";
 
-        //todo Create family validator
-        Family family = familyService.getFamilyById(jobRole.getFamilyID());
+        boolean familyExists = familyValidator.familyExists(jobRole.getFamilyID());
+        if(!familyExists) return "Family does not exist.";
+
+        if(jobRole.getName().trim().isEmpty()) return "Name cannot be empty";
+
+        if(jobRole.getName().length() > 70) return "Name can not be longer than 70 characters";
 
         return null;
     }

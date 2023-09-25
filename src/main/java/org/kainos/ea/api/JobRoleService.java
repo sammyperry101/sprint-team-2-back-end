@@ -2,13 +2,12 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToCreateJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRoles;
-import org.kainos.ea.client.InvalidJobRoleException;
-import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.core.BandValidator;
+import org.kainos.ea.core.FamilyValidator;
 import org.kainos.ea.core.JobRoleValidator;
 import org.kainos.ea.db.BandDao;
+import org.kainos.ea.db.FamilyDao;
 import org.kainos.ea.db.JobRoleDao;
 
 import java.sql.SQLException;
@@ -40,16 +39,19 @@ public class JobRoleService {
             throws FailedToCreateJobRoleException, InvalidJobRoleException
     {
         try{
-            BandDao bandDAO = new BandDao();
-            BandService bandService = new BandService(bandDAO);
-            BandValidator bandValidator = new BandValidator(bandService);
+            BandValidator bandValidator = new BandValidator(new BandService(new BandDao()));
+            FamilyValidator familyValidator = new FamilyValidator(new FamilyService(new FamilyDao()));
 
-            //todo familyDAO, Service & Validator
+            JobRoleValidator jobRoleValidator = new JobRoleValidator(bandValidator, familyValidator);
 
-            JobRoleValidator jobRoleValidator = new JobRoleValidator(bandValidator, bandService);
+            String invalidJobRoleMessage = jobRoleValidator.isValidJobRole(jobRole);
+
+            if(invalidJobRoleMessage != null){
+                throw new InvalidJobRoleException(invalidJobRoleMessage);
+            }
 
             return jobRoleDao.createJobRole(jobRole, jobRoleValidator);
-        } catch (SQLException e){
+        } catch (SQLException | FailedToGetBandException | FailedToGetFamilyException e){
             throw new FailedToCreateJobRoleException();
         }
     }

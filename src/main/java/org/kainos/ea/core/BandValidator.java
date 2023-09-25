@@ -10,13 +10,14 @@ public class BandValidator {
     public BandValidator(BandService bandService){
         this.bandService = bandService;
     }
-    public String isValidBand(Band band) throws FailedToGetBandException{
+
+    public boolean bandExists(int bandId)
+            throws FailedToGetBandException
+    {
         try{
-            // Check band exists
-            bandService.getBandById(band.getBandID());
-            return null;
+            return bandService.getBandById(bandId) != null;
         } catch (BandDoesNotExistException e){
-            return "Band does not exist";
+            return false;
         }
     }
 }

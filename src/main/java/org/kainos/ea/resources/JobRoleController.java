@@ -5,6 +5,7 @@ import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToCreateJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.InvalidJobRoleException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
 import javax.ws.rs.POST;
@@ -50,6 +51,10 @@ public class JobRoleController {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (InvalidJobRoleException e) {
+            System.err.println(e.getMessage());
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 }

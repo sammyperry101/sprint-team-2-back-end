@@ -1,20 +1,13 @@
 package org.kainos.ea.db;
 
-import org.kainos.ea.api.BandService;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.BandDoesNotExistException;
-import org.kainos.ea.client.FailedToGetBandException;
-import org.kainos.ea.client.InvalidJobRoleException;
-import org.kainos.ea.core.BandValidator;
 import org.kainos.ea.core.JobRoleValidator;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class JobRoleDao {
     private DatabaseConnector databaseConnector;
@@ -50,17 +43,21 @@ public class JobRoleDao {
         return roles;
     }
 
-    //todo Only admins can use this endpoint
+    //todo Admin authorisation
     public int createJobRole(JobRoleRequest jobRole, JobRoleValidator jobRoleValidator)
-            throws SQLException, InvalidJobRoleException {
-        try {
-            jobRoleValidator.isValidJobRole(jobRole);
-            //todo Insert into DB
-            return -1;
+            throws SQLException
+    {
+        //todo Insert into db
+        Connection conn = DatabaseConnector.getConnection();
 
-        } catch (FailedToGetBandException | BandDoesNotExistException e){
-            throw new InvalidJobRoleException(e.getMessage());
-        }
+        String insertStatement = "INSERT INTO `Job_Roles` " +
+                "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
+                "VALUES ('?', '?', '?', '?', '?', '?');";
 
+        PreparedStatement preparedStatement = conn.prepareStatement(insertStatement);
+
+        preparedStatement.setString(1, jobRole.getName());
+
+        return 1;
     }
 }
