@@ -39,16 +39,14 @@ public class User implements Principal {
         return email;
     }
 
-<<<<<<< HEAD
 
     @Override
     public String getName(){
         return getEmail();
     }
-    public Role getRole() {
-=======
+
+
     public AuthRole getRole() {
->>>>>>> US024-Registration
         return role;
     }
 }

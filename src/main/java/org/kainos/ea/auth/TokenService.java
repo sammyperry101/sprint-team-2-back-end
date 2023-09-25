@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.kainos.ea.cli.Role;
+import org.kainos.ea.cli.AuthRole;
 import org.kainos.ea.cli.User;
 
 import java.security.Key;
@@ -42,7 +42,7 @@ public class TokenService {
 
             int userId = claims.get("userId", Integer.class);
             String email = claims.get("email", String.class);
-            Role role = claims.get("role", Role.class);
+            AuthRole role = claims.get("role", AuthRole.class);
             User user = new User(userId, email, role);
 
             return Optional.of(user);

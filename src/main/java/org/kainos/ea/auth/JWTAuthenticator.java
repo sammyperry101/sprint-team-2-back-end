@@ -7,7 +7,7 @@ import io.dropwizard.auth.AuthenticationException;
 import java.util.Optional;
 
 public class JWTAuthenticator implements Authenticator<String, User> {
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     public JWTAuthenticator(TokenService tokenService) {
         this.tokenService = tokenService;
