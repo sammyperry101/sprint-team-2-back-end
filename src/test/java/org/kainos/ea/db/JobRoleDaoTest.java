@@ -2,7 +2,7 @@ package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +28,7 @@ public class JobRoleDaoTest {
     private PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
     private Statement statement = Mockito.mock(Statement.class);
     private ResultSet resultSet = Mockito.mock(ResultSet.class);
+    private JobRoleFilter filter = Mockito.mock(JobRoleFilter.class);
     private JobRoleDao jobRoleDao = new JobRoleDao(databaseConnector);
     @Test
     void getJobRoles_ShouldReturnRoles_WhenDatabaseReturnsRoles() throws SQLException {
@@ -77,6 +79,36 @@ public class JobRoleDaoTest {
 
     @Test
     void getJobRolesWithFilter_ShouldReturnJobRoles_WhenDatabaseReturnsRoles() throws SQLException{
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testband",
+                "testcapability");
 
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+        Mockito.when(filter.getRoleNameFilter()).thenReturn("test");
+        Mockito.when(filter.getBandNameFilter()).thenReturn("test");
+        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("test");
+
+        Mockito.when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
+        Mockito.when(resultSet.getString("Name")).thenReturn("testname");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("testname");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("testname");
+
+        List<JobRoleRequest> actualRoles = jobRoleDao.getJobRolesWithFilter(filter);
+
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
+        expectedRoles.add(expectedRole);
+
+        assertEquals(expectedRoles.get(0).getRoleID(), actualRoles.get(0).getRoleID());
+        assertEquals(expectedRoles.get(0).getRoleName(), actualRoles.get(0).getRoleName());
+        assertEquals(expectedRoles.get(0).getSharepointLink(), actualRoles.get(0).getSharepointLink());
+        assertEquals(expectedRoles.get(0).getBandName(), actualRoles.get(0).getBandName());
+        assertEquals(expectedRoles.get(0).getCapabilityName(), actualRoles.get(0).getCapabilityName());
     }
 }
