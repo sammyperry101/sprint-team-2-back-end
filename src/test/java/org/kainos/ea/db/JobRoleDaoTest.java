@@ -3,6 +3,8 @@ package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -74,5 +76,20 @@ public class JobRoleDaoTest {
         Mockito.when(statement.executeQuery(anyString())).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class, () -> jobRoleDao.getJobRoles());
+    }
+
+    @Test
+    void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
+        int id = 5;
+        String updateStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, BandID = ?, FamilyID = ? WHERE RoleID = ?";
+        JobRoleRequest jobRoleRequest = new JobRoleRequest("string", "string", "string", "string", 1, 1);
+
+        DatabaseConnector.setConn(connection);
+
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
+        Mockito.doThrow(new SQLException()).when(preparedStatement).executeUpdate();
+
+        assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleRequest));
     }
 }
