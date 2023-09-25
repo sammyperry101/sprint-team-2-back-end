@@ -1,11 +1,10 @@
 package org.kainos.ea.api;
 
 import org.junit.jupiter.api.Test;
+import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
 import org.kainos.ea.cli.JobFamily;
-import org.kainos.ea.client.FailedToGetJobCapabilityException;
-import org.kainos.ea.client.JobCapabilityNotFoundException;
-import org.kainos.ea.client.JobFamilyNotFoundException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.db.JobCapabilityDao;
 import org.kainos.ea.db.JobFamilyDao;
 import org.mockito.Mockito;
@@ -82,5 +81,38 @@ public class JobCapabilityServiceTest {
         Mockito.when(jobCapabilityDaoMock.getCapabilityById(capabilityID)).thenThrow(SQLException.class);
 
         assertThrows(FailedToGetJobCapabilityException.class, () -> jobCapabilityService.getCapabilityById(capabilityID));
+    }
+
+    @Test
+    void addCapability_shouldReturnCapabilityID_whenDaoReturnsCapabilityID() throws SQLException,
+            JobCapabilityNotAddedException, FailedToAddJobCapabilityException {
+        int expectedResult = 1;
+        CapabilityRequest capabilityRequest = new CapabilityRequest("Test");
+
+        Mockito.when(jobCapabilityDaoMock.addCapability(capabilityRequest)).thenReturn(expectedResult);
+
+        int result = jobCapabilityService.addCapability(capabilityRequest);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void addCapability_shouldThrowJobCapabilityNotAdded_whenDaoReturns0() throws SQLException {
+        int expectedResult = 0;
+        CapabilityRequest capabilityRequest = new CapabilityRequest("Test");
+
+        Mockito.when(jobCapabilityDaoMock.addCapability(capabilityRequest)).thenReturn(expectedResult);
+
+        assertThrows(JobCapabilityNotAddedException.class, () -> jobCapabilityService.addCapability(capabilityRequest));
+    }
+
+    @Test
+    void addCapability_shouldThrowFailedToAddJobCapability_whenDaoThrowsSQLException() throws SQLException {
+        int expectedResult = 0;
+        CapabilityRequest capabilityRequest = new CapabilityRequest("Test");
+
+        Mockito.when(jobCapabilityDaoMock.addCapability(capabilityRequest)).thenThrow(SQLException.class);
+
+        assertThrows(FailedToAddJobCapabilityException.class, () -> jobCapabilityService.addCapability(capabilityRequest));
     }
 }
