@@ -1,14 +1,14 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.FailedToDeleteJobRoleException;
+import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 
 import java.sql.SQLException;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.db.JobRoleDao;
-
-import java.sql.SQLException;
 import java.util.List;
 
 public class JobRoleService {

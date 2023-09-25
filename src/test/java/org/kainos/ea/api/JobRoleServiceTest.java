@@ -2,9 +2,12 @@ package org.kainos.ea.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.FailedToDeleteJobRoleException;
+import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -54,8 +57,7 @@ public class JobRoleServiceTest {
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
 
-        assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.deleteRole(id));
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.deleteRole(id));
     }
 
     @Test
@@ -65,8 +67,7 @@ public class JobRoleServiceTest {
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(null);
         Mockito.when(jobRoleDaoMock.deleteRole(id)).thenThrow(SQLException.class);
 
-        assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.deleteRole(id));
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.deleteRole(id));
     }
 
     @Test
@@ -126,8 +127,7 @@ public class JobRoleServiceTest {
 
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(null);
 
-        assertThrows(JobRoleDoesNotExistException.class,
-                () -> jobRoleService.getRoleById(id));
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.getRoleById(id));
     }
 
     @Test
@@ -136,7 +136,6 @@ public class JobRoleServiceTest {
 
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenThrow(SQLException.class);
 
-        assertThrows(FailedToGetJobRole.class,
-                () -> jobRoleService.getRoleById(id));
+        assertThrows(FailedToGetJobRole.class, () -> jobRoleService.getRoleById(id));
     }
 }

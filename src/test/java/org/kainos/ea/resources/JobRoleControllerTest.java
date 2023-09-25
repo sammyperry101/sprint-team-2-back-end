@@ -5,14 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.FailedToDeleteJobRoleException;
+import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import javax.ws.rs.core.Response;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-
-import org.kainos.ea.cli.JobRole;
 
 import java.util.ArrayList;
 import java.util.List;

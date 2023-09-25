@@ -2,7 +2,11 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.FailedToDeleteJobRoleException;
+import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRolesNotFoundException;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
