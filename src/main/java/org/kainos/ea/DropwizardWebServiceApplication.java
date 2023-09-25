@@ -11,7 +11,6 @@ import org.kainos.ea.db.JobSpecDAO;
 import org.kainos.ea.resources.JobSpecController;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.api.JobFamilyService;
-import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobCapabilityDao;
 import org.kainos.ea.db.JobFamilyDao;
 import org.kainos.ea.resources.JobCapabilityController;
