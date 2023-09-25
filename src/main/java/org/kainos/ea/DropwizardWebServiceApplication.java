@@ -58,7 +58,8 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
                     final Environment environment) {
         JWTAuthenticator jwtAuthenticator = new JWTAuthenticator(new TokenService(new AuthDao(new DatabaseConnector())));
 
-        environment.jersey().register(new AuthDynamicFeature(new JWTFilter.Builder().setAuthenticator(jwtAuthenticator).setAuthorizer(new JWTAuthorizer()).setPrefix("Bearer").buildAuthFilter()));
+        environment.jersey().register(new AuthDynamicFeature(new JWTFilter.Builder().setAuthenticator(jwtAuthenticator).
+                setAuthorizer(new JWTAuthorizer()).setPrefix("Bearer").buildAuthFilter()));
 
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
@@ -71,7 +72,8 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
 
         environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
 
-        environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService(new AuthDao(new DatabaseConnector())))));
+        environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()),
+                new TokenService(new AuthDao(new DatabaseConnector())))));
 
         environment.jersey().register(new HelloWorldController());
 
