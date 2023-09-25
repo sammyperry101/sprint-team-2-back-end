@@ -2,12 +2,12 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -34,6 +34,19 @@ public class JobRoleController {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
+        }
+    }
+
+    @PUT
+    @Path("/job-roles/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editJobRole(@PathParam("id") int id, JobRoleRequest jobRoleRequest) {
+        try {
+            jobRoleService.editJobRole(id, jobRoleRequest);
+            return Response.ok().build();
+        } catch (JobRoleDoesNotExistException e) {
+            System.err.println(e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 }

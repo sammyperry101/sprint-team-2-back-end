@@ -1,7 +1,9 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 
@@ -28,5 +30,19 @@ public class JobRoleService {
 
             throw new FailedToGetJobRoles();
         }
+    }
+
+    public void editJobRole(int id, JobRoleRequest jobRoleRequest) throws JobRoleDoesNotExistException {
+        try {
+            JobRole jobRoleToUpdate = jobRoleDao.getJobRoleById(id);
+
+            if(jobRoleToUpdate == null) {
+                throw new JobRoleDoesNotExistException();
+            }
+            jobRoleDao.editJobRole(id, jobRoleRequest);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
     }
 }
