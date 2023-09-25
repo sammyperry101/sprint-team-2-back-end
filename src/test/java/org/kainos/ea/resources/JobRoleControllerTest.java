@@ -62,7 +62,7 @@ public class JobRoleControllerTest {
 
     @Test
     void viewRoles_ShouldReturnResponse200_WhenJobRolesRetrieved() throws JobRolesNotFoundException, FailedToGetJobRoles {
-        List<JobRole> expectedRoles = new ArrayList<>();
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
 
         Mockito.when(jobRoleServiceMock.viewRoles()).thenReturn(expectedRoles);
 
