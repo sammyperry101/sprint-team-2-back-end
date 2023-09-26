@@ -61,7 +61,8 @@ public class JobRoleServiceTest {
     }
 
     @Test
-    void viewRolesWithFilter_ShouldReturnRoles_WhenDaoReturnsRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
+    void viewRolesWithFilter_ShouldReturnRoles_WhenDaoReturnsRoles()
+            throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
         JobRoleRequest expectedRole = new JobRoleRequest(1,
                 "testname",
                 "testlink",
