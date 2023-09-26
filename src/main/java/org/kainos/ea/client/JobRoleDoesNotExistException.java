@@ -1,6 +1,6 @@
 package org.kainos.ea.client;
 
-public class JobRoleDoesNotExistException extends Exception {
+public class JobRoleDoesNotExistException extends RuntimeException {
 
     @Override
     public String getMessage() {

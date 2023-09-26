@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.cli.JobRoleEditRequest;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -119,4 +120,45 @@ public class JobRoleDaoTest {
 
         assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleEditRequest));
     }
+
+    @Test
+    void getJobRoleById_ShouldReturnJobRole_WhenIdExists() throws SQLException {
+        int id = 5;
+
+        // Mock the PreparedStatement to return the ResultSet
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.createStatement()).thenReturn(statement);
+        Mockito.when(statement.executeQuery(anyString())).thenReturn(resultSet);
+
+        Mockito.when(resultSet.next()).thenReturn(true); // Simulate that a row exists
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(id);
+        Mockito.when(resultSet.getString("Name")).thenReturn("SampleName");
+        Mockito.when(resultSet.getString("Job_Spec")).thenReturn("SampleSpec");
+        Mockito.when(resultSet.getString("Responsibilities")).thenReturn("SampleResponsibilities");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("SampleLink");
+        Mockito.when(resultSet.getInt("BandID")).thenReturn(1);
+        Mockito.when(resultSet.getInt("FamilyID")).thenReturn(1);
+
+        // Call the getJobRoleById method
+        JobRole jobRole = jobRoleDao.getJobRoleById(id);
+
+        // Verify that the returned JobRole matches the expected values
+        assertEquals(id, jobRole.getRoleID());
+    }
+
+    @Test
+    void getJobRoleById_ShouldThrowJobRoleNotFoundException_WhenIdDoesNotExist() throws SQLException {
+        int id = 5;
+        String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
+                "BandID, FamilyID FROM Job_Roles WHERE RoleID =" + id;
+
+        // Define a mock ResultSet to simulate an empty result (no rows found)
+        DatabaseConnector.setConn(connection);
+        Mockito.when(connection.createStatement()).thenReturn(statement);
+        Mockito.when(statement.executeQuery(query)).thenThrow(JobRoleDoesNotExistException.class);
+
+        // Call the getJobRoleById method and assert that it throws JobRoleDoesNotExistException
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleDao.getJobRoleById(id));
+    }
+
 }

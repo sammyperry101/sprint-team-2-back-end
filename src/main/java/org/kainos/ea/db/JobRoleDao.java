@@ -4,6 +4,7 @@ import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleEditRequest;
 
 import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

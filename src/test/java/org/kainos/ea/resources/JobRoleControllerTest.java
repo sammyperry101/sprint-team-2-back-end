@@ -81,7 +81,7 @@ public class JobRoleControllerTest {
     }
 
     @Test
-    void editRole_ShouldReturnResponse500_WhenServiceThrowsJobRoleDoesNotExist()
+    void editRole_ShouldReturnResponse400_WhenServiceThrowsJobRoleDoesNotExist()
             throws JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
         JobRoleEditRequest jobRole = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
