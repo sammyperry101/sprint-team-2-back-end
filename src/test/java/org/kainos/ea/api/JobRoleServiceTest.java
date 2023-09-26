@@ -64,13 +64,15 @@ public class JobRoleServiceTest {
     void editRole_ShouldEditJobRoleSuccessfully_WhenDaoReturnsSuccess()
             throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
-        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
+        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities"
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
 
         // Mock the jobRoleDao.editJobRole to return a success indicator, e.g., 1 for one row affected.
         Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleEditRequest)).thenReturn(5);
 
         // Mock the jobRoleDao to return an existing job role when getById is called.
-        JobRole existingJobRole = new JobRole(5, "NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
+        JobRole existingJobRole = new JobRole(5, "NewName", "NewSpec", "NewResponsibilities"
+                , "NewLink", 2, 2);
         Mockito.when(jobRoleDaoMock.getJobRoleById(id)).thenReturn(existingJobRole);
 
         // Call the editJobRole method in jobRoleService
@@ -84,7 +86,8 @@ public class JobRoleServiceTest {
     @Test
     void editRole_ShouldThrowJobRoleDoesNotExistException_WhenSQLExceptionCaught() throws SQLException {
         int id = 5;
-        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
+        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities"
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
 
         Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleEditRequest)).thenThrow(SQLException.class);
 

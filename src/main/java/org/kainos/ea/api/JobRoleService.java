@@ -9,8 +9,9 @@ import org.kainos.ea.client.InvalidBandIDException;
 import org.kainos.ea.client.InvalidFamilyIDException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.kainos.ea.client.JobRoleNameTooLongException;
+import org.kainos.ea.client.InvalidNameException;
 import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.client.NullfieldException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
 import org.kainos.ea.validator.JobRoleValidator;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class JobRoleService {
     private JobRoleDao jobRoleDao;
-    private JobRoleValidator jobRoleValidator;
+    private JobRoleValidator jobRoleValidator = new JobRoleValidator();
 
     public JobRoleService(JobRoleDao jobRoleDao) {
         this.jobRoleDao = jobRoleDao;
@@ -51,12 +52,12 @@ public class JobRoleService {
                 throw new JobRoleDoesNotExistException();
             }
 
-            if (jobRoleValidator.validateJobRole(jobRoleToUpdate) == null) {
+            if (jobRoleValidator.validateJobRole(jobRoleEditRequest)) {
                 jobRoleDao.editJobRole(id, jobRoleEditRequest);
             }
             return id;
-        } catch (SQLException | JobRoleNameTooLongException | InvalidSharepointLinkException | InvalidBandIDException |
-                 InvalidFamilyIDException e) {
+        } catch (SQLException | InvalidNameException | InvalidSharepointLinkException | InvalidBandIDException |
+                 InvalidFamilyIDException | NullfieldException e) {
             System.err.println(e.getMessage());
 
             throw new FailedToGetJobRole();
