@@ -25,7 +25,8 @@ public class JobSpecControllerTest {
         int roleId = 3;
         JobSpec expectedJobSpec = new JobSpec("temp",
                 "https://kainossoftwareltd.sharepoint.com/",
-            roleId);
+            roleId,
+                "temp");
 
         Mockito.when(jobSpecService.getJobSpecByRoleId(roleId)).thenReturn(expectedJobSpec);
 
@@ -37,6 +38,7 @@ public class JobSpecControllerTest {
         assertEquals(expectedJobSpec.getRoleId(), resultJobSpec.getRoleId());
         assertEquals(expectedJobSpec.getJobSpec(), resultJobSpec.getJobSpec());
         assertEquals(expectedJobSpec.getSharepointLink(), resultJobSpec.getSharepointLink());
+        assertEquals(expectedJobSpec.getName(), resultJobSpec.getName());
     }
 
     @Test

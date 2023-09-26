@@ -22,8 +22,11 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpecByRoleId_shouldReturnJobSpec_whenDaoReturnsJobSpec()
             throws SQLException, JobSpecDoesNotExist, FailedToGetJobSpecException {
-        JobSpec expectedResult = new JobSpec("Temp",
-                "https://kainossoftwareltd.sharepoint.com/", roleId);
+        JobSpec expectedResult = new JobSpec(
+                "Temp",
+                "https://kainossoftwareltd.sharepoint.com/",
+                roleId,
+                "temp");
 
         Mockito.when(jobSpecDAO.getJobSpecByRoleId(roleId)).thenReturn(expectedResult);
         JobSpec result = jobSpecService.getJobSpecByRoleId(roleId);
