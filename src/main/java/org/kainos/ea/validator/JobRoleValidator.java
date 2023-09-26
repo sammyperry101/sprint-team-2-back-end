@@ -18,17 +18,18 @@ public class JobRoleValidator {
     FamilyDao familyDao = new FamilyDao(databaseConnector);
 
 
-    public String JobRoleValidator(JobRole JobRole) throws SQLException, JobRoleNameTooLongException, InvalidSharepointLinkException, InvalidBandIDException, InvalidFamilyIDException {
-        if (JobRole.getName().length() > 70) {
+    public String validateJobRole(JobRole jobRole) throws SQLException, JobRoleNameTooLongException,
+            InvalidSharepointLinkException, InvalidBandIDException, InvalidFamilyIDException {
+        if (jobRole.getName().length() > 70) {
             throw new JobRoleNameTooLongException();
         }
-        if (!(JobRole.getSharepointLink().matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))) {
+        if (!(jobRole.getSharepointLink().matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))) {
             throw new InvalidSharepointLinkException();
         }
-        if (bandDao.checkBandIDExists(JobRole.getBandID()) == -1) { //Check the BandID is valid
+        if (bandDao.checkBandIDExists(jobRole.getBandID()) == -1) { //Check the BandID is valid
             throw new InvalidBandIDException();
         }
-        if (familyDao.checkFamilyIDExists(JobRole.getFamilyID()) == -1) {
+        if (familyDao.checkFamilyIDExists(jobRole.getFamilyID()) == -1) {
             throw new InvalidFamilyIDException();
         }
         return null;

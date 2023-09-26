@@ -12,14 +12,14 @@ public class BandDao {
         this.databaseConnector = databaseConnector;
     }
 
-    public int checkBandIDExists(int BandID) throws SQLException {
+    public int checkBandIDExists(int bandID) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         int checkedBandId = -1;
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT BandID FROM Bands WHERE BandID = " + BandID);
+        ResultSet rs = st.executeQuery("SELECT BandID FROM Bands WHERE BandID = " + bandID);
 
         if (rs.next()) {
             checkedBandId = rs.getInt("BandID");

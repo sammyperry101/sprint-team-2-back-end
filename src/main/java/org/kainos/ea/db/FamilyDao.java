@@ -12,14 +12,14 @@ public class FamilyDao {
         this.databaseConnector = databaseConnector;
     }
 
-    public int checkFamilyIDExists(int FamilyID) throws SQLException {
+    public int checkFamilyIDExists(int familyID) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         int checkedBandId = -1;
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT FamilyID FROM Families WHERE FamilyID = " + FamilyID);
+        ResultSet rs = st.executeQuery("SELECT FamilyID FROM Families WHERE FamilyID = " + familyID);
 
         if (rs.next()) {
             checkedBandId = rs.getInt("FamilyID");
