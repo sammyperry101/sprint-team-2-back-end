@@ -50,7 +50,7 @@ public class JobRoleService {
                 throw new InvalidJobRoleException(invalidJobRoleMessage);
             }
 
-            return jobRoleDao.createJobRole(jobRole, jobRoleValidator);
+            return jobRoleDao.createJobRole(jobRole);
         } catch (SQLException | FailedToGetBandException | FailedToGetFamilyException e){
             throw new FailedToCreateJobRoleException();
         }

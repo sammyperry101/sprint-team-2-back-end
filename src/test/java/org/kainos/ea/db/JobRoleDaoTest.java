@@ -75,4 +75,7 @@ public class JobRoleDaoTest {
 
         assertThrows(SQLException.class, () -> jobRoleDao.getJobRoles());
     }
+
+    @Test
+    void createJobRole_shouldReturnId_whenSuccessfullyInserted
 }

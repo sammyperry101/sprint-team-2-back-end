@@ -2,12 +2,10 @@ package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.core.JobRoleValidator;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class JobRoleDao {
     private DatabaseConnector databaseConnector;
@@ -44,20 +42,32 @@ public class JobRoleDao {
     }
 
     //todo Admin authorisation
-    public int createJobRole(JobRoleRequest jobRole, JobRoleValidator jobRoleValidator)
+    public Integer createJobRole(JobRoleRequest jobRole)
             throws SQLException
     {
-        //todo Insert into db
         Connection conn = DatabaseConnector.getConnection();
 
         String insertStatement = "INSERT INTO `Job_Roles` " +
                 "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
-                "VALUES ('?', '?', '?', '?', '?', '?');";
+                "VALUES (?, ?, ?, ?, ?, ?);";
 
-        PreparedStatement preparedStatement = conn.prepareStatement(insertStatement);
+        PreparedStatement preparedStatement = conn.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setString(1, jobRole.getName());
+        preparedStatement.setString(2, jobRole.getJobSpec());
+        preparedStatement.setString(3, jobRole.getResponsibilities());
+        preparedStatement.setString(4, jobRole.getSharepointLink());
+        preparedStatement.setInt(5, jobRole.getBandID());
+        preparedStatement.setInt(6, jobRole.getFamilyID());
 
-        return 1;
+        preparedStatement.executeUpdate();
+
+        ResultSet rs = preparedStatement.getGeneratedKeys();
+
+        if(rs.next()){
+            System.out.println(rs.getInt(1));
+        }
+
+        return null;
     }
 }

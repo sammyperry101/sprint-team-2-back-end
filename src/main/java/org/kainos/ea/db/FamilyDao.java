@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class FamilyDao {
     public Family getFamilyById(int id) throws SQLException {
-        String selectStatement = "SELECT * FROM `Families` WHERE BandID = ?";
+        String selectStatement = "SELECT * FROM `Families` WHERE FamilyID = ?";
 
         Connection conn = DatabaseConnector.getConnection();
 
