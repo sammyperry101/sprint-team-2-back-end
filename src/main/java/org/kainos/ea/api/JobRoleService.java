@@ -7,7 +7,9 @@ import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.JobRolesNotFoundException;
+import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
+import org.kainos.ea.validator.JobRoleValidator;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +20,9 @@ public class JobRoleService {
     public JobRoleService(JobRoleDao jobRoleDao) {
         this.jobRoleDao = jobRoleDao;
     }
+
+    private DatabaseConnector databaseConnector;
+    public JobRoleValidator = new JobRoleValidator(dat );
     public List<JobRoleRequest> viewRoles() throws JobRolesNotFoundException, FailedToGetJobRoles {
         try{
             List<JobRoleRequest> roles = jobRoleDao.getJobRoles();
@@ -41,6 +46,8 @@ public class JobRoleService {
             if(jobRoleToUpdate == null) {
                 throw new JobRoleDoesNotExistException();
             }
+
+            if ()
             jobRoleDao.editJobRole(id, jobRoleEditRequest);
             return id;
         } catch (SQLException e) {
