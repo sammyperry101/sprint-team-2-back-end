@@ -32,13 +32,9 @@ public class JobRoleService {
         }
     }
 
-    public List<JobRoleRequest> viewRolesWithFilter(JobRoleFilter filter) throws JobRolesNotFoundException, FailedToGetJobRoles {
+    public List<JobRoleRequest> viewRolesWithFilter(JobRoleFilter filter) throws FailedToGetJobRoles {
         try{
             List<JobRoleRequest> roles = jobRoleDao.getJobRolesWithFilter(filter);
-
-            if(roles.isEmpty()){
-                throw new JobRolesNotFoundException();
-            }
 
             return roles;
         } catch(SQLException e){

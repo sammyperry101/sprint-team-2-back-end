@@ -65,18 +65,6 @@ public class JobRoleControllerTest {
 
         Assertions.assertEquals(200, response.getStatus());
     }
-
-    @Test
-    void viewRolesWithFilter_ShouldReturnResponse500_WhenServiceThrowsJobRolesNotFound()
-            throws JobRolesNotFoundException, FailedToGetJobRoles {
-
-        Mockito.when(jobRoleServiceMock.viewRolesWithFilter(filter)).thenThrow(JobRolesNotFoundException.class);
-
-        Response response = jobRoleController.viewRolesWithFilter(filter);
-
-        Assertions.assertEquals(400, response.getStatus());
-    }
-
     @Test
     void viewRolesWithFilter_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRoles()
             throws JobRolesNotFoundException, FailedToGetJobRoles {

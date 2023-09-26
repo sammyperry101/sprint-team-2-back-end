@@ -78,16 +78,6 @@ public class JobRoleServiceTest {
 
         assertIterableEquals(actualRoles, expectedRoles);
     }
-
-    @Test
-    void viewRolesWithFilter_ShouldThrowJobRolesNotFoundException_WhenRolesIsEmpty() throws SQLException {
-        List<JobRoleRequest> expectedRoles = new ArrayList<>();
-
-        Mockito.when(jobRoleDaoMock.getJobRolesWithFilter(filter)).thenReturn(expectedRoles);
-
-        assertThrows(JobRolesNotFoundException.class, () -> jobRoleService.viewRolesWithFilter(filter));
-    }
-
     @Test
     void viewRolesWithFilter_ShouldThrowFailedToGetJobRoles_WhenSQLExceptionCaught() throws SQLException {
         Mockito.when(jobRoleDaoMock.getJobRolesWithFilter(filter)).thenThrow(SQLException.class);

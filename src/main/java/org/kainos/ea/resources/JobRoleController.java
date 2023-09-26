@@ -42,10 +42,6 @@ public class JobRoleController {
     public Response viewRolesWithFilter(JobRoleFilter filter){
         try{
             return Response.ok(jobRoleService.viewRolesWithFilter(filter)).build();
-        } catch (JobRolesNotFoundException e) {
-            System.err.println(e.getMessage());
-
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (FailedToGetJobRoles e) {
             System.err.println(e.getMessage());
 
