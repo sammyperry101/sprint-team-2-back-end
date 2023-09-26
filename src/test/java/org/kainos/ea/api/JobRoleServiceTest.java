@@ -62,7 +62,8 @@ public class JobRoleServiceTest {
     }
 
     @Test
-    void editRole_ShouldEditJobRoleSuccessfully_WhenDaoReturnsSuccess() throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
+    void editRole_ShouldEditJobRoleSuccessfully_WhenDaoReturnsSuccess()
+            throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
         JobRoleRequest jobRoleRequest = new JobRoleRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
 
