@@ -73,4 +73,17 @@ public class JobCapabilityIntegrationTest {
 
         assertNotNull(id);
     }
+
+    @Test
+    void addCapability_shouldReturn400Response_whenCapabilityNameTooLong() {
+        CapabilityRequest capabilityRequest =
+                new CapabilityRequest("toolongtestnametoolongtestnametoolongtestnametoolongtestnametoolongtestnametoolongtest");
+
+        Response response= APP.client()
+                .target("http://localhost:8080/api/capability/")
+                .request()
+                .post(Entity.entity(capabilityRequest, MediaType.APPLICATION_JSON_TYPE));
+
+        assertEquals(400, response.getStatus());
+    }
 }
