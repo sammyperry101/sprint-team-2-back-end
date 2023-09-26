@@ -3,7 +3,7 @@ package org.kainos.ea.cli;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JobRoleRequest {
+public class JobRoleEditRequest {
     String name;
     String jobSpec;
     String responsibilities;
@@ -60,7 +60,7 @@ public class JobRoleRequest {
     }
 
     @JsonCreator
-    public JobRoleRequest(
+    public JobRoleEditRequest(
             @JsonProperty("name") String name,
             @JsonProperty("jobSpec") String jobSpec,
             @JsonProperty("responsibilities") String responsibilities,

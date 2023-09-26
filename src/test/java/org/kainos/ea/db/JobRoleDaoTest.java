@@ -3,8 +3,7 @@ package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
-import org.mockito.Mock;
+import org.kainos.ea.cli.JobRoleEditRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -81,7 +80,7 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldUpdateJobRole_WhenSuccessful() throws SQLException {
         int id = 5;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
+        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities", "NewLink", 2, 2);
 
         DatabaseConnector.setConn(connection);
 
@@ -89,7 +88,7 @@ public class JobRoleDaoTest {
         Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
         Mockito.when(preparedStatement.executeUpdate()).thenReturn(1); // Simulate a successful update (1 row affected).
 
-        jobRoleDao.editJobRole(id, jobRoleRequest);
+        jobRoleDao.editJobRole(id, jobRoleEditRequest);
 
         // Verify that the PreparedStatement was created with the correct SQL statement and parameters
         Mockito.verify(connection).prepareStatement("UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?," +
@@ -111,7 +110,7 @@ public class JobRoleDaoTest {
         int id = 5;
         String updateStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?," +
                 " BandID = ?, FamilyID = ? WHERE RoleID = ?";
-        JobRoleRequest jobRoleRequest = new JobRoleRequest("string", "string", "string", "string", 1, 1);
+        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
 
         DatabaseConnector.setConn(connection);
 
@@ -119,6 +118,6 @@ public class JobRoleDaoTest {
         Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
         Mockito.doThrow(new SQLException()).when(preparedStatement).executeUpdate();
 
-        assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleRequest));
+        assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleEditRequest));
     }
 }

@@ -1,7 +1,7 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRoleEditRequest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,7 +45,7 @@ public class JobRoleDao {
         return roles;
     }
 
-    public int editJobRole(int id, JobRoleRequest jobRoleRequest) throws SQLException {
+    public int editJobRole(int id, JobRoleEditRequest jobRoleEditRequest) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         String editStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?, " +
@@ -53,12 +53,12 @@ public class JobRoleDao {
 
         PreparedStatement st = c.prepareStatement(editStatement);
 
-        st.setString(1, jobRoleRequest.getName());
-        st.setString(2, jobRoleRequest.getJob_Spec());
-        st.setString(3, jobRoleRequest.getResponsibilities());
-        st.setString(4, jobRoleRequest.getSharepointLink());
-        st.setInt(5, jobRoleRequest.getBandId());
-        st.setInt(6, jobRoleRequest.getFamilyId());
+        st.setString(1, jobRoleEditRequest.getName());
+        st.setString(2, jobRoleEditRequest.getJob_Spec());
+        st.setString(3, jobRoleEditRequest.getResponsibilities());
+        st.setString(4, jobRoleEditRequest.getSharepointLink());
+        st.setInt(5, jobRoleEditRequest.getBandId());
+        st.setInt(6, jobRoleEditRequest.getFamilyId());
         st.setInt(7, id);
 
         st.executeUpdate();
