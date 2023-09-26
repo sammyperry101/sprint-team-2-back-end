@@ -3,7 +3,11 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.cli.CapabilityRequest;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.CapabilityNameTooLongException;
+import org.kainos.ea.client.FailedToAddJobCapabilityException;
+import org.kainos.ea.client.FailedToGetJobCapabilityException;
+import org.kainos.ea.client.JobCapabilityNotAddedException;
+import org.kainos.ea.client.JobCapabilityNotFoundException;
 import org.kainos.ea.validator.JobCapabilityValidator;
 
 import javax.ws.rs.Path;
