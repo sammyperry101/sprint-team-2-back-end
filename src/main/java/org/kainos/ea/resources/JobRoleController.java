@@ -6,10 +6,7 @@ import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -48,7 +45,7 @@ public class JobRoleController {
         } catch (JobRolesNotFoundException e) {
             System.err.println(e.getMessage());
 
-            return Response.serverError().build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (FailedToGetJobRoles e) {
             System.err.println(e.getMessage());
 

@@ -74,7 +74,7 @@ public class JobRoleControllerTest {
 
         Response response = jobRoleController.viewRolesWithFilter(filter);
 
-        Assertions.assertEquals(500, response.getStatus());
+        Assertions.assertEquals(400, response.getStatus());
     }
 
     @Test
