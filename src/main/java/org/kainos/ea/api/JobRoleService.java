@@ -3,6 +3,7 @@ package org.kainos.ea.api;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleEditRequest;
 import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.JobRolesNotFoundException;
@@ -17,9 +18,9 @@ public class JobRoleService {
     public JobRoleService(JobRoleDao jobRoleDao) {
         this.jobRoleDao = jobRoleDao;
     }
-    public List<JobRole> viewRoles() throws JobRolesNotFoundException, FailedToGetJobRoles {
+    public List<JobRoleRequest> viewRoles() throws JobRolesNotFoundException, FailedToGetJobRoles {
         try{
-            List<JobRole> roles = jobRoleDao.getJobRoles();
+            List<JobRoleRequest> roles = jobRoleDao.getJobRoles();
 
             if(roles.isEmpty()){
                 throw new JobRolesNotFoundException();
