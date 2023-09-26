@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
@@ -17,6 +18,8 @@ import java.util.List;
 public class JobRoleControllerTest {
 
     JobRoleService jobRoleServiceMock = Mockito.mock(JobRoleService.class);
+
+    JobRoleFilter filter = Mockito.mock(JobRoleFilter.class);
 
     JobRoleController jobRoleController = new JobRoleController(jobRoleServiceMock);
     @Test
@@ -48,6 +51,39 @@ public class JobRoleControllerTest {
         Mockito.when(jobRoleServiceMock.viewRoles()).thenThrow(FailedToGetJobRoles.class);
 
         Response response = jobRoleController.viewRoles();
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void viewRolesWithFilter_ShouldReturnResponse200_WhenJobRolesRetrieved() throws JobRolesNotFoundException, FailedToGetJobRoles {
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
+
+        Mockito.when(jobRoleServiceMock.viewRolesWithFilter(filter)).thenReturn(expectedRoles);
+
+        Response response = jobRoleController.viewRolesWithFilter(filter);
+
+        Assertions.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void viewRolesWithFilter_ShouldReturnResponse500_WhenServiceThrowsJobRolesNotFound()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
+        Mockito.when(jobRoleServiceMock.viewRolesWithFilter(filter)).thenThrow(JobRolesNotFoundException.class);
+
+        Response response = jobRoleController.viewRolesWithFilter(filter);
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void viewRolesWithFilter_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRoles()
+            throws JobRolesNotFoundException, FailedToGetJobRoles {
+
+        Mockito.when(jobRoleServiceMock.viewRolesWithFilter(filter)).thenThrow(FailedToGetJobRoles.class);
+
+        Response response = jobRoleController.viewRolesWithFilter(filter);
 
         Assertions.assertEquals(500, response.getStatus());
     }

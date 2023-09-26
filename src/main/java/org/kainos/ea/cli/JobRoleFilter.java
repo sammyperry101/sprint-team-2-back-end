@@ -10,7 +10,7 @@ public class JobRoleFilter {
     private String capabilityNameFilter;
 
     @JsonCreator
-    JobRoleFilter(
+    public JobRoleFilter(
             @JsonProperty("roleNameFilter") String roleNameFilter,
             @JsonProperty("bandNameFilter") String bandNameFilter,
             @JsonProperty("capabilityNameFilter") String capabilityNameFilter){

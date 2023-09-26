@@ -89,16 +89,17 @@ public class JobRoleDaoTest {
 
         Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
-        Mockito.when(filter.getRoleNameFilter()).thenReturn("test");
-        Mockito.when(filter.getBandNameFilter()).thenReturn("test");
-        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("test");
+        Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
+        Mockito.when(filter.getBandNameFilter()).thenReturn("testband");
+        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("testcapbaility");
 
         Mockito.when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("testname");
         Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
-        Mockito.when(resultSet.getString("bandName")).thenReturn("testname");
-        Mockito.when(resultSet.getString("capabilityName")).thenReturn("testname");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("testband");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("testcapability");
 
         List<JobRoleRequest> actualRoles = jobRoleDao.getJobRolesWithFilter(filter);
 
@@ -110,5 +111,20 @@ public class JobRoleDaoTest {
         assertEquals(expectedRoles.get(0).getSharepointLink(), actualRoles.get(0).getSharepointLink());
         assertEquals(expectedRoles.get(0).getBandName(), actualRoles.get(0).getBandName());
         assertEquals(expectedRoles.get(0).getCapabilityName(), actualRoles.get(0).getCapabilityName());
+    }
+
+    @Test
+    void getJobRolesWithFilter_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+        Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
+        Mockito.when(filter.getBandNameFilter()).thenReturn("testband");
+        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("testcapbaility");
+
+        Mockito.when(preparedStatement.executeQuery()).thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> jobRoleDao.getJobRolesWithFilter(filter));
     }
 }
