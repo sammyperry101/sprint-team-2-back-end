@@ -6,13 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
-import org.kainos.ea.cli.JobFamily;
-import org.kainos.ea.client.*;
+import org.kainos.ea.client.JobCapabilityNotFoundException;
+import org.kainos.ea.client.FailedToGetJobCapabilityException;
+import org.kainos.ea.client.JobCapabilityNotAddedException;
+import org.kainos.ea.client.FailedToAddJobCapabilityException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
