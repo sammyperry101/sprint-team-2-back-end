@@ -5,9 +5,12 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import org.kainos.ea.api.JobSpecService;
+import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.JobSpecDAO;
+import org.kainos.ea.resources.JobSpecController;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.api.JobFamilyService;
-import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobCapabilityDao;
 import org.kainos.ea.db.JobFamilyDao;
 import org.kainos.ea.resources.JobCapabilityController;
@@ -45,13 +48,16 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
     @Override
     public void run(final DropwizardWebServiceConfiguration configuration,
                     final Environment environment) {
+
+        environment.jersey().register(new JobSpecController(new JobSpecService(new JobSpecDAO())));
+
         environment.jersey().register(new JobFamilyController(
                 new JobFamilyService(new JobFamilyDao(new DatabaseConnector()))));
         environment.jersey().register(new JobCapabilityController(
                 new JobCapabilityService(new JobCapabilityDao(new DatabaseConnector()))));
+
         environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
         environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService())));
         environment.jersey().register(new HelloWorldController());
     }
-
 }
