@@ -26,7 +26,8 @@ public class JobSpecServiceTest {
                 "Temp",
                 "https://kainossoftwareltd.sharepoint.com/",
                 roleId,
-                "temp");
+                "temp",
+                "responsible");
 
         Mockito.when(jobSpecDAO.getJobSpecByRoleId(roleId)).thenReturn(expectedResult);
         JobSpec result = jobSpecService.getJobSpecByRoleId(roleId);

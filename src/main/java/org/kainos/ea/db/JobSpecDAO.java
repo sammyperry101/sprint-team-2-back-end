@@ -11,7 +11,8 @@ public class JobSpecDAO {
     public JobSpec getJobSpecByRoleId(int roleId) throws SQLException {
         Connection connection = DatabaseConnector.getConnection();
 
-        String selectQuery = "SELECT `RoleID`, `Job_Spec`, `Sharepoint_Link`, `Name` FROM Job_Roles WHERE `RoleID` = ?;";
+        String selectQuery = "SELECT `RoleID`, `Job_Spec`, `Sharepoint_Link`, `Name`, `Responsibilities` " +
+                "FROM Job_Roles WHERE `RoleID` = ?;";
 
         assert connection != null;
         PreparedStatement st = connection.prepareStatement(selectQuery);
@@ -24,7 +25,8 @@ public class JobSpecDAO {
                     rs.getString("Job_Spec"),
                     rs.getString("Sharepoint_Link"),
                     rs.getInt("RoleID"),
-                    rs.getString("Name")
+                    rs.getString("Name"),
+                    rs.getString("Responsibilities")
             );
         }
 

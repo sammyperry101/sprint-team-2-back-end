@@ -30,10 +30,12 @@ public class JobSpecDAOTest {
                 "temp",
                 "https://kainossoftwareltd.sharepoint.com",
                 3,
-                "temp"
+                "temp",
+                "responsible"
         );
 
         DatabaseConnector.setConn(conn);
+
         Mockito.when(conn.prepareStatement(anyString())).thenReturn(st);
         Mockito.when(st.executeQuery()).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true);
@@ -41,6 +43,8 @@ public class JobSpecDAOTest {
         Mockito.when(rs.getString("Sharepoint_Link")).thenReturn("https://kainossoftwareltd.sharepoint.com");
         Mockito.when(rs.getInt("RoleID")).thenReturn(3);
         Mockito.when(rs.getString("Name")).thenReturn("temp");
+        Mockito.when(rs.getString("Responsibilities")).thenReturn("responsible");
+
         JobSpec result = jobSpecDAO.getJobSpecByRoleId(3);
 
         assertEquals(expectedResult.getRoleId(), result.getRoleId());
