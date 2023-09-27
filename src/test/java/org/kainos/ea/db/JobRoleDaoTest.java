@@ -3,6 +3,7 @@ package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -77,5 +78,57 @@ public class JobRoleDaoTest {
     }
 
     @Test
-    void createJobRole_shouldReturnId_whenSuccessfullyInserted
+    void createJobRoles_shouldReturnId_whenValidJobRole() throws SQLException{
+        int expectedResult = 1;
+        DatabaseConnector.setConn(connection);
+
+        String insertStatement = "INSERT INTO `Job_Roles` " +
+                "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
+
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+                "Name",
+                "Specification",
+                "Responsibilities",
+                "sharepoint",
+                1,
+                1
+        );
+
+        Mockito.when(connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS))
+                .thenReturn(preparedStatement);
+
+        Mockito.when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getInt(1)).thenReturn(expectedResult);
+
+        int result = jobRoleDao.createJobRole(jobRoleRequest);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void createJobRole_shouldThrowSQLException_whenDatabaseCantConnect()
+            throws SQLException
+    {
+        DatabaseConnector.setConn(connection);
+
+        String insertStatement = "INSERT INTO `Job_Roles` " +
+                "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
+
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+                "Name",
+                "Specification",
+                "Responsibilities",
+                "sharepoint",
+                1,
+                1
+        );
+
+        Mockito.when(connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS))
+                .thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> jobRoleDao.createJobRole(jobRoleRequest));
+    }
 }

@@ -65,7 +65,7 @@ public class JobRoleDao {
         ResultSet rs = preparedStatement.getGeneratedKeys();
 
         if(rs.next()){
-            System.out.println(rs.getInt(1));
+            return rs.getInt(1);
         }
 
         return null;

@@ -46,7 +46,7 @@ public class JobRoleController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createJobRole(JobRoleRequest jobRole){
         try{
-            return Response.ok(jobRoleService.createJobRole(jobRole)).build();
+            return Response.status(Response.Status.CREATED).entity(jobRoleService.createJobRole(jobRole)).build();
         } catch (FailedToCreateJobRoleException e){
             System.err.println(e.getMessage());
 
