@@ -56,15 +56,44 @@ public class JobRoleDao {
                 " Bands AS b ON j.BandID=b.BandID" +
                 " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
                 " INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID" +
-                " WHERE UPPER(j.Name) LIKE ?" +
-                " AND UPPER(b.Name) LIKE ?" +
-                " AND UPPER(c.Name) LIKE ?;";
+                " WHERE UPPER(j.Name) LIKE ?;";
+
+        String bandIDComponent = "";
+        String capabilityIDComponent = "";
+
+        if(filter.getBandID() != 0){
+            bandIDComponent = " AND b.BandID = ?;";
+        }
+
+        if(filter.getCapabilityID() != 0){
+            capabilityIDComponent = " AND c.CapabilityID = ?";
+        }
+
+        if(!bandIDComponent.isEmpty()){
+            filterStatement = filterStatement.replace(";", bandIDComponent);
+        }
+
+        if(!capabilityIDComponent.isEmpty()){
+            filterStatement = filterStatement.replace(";", capabilityIDComponent);
+        }
+
+        System.out.println(filterStatement);
 
         PreparedStatement st = c.prepareStatement(filterStatement);
 
         st.setString(1, "%" + filter.getRoleNameFilter().toUpperCase() + "%");
-        st.setString(2, "%" + filter.getBandNameFilter().toUpperCase() + "%");
-        st.setString(3, "%" + filter.getCapabilityNameFilter().toUpperCase() + "%");
+
+        if(!bandIDComponent.isEmpty()){
+            st.setInt(2, filter.getBandID());
+            if(!capabilityIDComponent.isEmpty()){
+                st.setInt(3, filter.getCapabilityID());
+            }
+        }
+        else{
+            if(!capabilityIDComponent.isEmpty()){
+                st.setInt(2, filter.getCapabilityID());
+            }
+        }
 
         ResultSet rs = st.executeQuery();
 

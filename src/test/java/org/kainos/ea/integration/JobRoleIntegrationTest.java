@@ -35,7 +35,7 @@ public class JobRoleIntegrationTest {
     @Test
     void viewRolesWithFilter_ShouldReturnListOfJobRoles(){
 
-        JobRoleFilter jobRoleFilter = new JobRoleFilter("", "", "");
+        JobRoleFilter jobRoleFilter = new JobRoleFilter("", 1, 1);
 
         List responseBody = APP.client().target("http://localhost:8080/api/job-roles/filter")
                 .request()

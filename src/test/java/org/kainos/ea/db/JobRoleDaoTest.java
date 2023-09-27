@@ -90,8 +90,8 @@ public class JobRoleDaoTest {
         Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
-        Mockito.when(filter.getBandNameFilter()).thenReturn("testband");
-        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("testcapbaility");
+        Mockito.when(filter.getBandID()).thenReturn(1);
+        Mockito.when(filter.getCapabilityID()).thenReturn(1);
 
         Mockito.when(preparedStatement.executeQuery()).thenReturn(resultSet);
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
@@ -120,8 +120,8 @@ public class JobRoleDaoTest {
         Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
-        Mockito.when(filter.getBandNameFilter()).thenReturn("testband");
-        Mockito.when(filter.getCapabilityNameFilter()).thenReturn("testcapbaility");
+        Mockito.when(filter.getBandID()).thenReturn(1);
+        Mockito.when(filter.getCapabilityID()).thenReturn(1);
 
         Mockito.when(preparedStatement.executeQuery()).thenThrow(SQLException.class);
 

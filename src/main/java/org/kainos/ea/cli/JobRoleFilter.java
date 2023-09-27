@@ -6,17 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class JobRoleFilter {
 
     private String roleNameFilter;
-    private String bandNameFilter;
-    private String capabilityNameFilter;
+    private int bandID;
+    private int capabilityID;
 
     @JsonCreator
     public JobRoleFilter(
             @JsonProperty("roleNameFilter") String roleNameFilter,
-            @JsonProperty("bandNameFilter") String bandNameFilter,
-            @JsonProperty("capabilityNameFilter") String capabilityNameFilter){
+            @JsonProperty("bandID") int bandID,
+            @JsonProperty("capabilityId") int capabilityID){
         this.roleNameFilter = roleNameFilter;
-        this.bandNameFilter = bandNameFilter;
-        this.capabilityNameFilter = capabilityNameFilter;
+        this.bandID = bandID;
+        this.capabilityID = capabilityID;
     }
 
     public String getRoleNameFilter() {
@@ -27,19 +27,19 @@ public class JobRoleFilter {
         this.roleNameFilter = roleNameFilter;
     }
 
-    public String getBandNameFilter() {
-        return bandNameFilter;
+    public int getBandID() {
+        return bandID;
     }
 
-    public void setBandNameFilter(String bandNameFilter) {
-        this.bandNameFilter = bandNameFilter;
+    public void setBandID(int bandID) {
+        this.bandID = bandID;
     }
 
-    public String getCapabilityNameFilter() {
-        return capabilityNameFilter;
+    public int getCapabilityID() {
+        return capabilityID;
     }
 
-    public void setCapabilityNameFilter(String capabilityNameFilter) {
-        this.capabilityNameFilter = capabilityNameFilter;
+    public void setCapabilityID(int capabilityID) {
+        this.capabilityID = capabilityID;
     }
 }
