@@ -88,7 +88,8 @@ public class JobRoleDao {
 
         Connection c = databaseConnector.getConnection();
 
-        StringBuilder filterStatementBuilder = new StringBuilder("SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName")
+        StringBuilder filterStatementBuilder =
+                new StringBuilder("SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName")
                 .append(" FROM Job_Roles AS j")
                 .append(" INNER JOIN Bands AS b ON j.BandID=b.BandID")
                 .append(" INNER JOIN Families AS f ON j.FamilyID=f.FamilyID")
