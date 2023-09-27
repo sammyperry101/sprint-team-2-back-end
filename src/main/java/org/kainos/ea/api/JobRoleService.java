@@ -1,5 +1,6 @@
 package org.kainos.ea.api;
 
+import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.cli.JobRoleRequest;

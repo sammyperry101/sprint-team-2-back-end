@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
+
 import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.cli.JobRoleRequest;
