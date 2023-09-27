@@ -3,7 +3,7 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.cli.JobRoleFilter;
-import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
 import javax.ws.rs.GET;
@@ -32,7 +32,7 @@ public class JobRoleController {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
-        } catch (FailedToGetJobRoles e) {
+        } catch (FailedToGetJobRolesException e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
@@ -45,7 +45,7 @@ public class JobRoleController {
     public Response viewRolesWithFilter(JobRoleFilter filter){
         try{
             return Response.ok(jobRoleService.viewRolesWithFilter(filter)).build();
-        } catch (FailedToGetJobRoles e) {
+        } catch (FailedToGetJobRolesException e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();

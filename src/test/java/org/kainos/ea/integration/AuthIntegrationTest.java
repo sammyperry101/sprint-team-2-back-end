@@ -10,9 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardWebServiceApplication;
 import org.kainos.ea.DropwizardWebServiceConfiguration;
 import org.kainos.ea.cli.LoginRequest;
-import org.kainos.ea.cli.Role;
-import org.kainos.ea.cli.User;
-import org.mindrot.jbcrypt.BCrypt;
+
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;

@@ -1,7 +1,10 @@
 package org.kainos.ea.api;
 
+import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
+import org.kainos.ea.client.FailedToAddJobCapabilityException;
 import org.kainos.ea.client.FailedToGetJobCapabilityException;
+import org.kainos.ea.client.JobCapabilityNotAddedException;
 import org.kainos.ea.client.JobCapabilityNotFoundException;
 import org.kainos.ea.db.JobCapabilityDao;
 
@@ -42,6 +45,21 @@ public class JobCapabilityService {
             return jobCapabilities;
         } catch (SQLException e) {
             throw new FailedToGetJobCapabilityException();
+        }
+    }
+
+    public int addCapability(CapabilityRequest capabilityRequest) throws JobCapabilityNotAddedException,
+            FailedToAddJobCapabilityException {
+        try {
+            int capabilityId = jobCapabilityDao.addCapability(capabilityRequest);
+
+            if (capabilityId == 0) {
+                throw new JobCapabilityNotAddedException();
+            }
+
+            return capabilityId;
+        } catch (SQLException e) {
+            throw new FailedToAddJobCapabilityException();
         }
     }
 }
