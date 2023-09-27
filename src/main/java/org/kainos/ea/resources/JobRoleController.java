@@ -5,7 +5,7 @@ import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRole;
-import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
 import javax.ws.rs.DELETE;
@@ -71,7 +71,7 @@ public class JobRoleController {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();
-        } catch (FailedToGetJobRoles e) {
+        } catch (FailedToGetJobRolesException e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();

@@ -71,7 +71,7 @@ public class JobRoleServiceTest {
     }
 
     @Test
-    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
+    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRolesException {
         JobRoleRequest expectedRole = new JobRoleRequest(1,
                 "testname",
                 "testlink",
@@ -101,7 +101,7 @@ public class JobRoleServiceTest {
     void viewRoles_ShouldThrowFailedToGetJobRoles_WhenSQLExceptionCaught() throws SQLException {
         Mockito.when(jobRoleDaoMock.getJobRoles()).thenThrow(SQLException.class);
 
-        assertThrows(FailedToGetJobRoles.class, () -> jobRoleService.viewRoles());
+        assertThrows(FailedToGetJobRolesException.class, () -> jobRoleService.viewRoles());
     }
 
     @Test
