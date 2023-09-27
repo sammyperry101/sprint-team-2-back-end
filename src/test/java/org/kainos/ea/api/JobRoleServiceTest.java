@@ -72,7 +72,7 @@ public class JobRoleServiceTest {
 
         // Mock the jobRoleDao to return an existing job role when getById is called.
         JobRole existingJobRole = new JobRole(5, "NewName", "NewSpec", "NewResponsibilities"
-                , "NewLink", 2, 2);
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
         Mockito.when(jobRoleDaoMock.getJobRoleById(id)).thenReturn(existingJobRole);
 
         // Call the editJobRole method in jobRoleService
