@@ -77,8 +77,6 @@ public class JobRoleDao {
             filterStatement = filterStatement.replace(";", capabilityIDComponent);
         }
 
-        System.out.println(filterStatement);
-
         PreparedStatement st = c.prepareStatement(filterStatement);
 
         st.setString(1, "%" + filter.getRoleNameFilter().toUpperCase() + "%");
