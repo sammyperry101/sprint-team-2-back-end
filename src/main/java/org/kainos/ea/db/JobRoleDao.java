@@ -51,46 +51,44 @@ public class JobRoleDao {
 
         Connection c = databaseConnector.getConnection();
 
-        String filterStatement = "SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
-                " FROM Job_Roles AS j INNER JOIN" +
-                " Bands AS b ON j.BandID=b.BandID" +
-                " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
-                " INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID" +
-                " WHERE UPPER(j.Name) LIKE ?;";
+        StringBuilder filterStatementBuilder = new StringBuilder("SELECT j.RoleId, j.Name, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName")
+                .append(" FROM Job_Roles AS j")
+                .append(" INNER JOIN Bands AS b ON j.BandID=b.BandID")
+                .append(" INNER JOIN Families AS f ON j.FamilyID=f.FamilyID")
+                .append(" INNER JOIN Capabilities AS c ON f.capabilityID=c.CapabilityID");
 
-        String bandIDComponent = "";
-        String capabilityIDComponent = "";
+        int paramCount = 0;
 
-        if(filter.getBandID() != 0){
-            bandIDComponent = " AND b.BandID = ?;";
+        if (!filter.getRoleNameFilter().isEmpty()) {
+            filterStatementBuilder.append(" WHERE UPPER(j.name) LIKE ?");
+            paramCount++;
         }
 
-        if(filter.getCapabilityID() != 0){
-            capabilityIDComponent = " AND c.CapabilityID = ?";
+        if (filter.getBandID() != 0) {
+            filterStatementBuilder.append(paramCount == 0 ? " WHERE" : " AND").append(" b.BandID = ?");
+            paramCount++;
         }
 
-        if(!bandIDComponent.isEmpty()){
-            filterStatement = filterStatement.replace(";", bandIDComponent);
+        if (filter.getCapabilityID() != 0) {
+            filterStatementBuilder.append(paramCount == 0 ? " WHERE" : " AND").append(" c.CapabilityID = ?");
+            paramCount++;
         }
 
-        if(!capabilityIDComponent.isEmpty()){
-            filterStatement = filterStatement.replace(";", capabilityIDComponent);
-        }
+        String filterStatement = filterStatementBuilder.toString();
 
         PreparedStatement st = c.prepareStatement(filterStatement);
 
-        st.setString(1, "%" + filter.getRoleNameFilter().toUpperCase() + "%");
-
-        if(!bandIDComponent.isEmpty()){
-            st.setInt(2, filter.getBandID());
-            if(!capabilityIDComponent.isEmpty()){
-                st.setInt(3, filter.getCapabilityID());
-            }
+        if(filter.getCapabilityID() != 0){
+            st.setInt(paramCount, filter.getCapabilityID());
+            paramCount--;
         }
-        else{
-            if(!capabilityIDComponent.isEmpty()){
-                st.setInt(2, filter.getCapabilityID());
-            }
+        if(filter.getBandID() != 0){
+            st.setInt(paramCount, filter.getBandID());
+            paramCount--;
+        }
+        if(!filter.getRoleNameFilter().isEmpty()){
+            st.setString(paramCount, "%" + filter.getRoleNameFilter().toUpperCase() + "%");
+            paramCount--;
         }
 
         ResultSet rs = st.executeQuery();
