@@ -4,12 +4,14 @@ package org.kainos.ea.resources;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobCapabilityService;
+import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.cli.JobCapability;
-import org.kainos.ea.cli.JobFamily;
+import org.kainos.ea.client.CapabilityNameTooLongException;
+import org.kainos.ea.client.FailedToAddJobCapabilityException;
 import org.kainos.ea.client.FailedToGetJobCapabilityException;
-import org.kainos.ea.client.FailedToGetJobFamilyException;
+import org.kainos.ea.client.JobCapabilityNotAddedException;
 import org.kainos.ea.client.JobCapabilityNotFoundException;
-import org.kainos.ea.client.JobFamilyNotFoundException;
+import org.kainos.ea.validator.JobCapabilityValidator;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,8 +25,10 @@ import static org.mockito.ArgumentMatchers.anyInt;
 @ExtendWith(MockitoExtension.class)
 public class JobCapabilityControllerTest {
     JobCapabilityService jobCapabilityServiceMock = Mockito.mock(JobCapabilityService.class);
+    JobCapabilityValidator jobCapabilityValidatorMock = Mockito.mock(JobCapabilityValidator.class);
 
-    JobCapabilityController jobCapabilityController = new JobCapabilityController(jobCapabilityServiceMock);
+    JobCapabilityController jobCapabilityController = new JobCapabilityController(jobCapabilityServiceMock,
+            jobCapabilityValidatorMock);
 
     @Test
     void getAllCapabilities_shouldReturnResponse200_whenServerReturnsResults() throws
@@ -91,5 +95,60 @@ public class JobCapabilityControllerTest {
         Response response = jobCapabilityController.getCapabilityById(capabilityID);
 
         assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void addCapability_shouldReturnResponse200_whenCapabilityAdded() throws
+            JobCapabilityNotAddedException, FailedToAddJobCapabilityException, CapabilityNameTooLongException {
+        CapabilityRequest capabilityRequest = new CapabilityRequest("test");
+        int expectedResult = 1;
+
+        Mockito.when(jobCapabilityValidatorMock.isValidCapability(capabilityRequest)).thenReturn(true);
+        Mockito.when(jobCapabilityServiceMock.addCapability(capabilityRequest)).thenReturn(expectedResult);
+
+        try (Response response = jobCapabilityController.addCapability(capabilityRequest)) {
+            assertEquals(200, response.getStatus());
+        }
+    }
+
+    @Test
+    void addCapability_shouldReturnResponse400_whenServerThrowsJobCapabilityNotAddedException() throws
+            JobCapabilityNotAddedException, FailedToAddJobCapabilityException, CapabilityNameTooLongException {
+        CapabilityRequest capabilityRequest = new CapabilityRequest("invalid");
+
+        Mockito.when(jobCapabilityValidatorMock.isValidCapability(capabilityRequest)).thenReturn(true);
+        Mockito.when(jobCapabilityServiceMock.addCapability(capabilityRequest))
+                .thenThrow(JobCapabilityNotAddedException.class);
+
+        try (Response response = jobCapabilityController.addCapability(capabilityRequest)) {
+            assertEquals(400, response.getStatus());
+        }
+    }
+
+    @Test
+    void addCapability_shouldReturnResponse400_whenCapabilityNameTooLong() throws
+            CapabilityNameTooLongException {
+        CapabilityRequest capabilityRequest = new CapabilityRequest("invalid name");
+
+        Mockito.when(jobCapabilityValidatorMock.isValidCapability(capabilityRequest)).thenReturn(false);
+
+        try (Response response = jobCapabilityController.addCapability(capabilityRequest)) {
+            assertEquals(400, response.getStatus());
+        }
+    }
+
+    @Test
+    void addCapability_shouldReturnResponse500_whenServerThrowsFailedToAddJobCapabilityException() throws
+            JobCapabilityNotAddedException, FailedToAddJobCapabilityException, CapabilityNameTooLongException {
+        CapabilityRequest capabilityRequest = new CapabilityRequest("invalid");
+
+        Mockito.when(jobCapabilityValidatorMock.isValidCapability(capabilityRequest)).thenReturn(true);
+        Mockito.when(jobCapabilityServiceMock.addCapability(capabilityRequest))
+                .thenThrow(FailedToAddJobCapabilityException.class);
+
+        try (Response response = jobCapabilityController.addCapability(capabilityRequest)) {
+
+            assertEquals(500, response.getStatus());
+        }
     }
 }

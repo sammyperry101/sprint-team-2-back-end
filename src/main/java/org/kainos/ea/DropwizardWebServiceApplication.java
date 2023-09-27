@@ -23,6 +23,7 @@ import org.kainos.ea.auth.TokenService;
 import org.kainos.ea.db.AuthDao;
 import org.kainos.ea.resources.AuthController;
 import org.kainos.ea.resources.HelloWorldController;
+import org.kainos.ea.validator.JobCapabilityValidator;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
 
@@ -54,8 +55,7 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new JobFamilyController(
                 new JobFamilyService(new JobFamilyDao(new DatabaseConnector()))));
         environment.jersey().register(new JobCapabilityController(
-                new JobCapabilityService(new JobCapabilityDao(new DatabaseConnector()))));
-
+                new JobCapabilityService(new JobCapabilityDao(new DatabaseConnector())), new JobCapabilityValidator()));
         environment.jersey().register(new JobRoleController(new JobRoleService(new JobRoleDao(new DatabaseConnector()))));
         environment.jersey().register(new AuthController(new AuthService(new AuthDao(new DatabaseConnector()), new TokenService())));
         environment.jersey().register(new HelloWorldController());
