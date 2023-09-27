@@ -41,7 +41,6 @@ public class JobRoleIntegrationTest {
     }
 
     @Test
-<<<<<<< HEAD
     void editRole_ShouldEditJobRoleSuccessfully() {
         Client client = ClientBuilder.newClient();
 
@@ -62,8 +61,9 @@ public class JobRoleIntegrationTest {
             response.close();
             client.close();
         }
-=======
-    void getRoleById_ShouldReturnJobRole(){
+    }
+    @Test
+    public void getRoleById_ShouldReturnJobRole(){
 
         int id = 12;
 
@@ -74,6 +74,5 @@ public class JobRoleIntegrationTest {
 
 
         assertNotNull(responseObject);
->>>>>>> main
     }
 }

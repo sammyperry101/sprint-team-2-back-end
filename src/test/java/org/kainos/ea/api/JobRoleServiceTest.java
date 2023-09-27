@@ -2,20 +2,13 @@ package org.kainos.ea.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-<<<<<<< HEAD
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleEditRequest;
 import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToGetJobRoles;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
-=======
-import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.client.FailedToGetJobRolesException;
->>>>>>> main
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;

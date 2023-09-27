@@ -4,20 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
-<<<<<<< HEAD
 import org.kainos.ea.cli.JobRoleEditRequest;
 import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
-=======
 import org.kainos.ea.client.FailedToGetJobRolesException;
-import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRole;
 
->>>>>>> main
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -106,7 +99,6 @@ public class JobRoleControllerTest {
     }
 
     @Test
-<<<<<<< HEAD
     void editRole_ShouldReturnResponse200_WhenJobRoleHasBeenEdited()
             throws JobRoleDoesNotExistException, FailedToGetJobRole{
         int id = 5;
@@ -142,8 +134,8 @@ public class JobRoleControllerTest {
 
         Assertions.assertEquals(400, response.getStatus());
     }
-=======
-    void getJobRoleById_shouldReturn200Response_whenServiceReturnsJobRole() throws JobRoleDoesNotExistException,
+    @Test
+    public void getJobRoleById_shouldReturn200Response_whenServiceReturnsJobRole() throws JobRoleDoesNotExistException,
             FailedToGetJobRole {
         int id = 1;
         JobRoleRequest expectedResult = new JobRoleRequest(1,
@@ -182,5 +174,4 @@ public class JobRoleControllerTest {
 
         Assertions.assertEquals(500, response.getStatus());
     }
->>>>>>> main
 }

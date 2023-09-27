@@ -2,20 +2,11 @@ package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleEditRequest;
-
 import org.kainos.ea.cli.JobRoleRequest;
-<<<<<<< HEAD
-import org.kainos.ea.client.JobRoleDoesNotExistException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-=======
-import org.kainos.ea.cli.JobRole;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
->>>>>>> main
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
