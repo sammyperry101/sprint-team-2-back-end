@@ -209,8 +209,6 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
         int id = 5;
-        String updateStatement = "UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?, Sharepoint_Link = ?," +
-                " BandID = ?, FamilyID = ? WHERE RoleID = ?";
         JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
 
         DatabaseConnector.setConn(connection);
@@ -249,17 +247,18 @@ public class JobRoleDaoTest {
 
     @Test
     void getJobRoleById_ShouldThrowJobRoleNotFoundException_WhenIdDoesNotExist() throws SQLException {
-        int id = 5;
+        int id = 999;
         String query = "SELECT RoleID, Name, Job_Spec, Responsibilities, Sharepoint_Link, " +
                 "BandID, FamilyID FROM Job_Roles WHERE RoleID =" + id;
 
         // Define a mock ResultSet to simulate an empty result (no rows found)
         DatabaseConnector.setConn(connection);
         Mockito.when(connection.createStatement()).thenReturn(statement);
-        Mockito.when(statement.executeQuery(query)).thenThrow(JobRoleDoesNotExistException.class);
+        //Mockito.when(statement.executeQuery(query)).thenThrow(JobRoleDoesNotExistException.class);
+        Mockito.doThrow(new JobRoleDoesNotExistException()).when(statement).executeQuery(query);
 
         // Call the getJobRoleById method and assert that it throws JobRoleDoesNotExistException
-        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleDao.getJobRoleById(id));
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleDao.getRoleById(id));
     }
 
 }
