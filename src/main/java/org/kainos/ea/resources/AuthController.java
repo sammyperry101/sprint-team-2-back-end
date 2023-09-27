@@ -1,8 +1,13 @@
 package org.kainos.ea.resources;
 
 import io.dropwizard.auth.Auth;
-import io.swagger.annotations.*;
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.SecurityDefinition;
+import io.swagger.annotations.ApiKeyAuthDefinition;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.ApiParam;
 import org.kainos.ea.api.AuthService;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.LoginResponse;
