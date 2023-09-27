@@ -8,18 +8,16 @@ import org.kainos.ea.cli.JobRoleEditRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import java.sql.ResultSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +28,109 @@ public class JobRoleDaoTest {
     private Statement statement = Mockito.mock(Statement.class);
     private ResultSet resultSet = Mockito.mock(ResultSet.class);
     private JobRoleDao jobRoleDao = new JobRoleDao(databaseConnector);
+
+    @Test
+    void deleteJobRole_shouldReturn1IfJobExists_whenDaoDeletesJob() throws SQLException {
+        int id = 1;
+        int expectedResult = 1;
+        String query = "DELETE FROM Job_Roles WHERE RoleID = ?";
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(query)).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeUpdate()).thenReturn(expectedResult);
+
+        int result = jobRoleDao.deleteRole(id);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void deleteJobRole_shouldReturn0IfJobNotExist_whenDatabaseDeletesNothing() throws SQLException {
+        int id = -1;
+        int expectedResult = 0;
+        String query = "DELETE FROM Job_Roles WHERE RoleID = ?";
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(query)).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeUpdate()).thenReturn(expectedResult);
+
+        int result = jobRoleDao.deleteRole(id);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void deleteJobRole_shouldThrowSQLException_whenDatabaseThrowsSQLException() throws SQLException {
+        int id = -1;
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeUpdate()).thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> jobRoleDao.deleteRole(id));
+    }
+
+    @Test
+    void getJobRoleById_shouldReturnId_whenDatabaseReturnsJobRole() throws SQLException {
+        int id = 1;
+        JobRoleRequest expectedResult = new JobRoleRequest(1,
+                "Name",
+                "sharepoint link",
+                "band name",
+                "capability name"
+                );
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.createStatement()).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeQuery(anyString())).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true);
+
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
+        Mockito.when(resultSet.getString("Name")).thenReturn("Name");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("sharepoint link");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("band name");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("capability name");
+
+        JobRoleRequest result = jobRoleDao.getRoleById(id);
+
+        assertEquals(expectedResult.getRoleID(), result.getRoleID());
+        assertEquals(expectedResult.getRoleName(), result.getRoleName());
+        assertEquals(expectedResult.getSharepointLink(), result.getSharepointLink());
+        assertEquals(expectedResult.getBandName(), result.getBandName());
+        assertEquals(expectedResult.getCapabilityName(), result.getCapabilityName());
+    }
+
+    @Test
+    void getJobRoleById_shouldReturnNull_whenDatabaseReturnsNothing() throws SQLException {
+        int id = 1;
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.createStatement()).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeQuery(anyString())).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(false);
+
+        JobRoleRequest result = jobRoleDao.getRoleById(id);
+
+        assertNull(result);
+    }
+
+    @Test
+    void getJobRoleById_shouldThrowSQLException_whenDatabaseThrowsSQLException() throws SQLException {
+        int id = 1;
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.createStatement()).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeQuery(anyString())).thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> jobRoleDao.getRoleById(id));
+    }
+
     @Test
     void getJobRoles_ShouldReturnRoles_WhenDatabaseReturnsRoles() throws SQLException {
         JobRoleRequest expectedRole = new JobRoleRequest(1,

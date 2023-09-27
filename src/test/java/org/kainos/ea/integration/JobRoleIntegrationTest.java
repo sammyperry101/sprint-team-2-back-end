@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class JobRoleIntegrationTest {
 
@@ -39,6 +41,7 @@ public class JobRoleIntegrationTest {
     }
 
     @Test
+<<<<<<< HEAD
     void editRole_ShouldEditJobRoleSuccessfully() {
         Client client = ClientBuilder.newClient();
 
@@ -59,5 +62,18 @@ public class JobRoleIntegrationTest {
             response.close();
             client.close();
         }
+=======
+    void getRoleById_ShouldReturnJobRole(){
+
+        int id = 12;
+
+        Object responseObject = APP.client()
+                .target("http://localhost:8080/api/job-roles/" + id)
+                .request()
+                .get(Object.class);
+
+
+        assertNotNull(responseObject);
+>>>>>>> main
     }
 }
