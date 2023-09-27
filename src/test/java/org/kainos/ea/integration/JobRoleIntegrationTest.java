@@ -14,6 +14,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class JobRoleIntegrationTest {
 
@@ -33,7 +35,7 @@ public class JobRoleIntegrationTest {
     }
 
     @Test
-    void viewRolesWithFilter_ShouldReturnListOfJobRoles(){
+    void viewRolesWithFilter_ShouldReturnListOfJobRoles() {
 
         JobRoleFilter jobRoleFilter = new JobRoleFilter("", 1, 1);
 
@@ -43,5 +45,18 @@ public class JobRoleIntegrationTest {
                 .readEntity(List.class);
 
         Assertions.assertTrue(responseBody.size() > 0);
+    }
+    @Test
+    void getRoleById_ShouldReturnJobRole(){
+
+        int id = 12;
+
+        Object responseObject = APP.client()
+                .target("http://localhost:8080/api/job-roles/" + id)
+                .request()
+                .get(Object.class);
+
+
+        assertNotNull(responseObject);
     }
 }
