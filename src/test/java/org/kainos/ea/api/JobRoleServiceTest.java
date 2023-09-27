@@ -3,8 +3,8 @@ package org.kainos.ea.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
+import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
@@ -24,13 +24,12 @@ public class JobRoleServiceTest {
 
     JobRoleService jobRoleService = new JobRoleService(jobRoleDaoMock);
     @Test
-    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRoles {
+    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRolesException {
         JobRoleRequest expectedRole = new JobRoleRequest(1,
                 "testname",
                 "testlink",
                 "testname",
                 "testname");
-
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
 
@@ -54,6 +53,6 @@ public class JobRoleServiceTest {
     void viewRoles_ShouldThrowFailedToGetJobRoles_WhenSQLExceptionCaught() throws SQLException {
         Mockito.when(jobRoleDaoMock.getJobRoles()).thenThrow(SQLException.class);
 
-        assertThrows(FailedToGetJobRoles.class, () -> jobRoleService.viewRoles());
+        assertThrows(FailedToGetJobRolesException.class, () -> jobRoleService.viewRoles());
     }
 }

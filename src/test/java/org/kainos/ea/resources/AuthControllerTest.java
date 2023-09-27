@@ -7,10 +7,14 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.AuthService;
+import org.kainos.ea.cli.AuthRole;
 import org.kainos.ea.cli.LoginRequest;
-import org.kainos.ea.cli.Role;
+import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedLoginException;
+import org.kainos.ea.client.FailedToGetRoleException;
+import org.kainos.ea.client.FailedToRegisterException;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -28,13 +32,14 @@ public class AuthControllerTest {
     AuthService authServiceMock = Mockito.mock(AuthService.class);
 
     AuthController authController = new AuthController(authServiceMock);
+
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     @Test
     void login_ShouldReturn200Response_whenLoginSuccessful() throws FailedLoginException, SQLException {
         int userId = 1;
         String email = "email@email.com";
-        Role role = Role.ADMIN;
+        AuthRole role = new AuthRole(1, "Admin");
         User mockUser = new User(userId, email, role);
 
         String token = Jwts.builder()
@@ -78,6 +83,34 @@ public class AuthControllerTest {
                 .thenThrow(new SQLException());
 
         Response response = authController.login(mockLoginRequest);
+
+        assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void register_ShouldReturn201_WhenRegisterSuccessful() throws FailedToRegisterException {
+        RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "Password$", 1);
+        Response response = authController.register(registerRequest);
+
+        assertEquals(201, response.getStatus());
+    }
+
+    @Test
+    void register_ShouldReturn400_WhenRegisterUnsuccessful() throws FailedToRegisterException, SQLException, FailedToGetRoleException {
+        RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "password$", 1);
+        Mockito.doThrow(new FailedToRegisterException()).when(authServiceMock).register(registerRequest);
+
+        Response response = authController.register(registerRequest);
+
+        assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    void register_ShouldReturn500_WhenInternalServerError() throws FailedToRegisterException, SQLException, FailedToGetRoleException {
+        RegisterRequest registerRequest = new RegisterRequest("user6@user.com", "PASSWORD$", 1);
+        Mockito.doThrow(new SQLException()).when(authServiceMock).register(registerRequest);
+
+        Response response = authController.register(registerRequest);
 
         assertEquals(500, response.getStatus());
     }
