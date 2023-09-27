@@ -42,7 +42,7 @@ public class JobRoleDaoTest {
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("testname");
-        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
+        Mockito.when(resultSet.getString("Sharbepoint_Link")).thenReturn("testlink");
         Mockito.when(resultSet.getString("bandName")).thenReturn("testname");
         Mockito.when(resultSet.getString("capabilityName")).thenReturn("testname");
 
