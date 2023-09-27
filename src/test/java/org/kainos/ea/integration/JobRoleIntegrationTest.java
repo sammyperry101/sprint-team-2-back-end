@@ -11,6 +11,8 @@ import org.kainos.ea.DropwizardWebServiceConfiguration;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class JobRoleIntegrationTest {
 
@@ -27,5 +29,19 @@ public class JobRoleIntegrationTest {
                 .get(List.class);
 
         Assertions.assertTrue(responseBody.size() > 0);
+    }
+
+    @Test
+    void getRoleById_ShouldReturnJobRole(){
+
+        int id = 12;
+
+        Object responseObject = APP.client()
+                .target("http://localhost:8080/api/job-roles/" + id)
+                .request()
+                .get(Object.class);
+
+
+        assertNotNull(responseObject);
     }
 }
