@@ -9,10 +9,13 @@ import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.RegisterRequest;
 import org.kainos.ea.cli.User;
 import org.kainos.ea.client.FailedToGenerateTokenException;
+import org.kainos.ea.client.FailedToGetRoleException;
 import org.kainos.ea.client.FailedToRegisterException;
 import org.kainos.ea.db.AuthDao;
 import org.kainos.ea.validator.PasswordValidator;
 import org.mindrot.jbcrypt.BCrypt;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.kainos.ea.client.FailedLoginException;
@@ -35,6 +38,9 @@ public class AuthServiceTest {
     AuthDao authDaoMock = Mockito.mock(AuthDao.class);
     TokenService tokenService = Mockito.mock(TokenService.class);
     AuthService authService = new AuthService(authDaoMock, tokenService);
+
+    @Mock
+    AuthRoleService authRoleService;
 
     PasswordValidator passwordValidatorMock = Mockito.mock(PasswordValidator.class);
 
@@ -132,14 +138,13 @@ public class AuthServiceTest {
     }
 
     @Test
-    void register_ShouldDoNothing_WhenInputIsValid(){
+    void register_ShouldDoNothing_WhenInputIsValid() throws FailedToGetRoleException {
         RegisterRequest validRequest = new RegisterRequest("user8@user.com", "Password$",1);
 
         Mockito.when(passwordValidatorMock.validateUser(validRequest)).thenReturn("");
+//        Mockito.when(authRoleService.getRoleById(1)).thenReturn(new AuthRole(1, "Admin"));
 
         assertDoesNotThrow(() -> authService.register(validRequest));
-
-
     }
 
 }

@@ -71,6 +71,7 @@ public class AuthService {
             authDao.register(request.getUsername(), hashedPassword, request.getRole());
         } catch (SQLException e) {
             e.printStackTrace();
+            System.err.println(e.getMessage());
             throw new FailedToRegisterException();
         }
     }
