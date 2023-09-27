@@ -5,7 +5,7 @@ import org.kainos.ea.client.InvalidBandIDException;
 import org.kainos.ea.client.InvalidFamilyIDException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
 import org.kainos.ea.client.InvalidNameException;
-import org.kainos.ea.client.NullfieldException;
+import org.kainos.ea.client.NullFieldException;
 import org.kainos.ea.db.BandDao;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.FamilyDao;
@@ -20,21 +20,21 @@ public class JobRoleValidator {
 
 
     public boolean validateJobRole(JobRoleEditRequest jobRoleEditRequest) throws SQLException, InvalidNameException,
-            InvalidSharepointLinkException, InvalidBandIDException, InvalidFamilyIDException, NullfieldException {
+            InvalidSharepointLinkException, InvalidBandIDException, InvalidFamilyIDException, NullFieldException {
         if (jobRoleEditRequest == null) {
-            throw new NullfieldException();
+            throw new NullFieldException();
         }
         if (jobRoleEditRequest.getName() == null) {
-            throw new NullfieldException();
+            throw new NullFieldException();
         }
         if (jobRoleEditRequest.getJob_Spec() == null) {
-            throw new NullfieldException();
+            throw new NullFieldException();
         }
         if (jobRoleEditRequest.getResponsibilities() == null) {
-            throw new NullfieldException();
+            throw new NullFieldException();
         }
         if (jobRoleEditRequest.getSharepointLink() == null) {
-            throw new NullfieldException();
+            throw new NullFieldException();
         }
         if (jobRoleEditRequest.getName().length() > 70) {
             throw new InvalidNameException();

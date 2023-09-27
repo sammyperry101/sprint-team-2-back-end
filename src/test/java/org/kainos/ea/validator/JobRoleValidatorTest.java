@@ -7,7 +7,7 @@ import org.kainos.ea.client.InvalidBandIDException;
 import org.kainos.ea.client.InvalidFamilyIDException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
 import org.kainos.ea.client.InvalidNameException;
-import org.kainos.ea.client.NullfieldException;
+import org.kainos.ea.client.NullFieldException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -32,7 +32,7 @@ public class JobRoleValidatorTest {
 
     @Test
     public void isValidJobRole_NullObject_ThrowsException() {
-        assertThrows(NullfieldException.class, () -> jobRoleValidator.validateJobRole(null));
+        assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(null));
     }
 
     @Test
@@ -43,25 +43,25 @@ public class JobRoleValidatorTest {
     @Test
     public void isValidJobRole_NullName_ThrowsException() {
         validJobRoleEditRequest.setName(null);
-        assertThrows(NullfieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
+        assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
     @Test
     public void isValidJobRole_NullJobSpec_ThrowsException() {
         validJobRoleEditRequest.setJob_Spec(null);
-        assertThrows(NullfieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
+        assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
     @Test
     public void isValidJobRole_NullResponsibilities_ThrowsException() {
         validJobRoleEditRequest.setResponsibilities(null);
-        assertThrows(NullfieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
+        assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
     @Test
     public void isValidJobRole_NullSharePointLink_ThrowsException() {
         validJobRoleEditRequest.setSharepointLink(null);
-        assertThrows(NullfieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
+        assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
     @Test

@@ -11,7 +11,7 @@ import org.kainos.ea.client.InvalidSharepointLinkException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.InvalidNameException;
 import org.kainos.ea.client.JobRolesNotFoundException;
-import org.kainos.ea.client.NullfieldException;
+import org.kainos.ea.client.NullFieldException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobRoleDao;
 import org.kainos.ea.validator.JobRoleValidator;
@@ -57,7 +57,7 @@ public class JobRoleService {
             }
             return id;
         } catch (SQLException | InvalidNameException | InvalidSharepointLinkException | InvalidBandIDException |
-                 InvalidFamilyIDException | NullfieldException e) {
+                 InvalidFamilyIDException | NullFieldException e) {
             System.err.println(e.getMessage());
 
             throw new FailedToGetJobRole();
