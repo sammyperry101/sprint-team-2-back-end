@@ -6,7 +6,7 @@ import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRole;
-import org.kainos.ea.client.FailedToGetJobRoles;
+import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
@@ -71,7 +71,8 @@ public class JobRoleServiceTest {
     }
 
     @Test
-    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException, FailedToGetJobRolesException {
+    void viewRoles_ShouldReturnRoles_WhenDaoReturnRoles() throws SQLException, JobRolesNotFoundException,
+            FailedToGetJobRolesException {
         JobRoleRequest expectedRole = new JobRoleRequest(1,
                 "testname",
                 "testlink",
