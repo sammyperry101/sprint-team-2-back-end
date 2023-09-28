@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardWebServiceApplication;
 import org.kainos.ea.DropwizardWebServiceConfiguration;
 import org.kainos.ea.cli.JobRoleEditRequest;
+import org.kainos.ea.cli.JobRoleRequest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -45,8 +46,8 @@ public class JobRoleIntegrationTest {
         Client client = ClientBuilder.newClient();
 
         // Define the Job Role data to update
-        JobRoleEditRequest updatedJobRole = new JobRoleEditRequest("NewName", "NewSpec",
-                "NewResponsibilities", "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
+        JobRoleRequest updatedJobRole = new JobRoleRequest(2,"NewName", "NewSpec",
+                "NewResponsibilities", "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "", "");
 
         // Make an HTTP PUT request to edit the Job Role (assuming a specific Job Role ID)
         Response response = client.target("http://localhost:8080/api/job-roles/50")

@@ -12,7 +12,7 @@ public class BandDao {
         this.databaseConnector = databaseConnector;
     }
 
-    public int checkBandIDExists(String bandName) throws SQLException {
+    public int checkBandNameExists(String bandName) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         int checkedBandId = -1;

@@ -1,11 +1,9 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleEditRequest;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.FailedToGetJobRole;
-import org.kainos.ea.client.InvalidBandIDException;
-import org.kainos.ea.client.InvalidFamilyIDException;
+import org.kainos.ea.client.InvalidBandNameException;
+import org.kainos.ea.client.InvalidCapabilityNameException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.InvalidNameException;
@@ -89,8 +87,8 @@ public class JobRoleService {
                 jobRoleDao.editJobRole(id, jobRoleRequest);
             }
             return id;
-        } catch (SQLException | InvalidNameException | InvalidSharepointLinkException | InvalidBandIDException |
-                 InvalidFamilyIDException | NullFieldException e) {
+        } catch (SQLException | InvalidNameException | InvalidSharepointLinkException | InvalidBandNameException |
+                 InvalidCapabilityNameException | NullFieldException e) {
             System.err.println(e.getMessage());
 
             throw new FailedToGetJobRole();
