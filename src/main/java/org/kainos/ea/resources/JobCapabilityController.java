@@ -1,6 +1,8 @@
 package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.cli.CapabilityRequest;
 import org.kainos.ea.client.CapabilityNameTooLongException;
@@ -10,11 +12,13 @@ import org.kainos.ea.client.JobCapabilityNotAddedException;
 import org.kainos.ea.client.JobCapabilityNotFoundException;
 import org.kainos.ea.validator.JobCapabilityValidator;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -52,6 +56,10 @@ public class JobCapabilityController {
     @POST
     @Path("/capability")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("Admin")
+    @ApiOperation(value = "Add capability", authorizations ={
+            @Authorization(value = HttpHeaders.AUTHORIZATION)
+    })
     public Response addCapability(CapabilityRequest capability) {
         try {
             if (jobCapabilityValidator.isValidCapability(capability)) {

@@ -1,7 +1,13 @@
 package org.kainos.ea.resources;
 
+import io.dropwizard.auth.Auth;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.tuple.ImmutablePair;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.SecurityDefinition;
+import io.swagger.annotations.ApiKeyAuthDefinition;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.ApiParam;
 import org.kainos.ea.api.AuthService;
 import org.kainos.ea.cli.LoginRequest;
 import org.kainos.ea.cli.LoginResponse;
@@ -12,15 +18,29 @@ import org.kainos.ea.client.FailedToGetRoleException;
 import org.kainos.ea.client.FailedToRegisterException;
 
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 @Api("Authentication API")
 @Path("/api")
+@SwaggerDefinition(
+        securityDefinition = @SecurityDefinition(
+                apiKeyAuthDefinitions = {
+                        @ApiKeyAuthDefinition(
+                                key = HttpHeaders.AUTHORIZATION,
+                                name = HttpHeaders.AUTHORIZATION,
+                                in = ApiKeyAuthDefinition.ApiKeyLocation.HEADER
+                        )
+                }
+        )
+)
 public class AuthController {
     private AuthService authService;
 
@@ -69,6 +89,15 @@ public class AuthController {
         }
     }
 
-
+    @GET
+    @Path("/whoami")
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Returns the user that is logged in", response = User.class, authorizations = {
+            @Authorization(value = HttpHeaders.AUTHORIZATION)
+    })
+    public Response whoami(@Auth @ApiParam(hidden = true) User user) {
+        return Response.ok().entity(new User(user.getUserId(), user.getEmail(), user.getRole())).build();
+    }
 }
 
