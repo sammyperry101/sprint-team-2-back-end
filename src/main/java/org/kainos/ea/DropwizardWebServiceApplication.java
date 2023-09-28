@@ -9,31 +9,33 @@ import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.kainos.ea.api.AuthRoleService;
+import org.kainos.ea.api.AuthService;
+import org.kainos.ea.api.JobBandService;
 import org.kainos.ea.api.JobCapabilityService;
 import org.kainos.ea.api.JobFamilyService;
-import org.kainos.ea.auth.JWTFilter;
+import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.api.JobSpecService;
+import org.kainos.ea.db.AuthDao;
+import org.kainos.ea.db.AuthRoleDao;
 import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.JobBandDao;
+import org.kainos.ea.auth.JWTFilter;
 import org.kainos.ea.db.JobSpecDAO;
 import org.kainos.ea.resources.JobSpecController;
-
 import org.kainos.ea.db.JobCapabilityDao;
 import org.kainos.ea.db.JobFamilyDao;
+import org.kainos.ea.db.JobRoleDao;
+import org.kainos.ea.auth.TokenService;
+import org.kainos.ea.resources.AuthController;
+import org.kainos.ea.resources.AuthRoleController;
+import org.kainos.ea.resources.HelloWorldController;
+import org.kainos.ea.resources.JobBandController;
 import org.kainos.ea.resources.JobCapabilityController;
 import org.kainos.ea.resources.JobFamilyController;
-import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.auth.JWTAuthenticator;
 import org.kainos.ea.auth.JWTAuthorizer;
 import org.kainos.ea.cli.User;
-import org.kainos.ea.db.JobRoleDao;
-import org.kainos.ea.db.AuthRoleDao;
-import org.kainos.ea.resources.AuthRoleController;
 import org.kainos.ea.resources.JobRoleController;
-import org.kainos.ea.api.AuthService;
-import org.kainos.ea.auth.TokenService;
-import org.kainos.ea.db.AuthDao;
-import org.kainos.ea.resources.AuthController;
-import org.kainos.ea.resources.HelloWorldController;
 import org.kainos.ea.validator.JobCapabilityValidator;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
@@ -83,5 +85,6 @@ public class DropwizardWebServiceApplication extends Application<DropwizardWebSe
         environment.jersey().register(new HelloWorldController());
 
         environment.jersey().register(new AuthRoleController(new AuthRoleService(new AuthRoleDao())));
+        environment.jersey().register(new JobBandController(new JobBandService(new JobBandDao(new DatabaseConnector()))));
     }
 }

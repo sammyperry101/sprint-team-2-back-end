@@ -1,14 +1,16 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.JobRoleRequest;
+
+import org.kainos.ea.cli.JobRoleFilter;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
+import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRolesException;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.InvalidBandNameException;
 import org.kainos.ea.client.InvalidCapabilityNameException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.InvalidNameException;
-import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.client.NullFieldException;
 import org.kainos.ea.db.DatabaseConnector;
@@ -79,7 +81,7 @@ public class JobRoleService {
         try {
             JobRoleRequest jobRoleToUpdate = jobRoleDao.getRoleById(id);
 
-            if(jobRoleToUpdate == null) {
+            if (jobRoleToUpdate == null) {
                 throw new JobRoleDoesNotExistException();
             }
 
@@ -92,6 +94,17 @@ public class JobRoleService {
             System.err.println(e.getMessage());
 
             throw new FailedToGetJobRole();
+        }
+    }
+    public List<JobRoleRequest> viewRolesWithFilter(JobRoleFilter filter) throws FailedToGetJobRolesException {
+        try{
+            List<JobRoleRequest> roles = jobRoleDao.getJobRolesWithFilter(filter);
+
+            return roles;
+        } catch(SQLException e){
+            System.err.println(e.getMessage());
+
+            throw new FailedToGetJobRolesException();
         }
     }
 }

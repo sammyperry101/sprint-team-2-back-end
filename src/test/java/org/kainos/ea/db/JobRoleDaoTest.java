@@ -2,6 +2,7 @@ package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,6 +25,7 @@ public class JobRoleDaoTest {
     private PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
     private Statement statement = Mockito.mock(Statement.class);
     private ResultSet resultSet = Mockito.mock(ResultSet.class);
+    private JobRoleFilter filter = Mockito.mock(JobRoleFilter.class);
     private JobRoleDao jobRoleDao = new JobRoleDao(databaseConnector);
 
     @Test
@@ -218,7 +220,7 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
         int id = 5;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"string", "string", "string", "string", "bandName", "capabilityName");
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1, "string", "string", "string", "string", "bandName", "capabilityName");
 
         DatabaseConnector.setConn(connection);
 
@@ -227,5 +229,57 @@ public class JobRoleDaoTest {
         Mockito.doThrow(new SQLException()).when(preparedStatement).executeUpdate();
 
         assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleRequest));
+    }
+    @Test
+    void getJobRolesWithFilter_ShouldReturnJobRoles_WhenDatabaseReturnsRoles() throws SQLException{
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testband",
+                "testcapability",
+                "Principal",
+                "Workday");
+
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+        Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
+        Mockito.when(filter.getBandID()).thenReturn(1);
+        Mockito.when(filter.getCapabilityID()).thenReturn(1);
+
+        Mockito.when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
+        Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
+        Mockito.when(resultSet.getString("Name")).thenReturn("testname");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("Principal");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("Workday");
+
+        List<JobRoleRequest> actualRoles = jobRoleDao.getJobRolesWithFilter(filter);
+
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
+        expectedRoles.add(expectedRole);
+
+        assertEquals(expectedRoles.get(0).getRoleID(), actualRoles.get(0).getRoleID());
+        assertEquals(expectedRoles.get(0).getRoleName(), actualRoles.get(0).getRoleName());
+        assertEquals(expectedRoles.get(0).getSharepointLink(), actualRoles.get(0).getSharepointLink());
+        assertEquals(expectedRoles.get(0).getBandName(), actualRoles.get(0).getBandName());
+        assertEquals(expectedRoles.get(0).getCapabilityName(), actualRoles.get(0).getCapabilityName());
+    }
+
+    @Test
+    void getJobRolesWithFilter_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
+        DatabaseConnector.setConn(connection);
+
+        Mockito.when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+        Mockito.when(filter.getRoleNameFilter()).thenReturn("testname");
+        Mockito.when(filter.getBandID()).thenReturn(1);
+        Mockito.when(filter.getCapabilityID()).thenReturn(1);
+
+        Mockito.when(preparedStatement.executeQuery()).thenThrow(SQLException.class);
+
+        assertThrows(SQLException.class, () -> jobRoleDao.getJobRolesWithFilter(filter));
     }
 }
