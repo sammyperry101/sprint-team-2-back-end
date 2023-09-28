@@ -236,7 +236,7 @@ public class JobRoleDaoTest {
                 "testname",
                 "testlink",
                 "testband",
-                "testcapability",
+                "testlink",
                 "Principal",
                 "Workday");
 
