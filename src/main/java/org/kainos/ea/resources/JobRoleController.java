@@ -93,6 +93,10 @@ public class JobRoleController {
     @PUT
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("Admin")
+    @ApiOperation(value = "Edit role", authorizations ={
+            @Authorization(value = HttpHeaders.AUTHORIZATION)
+    })
     public Response editJobRole(@PathParam("id") int id, JobRoleRequest jobRoleRequest) {
         try {
             jobRoleService.editJobRole(id, jobRoleRequest);
