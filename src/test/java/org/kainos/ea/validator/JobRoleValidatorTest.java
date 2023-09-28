@@ -25,8 +25,8 @@ public class JobRoleValidatorTest {
                 "JobSpec",
                 "responsibilities",
                 "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx",
-                "band",
-                "capability"
+                "Principal",
+                "Workday"
         );
     }
 

@@ -16,7 +16,7 @@ public class JobRoleValidator {
 
     private DatabaseConnector databaseConnector;
     BandDao bandDao = new BandDao(databaseConnector);
-    CapabilityDao familyDao = new CapabilityDao(databaseConnector);
+    CapabilityDao capabilityDao = new CapabilityDao(databaseConnector);
 
 
     public boolean validateJobRole(JobRoleRequest jobRoleRequest) throws SQLException, InvalidNameException,
@@ -46,7 +46,7 @@ public class JobRoleValidator {
         if (bandDao.checkBandNameExists(jobRoleRequest.getBandName()) <= -1) { //Check the BandID is valid
             throw new InvalidBandNameException();
         }
-        if (familyDao.checkCapabilityNameExists(jobRoleRequest.getCapabilityName()) <= 0) {
+        if (capabilityDao.checkCapabilityNameExists(jobRoleRequest.getCapabilityName()) <= 0) {
             throw new InvalidCapabilityNameException();
         }
         return true;

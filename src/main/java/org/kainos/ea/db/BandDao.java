@@ -1,9 +1,6 @@
 package org.kainos.ea.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class BandDao {
     private DatabaseConnector databaseConnector;
@@ -17,9 +14,13 @@ public class BandDao {
 
         int checkedBandId = -1;
 
-        Statement st = c.createStatement();
+        String statement = "SELECT BandID FROM Bands WHERE Name = ?;";
 
-        ResultSet rs = st.executeQuery("SELECT BandID FROM Bands WHERE Name = " + bandName);
+        PreparedStatement st = c.prepareStatement(statement);
+
+        st.setString(1, bandName);
+
+        ResultSet rs = st.executeQuery();
 
         if (rs.next()) {
             checkedBandId = rs.getInt("BandID");
