@@ -2,11 +2,7 @@ package org.kainos.ea.db;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.cli.JobRoleEditRequest;
-import org.kainos.ea.client.JobRoleDoesNotExistException;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Connection;
@@ -187,7 +183,8 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldUpdateJobRole_WhenSuccessful() throws SQLException {
         int id = 5;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities", "NewLink", "bandName", "capabilityName");
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec",
+                "NewResponsibilities", "NewLink", "bandName", "capabilityName");
 
         DatabaseConnector.setConn(connection);
 
@@ -207,7 +204,7 @@ public class JobRoleDaoTest {
         // Verify that the PreparedStatement was created with the correct SQL statement and parameters
 
         Mockito.verify(preparedStatement).setString(1, jobRoleRequest.getRoleName());
-        Mockito.verify(preparedStatement).setString(2, jobRoleRequest.getJob_Spec());
+        Mockito.verify(preparedStatement).setString(2, jobRoleRequest.getJobSpec());
         Mockito.verify(preparedStatement).setString(3, jobRoleRequest.getResponsibilities());
         Mockito.verify(preparedStatement).setString(4, jobRoleRequest.getSharepointLink());
         Mockito.verify(preparedStatement).setString(5, jobRoleRequest.getBandName());

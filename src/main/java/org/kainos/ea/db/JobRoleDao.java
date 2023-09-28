@@ -33,7 +33,8 @@ public class JobRoleDao {
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Job_Spec, j.Responsibilities, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
+        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Job_Spec, j.Responsibilities, j.Sharepoint_Link, " +
+                "b.Name as bandName, c.Name as capabilityName" +
                 " FROM Job_Roles AS j INNER JOIN" +
                 " Bands AS b ON j.BandID=b.BandID" +
                 " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
@@ -62,7 +63,8 @@ public class JobRoleDao {
 
         Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Job_Spec, j.Responsibilities, j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
+        ResultSet rs = st.executeQuery("SELECT j.RoleId, j.Name, j.Job_Spec, j.Responsibilities, " +
+                "j.Sharepoint_Link, b.Name as bandName, c.Name as capabilityName" +
                 " FROM Job_Roles AS j INNER JOIN" +
                 " Bands AS b ON j.BandID=b.BandID" +
                 " INNER JOIN Families AS f ON j.FamilyID=f.FamilyID" +
@@ -98,7 +100,7 @@ public class JobRoleDao {
         PreparedStatement st = c.prepareStatement(editStatement);
 
         st.setString(1, jobRoleRequest.getRoleName());
-        st.setString(2, jobRoleRequest.getJob_Spec());
+        st.setString(2, jobRoleRequest.getJobSpec());
         st.setString(3, jobRoleRequest.getResponsibilities());
         st.setString(4, jobRoleRequest.getSharepointLink());
         st.setString(5, jobRoleRequest.getBandName());

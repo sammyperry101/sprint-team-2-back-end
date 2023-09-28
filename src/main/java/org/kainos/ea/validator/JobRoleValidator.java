@@ -27,7 +27,7 @@ public class JobRoleValidator {
         if (jobRoleRequest.getRoleName() == null) {
             throw new NullFieldException();
         }
-        if (jobRoleRequest.getJob_Spec() == null) {
+        if (jobRoleRequest.getJobSpec() == null) {
             throw new NullFieldException();
         }
         if (jobRoleRequest.getResponsibilities() == null) {

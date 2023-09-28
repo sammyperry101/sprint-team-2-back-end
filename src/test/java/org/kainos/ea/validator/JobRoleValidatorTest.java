@@ -48,7 +48,7 @@ public class JobRoleValidatorTest {
 
     @Test
     public void isValidJobRole_NullJobSpec_ThrowsException() {
-        validJobRoleRequest.setJob_Spec(null);
+        validJobRoleRequest.setJobSpec(null);
         assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleRequest));
     }
 
