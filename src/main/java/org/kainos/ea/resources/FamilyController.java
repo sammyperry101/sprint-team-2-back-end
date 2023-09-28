@@ -2,6 +2,7 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.FamilyService;
+import org.kainos.ea.client.FailedToGetFamiliesException;
 import org.kainos.ea.client.FailedToGetFamilyException;
 import org.kainos.ea.client.FamilyDoesNotExistException;
 
@@ -19,6 +20,17 @@ public class FamilyController {
 
     public FamilyController(FamilyService familyService) {
         this.familyService = familyService;
+    }
+
+    @GET
+    @Path("/family")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFamilies(){
+        try{
+            return Response.ok(familyService.getFamilies()).build();
+        } catch (FailedToGetFamiliesException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GET

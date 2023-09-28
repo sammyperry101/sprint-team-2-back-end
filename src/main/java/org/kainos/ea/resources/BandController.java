@@ -2,11 +2,9 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.BandService;
-import org.kainos.ea.cli.Band;
 import org.kainos.ea.client.BandDoesNotExistException;
 import org.kainos.ea.client.FailedToGetBandException;
-import org.kainos.ea.client.FailedToGetFamilyException;
-import org.kainos.ea.client.FamilyDoesNotExistException;
+import org.kainos.ea.client.FailedToGetBandsException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,6 +20,17 @@ public class BandController {
 
     public BandController(BandService bandService){
         this.bandService = bandService;
+    }
+
+    @GET
+    @Path("/band")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFamily(){
+        try{
+            return Response.ok(bandService.getBands()).build();
+        } catch (FailedToGetBandsException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GET
