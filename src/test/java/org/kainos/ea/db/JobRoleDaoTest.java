@@ -204,12 +204,13 @@ public class JobRoleDaoTest {
                 " INNER JOIN Capabilities AS c ON f.capabilityID = c.CapabilityID" +
                 " SET j.Name = ?, j.Job_Spec = ?, j.Responsibilities = ?, j.Sharepoint_Link = ?, b.Name = ?, c.Name = ?" +
                 " WHERE j.RoleID = ?");
-        Mockito.verify(preparedStatement).setString(1, "NewName");
-        Mockito.verify(preparedStatement).setString(2, "NewSpec");
-        Mockito.verify(preparedStatement).setString(3, "NewResponsibilities");
-        Mockito.verify(preparedStatement).setString(4, "NewLink");
-        Mockito.verify(preparedStatement).setString(5, "BandName");
-        Mockito.verify(preparedStatement).setString(6, "CapabilityName");
+
+        Mockito.verify(preparedStatement).setString(1, jobRoleRequest.getRoleName());
+        Mockito.verify(preparedStatement).setString(2, jobRoleRequest.getJob_Spec());
+        Mockito.verify(preparedStatement).setString(3, jobRoleRequest.getResponsibilities());
+        Mockito.verify(preparedStatement).setString(4, jobRoleRequest.getSharepointLink());
+        Mockito.verify(preparedStatement).setString(5, jobRoleRequest.getBandName());
+        Mockito.verify(preparedStatement).setString(6, jobRoleRequest.getCapabilityName());
         Mockito.verify(preparedStatement).setInt(7, id);
 
         // Verify that executeUpdate() was called
