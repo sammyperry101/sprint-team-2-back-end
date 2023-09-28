@@ -2,11 +2,13 @@ package org.kainos.ea.api;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.kainos.ea.cli.JobRoleFilter;
+import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRole;
-import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
@@ -26,6 +28,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 public class JobRoleServiceTest {
 
     JobRoleDao jobRoleDaoMock = Mockito.mock(JobRoleDao.class);
+
+    JobRoleFilter filter = Mockito.mock(JobRoleFilter.class);
 
     JobRoleService jobRoleService = new JobRoleService(jobRoleDaoMock);
 
@@ -106,6 +110,24 @@ public class JobRoleServiceTest {
     }
 
     @Test
+    void viewRolesWithFilter_ShouldReturnRoles_WhenDaoReturnsRoles()
+            throws SQLException, JobRolesNotFoundException, FailedToGetJobRolesException {
+        JobRoleRequest expectedRole = new JobRoleRequest(1,
+                "testname",
+                "testlink",
+                "testname",
+                "testname");
+
+        List<JobRoleRequest> expectedRoles = new ArrayList<>();
+        expectedRoles.add(expectedRole);
+
+        Mockito.when(jobRoleDaoMock.getJobRolesWithFilter(filter)).thenReturn(expectedRoles);
+
+        List<JobRoleRequest> actualRoles = jobRoleService.viewRolesWithFilter(filter);
+
+        assertIterableEquals(actualRoles, expectedRoles);
+    }
+    @Test
     void getJobRoleById_shouldReturnJobRole_whenDaoReturnsJobRole() throws JobRoleDoesNotExistException,
             SQLException, FailedToGetJobRole {
         int id = 1;
@@ -120,6 +142,12 @@ public class JobRoleServiceTest {
         JobRoleRequest resultRole = jobRoleService.getRoleById(id);
 
         assertEquals(expectedRole, resultRole);
+    }
+    @Test
+    void viewRolesWithFilter_ShouldThrowFailedToGetJobRoles_WhenSQLExceptionCaught() throws SQLException {
+        Mockito.when(jobRoleDaoMock.getJobRolesWithFilter(filter)).thenThrow(SQLException.class);
+
+        assertThrows(FailedToGetJobRolesException.class, () -> jobRoleService.viewRolesWithFilter(filter));
     }
 
     @Test

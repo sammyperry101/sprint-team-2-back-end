@@ -1,5 +1,6 @@
 package org.kainos.ea.api;
 
+import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRole;
@@ -56,6 +57,18 @@ public class JobRoleService {
             if(roles.isEmpty()){
                 throw new JobRolesNotFoundException();
             }
+
+            return roles;
+        } catch(SQLException e){
+            System.err.println(e.getMessage());
+
+            throw new FailedToGetJobRolesException();
+        }
+    }
+
+    public List<JobRoleRequest> viewRolesWithFilter(JobRoleFilter filter) throws FailedToGetJobRolesException {
+        try{
+            List<JobRoleRequest> roles = jobRoleDao.getJobRolesWithFilter(filter);
 
             return roles;
         } catch(SQLException e){
