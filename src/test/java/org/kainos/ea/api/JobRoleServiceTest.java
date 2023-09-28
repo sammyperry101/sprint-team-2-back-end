@@ -42,8 +42,8 @@ public class JobRoleServiceTest {
                 "sharepoint link",
                 "band name",
                 "capability name",
-                "band",
-                "capability"
+                "Principal",
+                "Workday"
         );
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(jobRole);
@@ -82,8 +82,8 @@ public class JobRoleServiceTest {
                 "testlink",
                 "testname",
                 "testname",
-                "band",
-                "capability");
+                "Principal",
+                "Workday");
 
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
@@ -120,8 +120,8 @@ public class JobRoleServiceTest {
                 "testlink",
                 "testname",
                 "testname",
-                "band",
-                "capability");
+                "Principal",
+                "Workday");
 
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(expectedRole);
 
@@ -153,14 +153,14 @@ public class JobRoleServiceTest {
             throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
         JobRoleRequest updatedJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
-                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "band", "capability");
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
 
         // Mock the jobRoleDao.editJobRole to return a success indicator, e.g., 1 for one row affected.
         Mockito.when(jobRoleDaoMock.editJobRole(id, updatedJobRole)).thenReturn(5);
 
         // Mock the jobRoleDao to return an existing job role when getById is called.
         JobRoleRequest existingJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
-                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "band", "capability");
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(existingJobRole);
 
         // Call the editJobRole method in jobRoleService
@@ -175,7 +175,7 @@ public class JobRoleServiceTest {
     void editRole_ShouldThrowJobRoleDoesNotExistException_WhenSQLExceptionCaught() throws SQLException {
         int id = 5;
         JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities"
-                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "bandName", "capabilityName");
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
 
         Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleRequest)).thenThrow(SQLException.class);
 

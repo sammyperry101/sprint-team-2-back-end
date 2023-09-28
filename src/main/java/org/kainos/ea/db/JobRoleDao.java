@@ -89,11 +89,11 @@ public class JobRoleDao {
         Connection c = databaseConnector.getConnection();
 
         String editStatement = "UPDATE Job_Roles AS j" +
-                "INNER JOIN Bands AS b ON j.BandID = b.BandID" +
-                "INNER JOIN Families AS f ON j.FamilyID = f.FamilyID" +
-                "INNER JOIN Capabilities AS c ON f.capabilityID = c.CapabilityID" +
-                "SET j.Name = ?, j.Job_Spec = ?, j.Responsibilities = ?, j.Sharepoint_Link = ?, b.Name = ?, c.Name = ?" +
-                "WHERE j.RoleID = ?";
+                " INNER JOIN Bands AS b ON j.BandID = b.BandID" +
+                " INNER JOIN Families AS f ON j.FamilyID = f.FamilyID" +
+                " INNER JOIN Capabilities AS c ON f.capabilityID = c.CapabilityID" +
+                " SET j.Name = ?, j.Job_Spec = ?, j.Responsibilities = ?, j.Sharepoint_Link = ?, b.Name = ?, c.Name = ?" +
+                " WHERE j.RoleID = ?";
 
         PreparedStatement st = c.prepareStatement(editStatement);
 
