@@ -1,6 +1,8 @@
 package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
@@ -8,11 +10,13 @@ import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.client.JobRolesNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -30,6 +34,10 @@ public class JobRoleController {
     @DELETE
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("Admin")
+    @ApiOperation(value = "Delete role", authorizations ={
+            @Authorization(value = HttpHeaders.AUTHORIZATION)
+    })
     public Response deleteRole(@PathParam("id") int id) {
         try {
             return Response.ok(jobRoleService.deleteRole(id)).build();
