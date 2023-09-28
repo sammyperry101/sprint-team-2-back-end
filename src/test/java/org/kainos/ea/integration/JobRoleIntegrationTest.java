@@ -47,7 +47,7 @@ public class JobRoleIntegrationTest {
 
         // Define the Job Role data to update
         JobRoleRequest updatedJobRole = new JobRoleRequest(2,"NewName", "NewSpec",
-                "NewResponsibilities", "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "", "");
+                "NewResponsibilities", "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
 
         // Make an HTTP PUT request to edit the Job Role (assuming a specific Job Role ID)
         Response response = client.target("http://localhost:8080/api/job-roles/50")
