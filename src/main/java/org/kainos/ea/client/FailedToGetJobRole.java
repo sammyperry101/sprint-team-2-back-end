@@ -1,8 +1,8 @@
 package org.kainos.ea.client;
 
-public class FailedToGetJobRole extends Throwable{
+public class FailedToGetJobRole extends Exception {
     @Override
-    public String getMessage(){
-        return "Failed to get job role!";
+    public String getMessage() {
+        return "Failed to get Job Role.";
     }
 }

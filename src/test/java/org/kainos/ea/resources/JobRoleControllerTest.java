@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobRoleService;
+import org.kainos.ea.client.FailedToGetJobRole;
 
 import org.kainos.ea.cli.JobRoleFilter;
 import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRole;
 
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.mockito.Mockito;
@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 public class JobRoleControllerTest {
 
@@ -101,6 +102,42 @@ public class JobRoleControllerTest {
     }
 
     @Test
+    void editRole_ShouldReturnResponse200_WhenJobRoleHasBeenEdited()
+            throws JobRoleDoesNotExistException, FailedToGetJobRole{
+        int id = 5;
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
+
+        Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenReturn(5);
+
+        Response response = jobRoleController.editJobRole(id, jobRole);
+
+        Assertions.assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void editRole_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRole()
+            throws JobRoleDoesNotExistException, FailedToGetJobRole {
+        int id = 5;
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
+        Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenThrow(FailedToGetJobRole.class);
+
+        Response response = jobRoleController.editJobRole(id, jobRole);
+
+        Assertions.assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void editRole_ShouldReturnResponse400_WhenServiceThrowsJobRoleDoesNotExist()
+            throws JobRoleDoesNotExistException, FailedToGetJobRole {
+        int id = 5;
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
+        Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenThrow(JobRoleDoesNotExistException.class);
+
+        Response response = jobRoleController.editJobRole(id, jobRole);
+
+        Assertions.assertEquals(400, response.getStatus());
+    }
+    @Test
     void viewRolesWithFilter_ShouldReturnResponse200_WhenJobRolesRetrieved()
             throws JobRolesNotFoundException, FailedToGetJobRolesException {
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
@@ -129,7 +166,9 @@ public class JobRoleControllerTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "band",
+                "capability");
 
         Mockito.when(jobRoleServiceMock.getRoleById(anyInt())).thenReturn(expectedResult);
 

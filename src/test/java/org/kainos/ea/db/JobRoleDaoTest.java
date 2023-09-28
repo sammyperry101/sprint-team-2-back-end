@@ -77,9 +77,11 @@ public class JobRoleDaoTest {
         int id = 1;
         JobRoleRequest expectedResult = new JobRoleRequest(1,
                 "Name",
+                "job spec",
+                "responsibilities",
                 "sharepoint link",
-                "band name",
-                "capability name"
+                "bandname",
+                "capability"
                 );
 
         DatabaseConnector.setConn(connection);
@@ -90,9 +92,10 @@ public class JobRoleDaoTest {
 
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("Name");
+        Mockito.when(resultSet.getString("Responsibilities")).thenReturn("responsibilities");
         Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("sharepoint link");
-        Mockito.when(resultSet.getString("bandName")).thenReturn("band name");
-        Mockito.when(resultSet.getString("capabilityName")).thenReturn("capability name");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("bandname");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("capability");
 
         JobRoleRequest result = jobRoleDao.getRoleById(id);
 
@@ -136,6 +139,8 @@ public class JobRoleDaoTest {
                 "testname",
                 "testlink",
                 "testname",
+                "testname",
+                "testname",
                 "testname");
 
         DatabaseConnector.setConn(connection);
@@ -144,7 +149,7 @@ public class JobRoleDaoTest {
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("testname");
-        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
+        Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testname");
         Mockito.when(resultSet.getString("bandName")).thenReturn("testname");
         Mockito.when(resultSet.getString("capabilityName")).thenReturn("testname");
 
@@ -178,12 +183,62 @@ public class JobRoleDaoTest {
     }
 
     @Test
+    void editRole_ShouldUpdateJobRole_WhenSuccessful() throws SQLException {
+        int id = 5;
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec",
+                "NewResponsibilities", "NewLink", "bandName", "capabilityName");
+
+        DatabaseConnector.setConn(connection);
+
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
+        Mockito.when(preparedStatement.executeUpdate()).thenReturn(1); // Simulate a successful update (1 row affected).
+
+        jobRoleDao.editJobRole(id, jobRoleRequest);
+
+        String statement = "UPDATE Job_Roles AS j" +
+                " INNER JOIN Bands AS b ON j.BandID = b.BandID" +
+                " INNER JOIN Families AS f ON j.FamilyID = f.FamilyID" +
+                " INNER JOIN Capabilities AS c ON f.capabilityID = c.CapabilityID" +
+                " SET j.Name = ?, j.Job_Spec = ?, j.Responsibilities = ?, j.Sharepoint_Link = ?, b.Name = ?, c.Name = ?" +
+                " WHERE j.RoleID = ?;";
+
+        // Verify that the PreparedStatement was created with the correct SQL statement and parameters
+
+        Mockito.verify(preparedStatement).setString(1, jobRoleRequest.getRoleName());
+        Mockito.verify(preparedStatement).setString(2, jobRoleRequest.getJobSpec());
+        Mockito.verify(preparedStatement).setString(3, jobRoleRequest.getResponsibilities());
+        Mockito.verify(preparedStatement).setString(4, jobRoleRequest.getSharepointLink());
+        Mockito.verify(preparedStatement).setString(5, jobRoleRequest.getBandName());
+        Mockito.verify(preparedStatement).setString(6, jobRoleRequest.getCapabilityName());
+        Mockito.verify(preparedStatement).setInt(7, id);
+
+        // Verify that executeUpdate() was called
+        Mockito.verify(preparedStatement).executeUpdate();
+    }
+
+    @Test
+    void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
+        int id = 5;
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1, "string", "string", "string", "string", "bandName", "capabilityName");
+
+        DatabaseConnector.setConn(connection);
+
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        Mockito.when(connection.prepareStatement(Mockito.anyString())).thenReturn(preparedStatement);
+        Mockito.doThrow(new SQLException()).when(preparedStatement).executeUpdate();
+
+        assertThrows(SQLException.class, () -> jobRoleDao.editJobRole(id, jobRoleRequest));
+    }
+    @Test
     void getJobRolesWithFilter_ShouldReturnJobRoles_WhenDatabaseReturnsRoles() throws SQLException{
         JobRoleRequest expectedRole = new JobRoleRequest(1,
                 "testname",
                 "testlink",
                 "testband",
-                "testcapability");
+                "testlink",
+                "Principal",
+                "Workday");
 
         DatabaseConnector.setConn(connection);
 
@@ -198,8 +253,8 @@ public class JobRoleDaoTest {
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("testname");
         Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("testlink");
-        Mockito.when(resultSet.getString("bandName")).thenReturn("testband");
-        Mockito.when(resultSet.getString("capabilityName")).thenReturn("testcapability");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("Principal");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("Workday");
 
         List<JobRoleRequest> actualRoles = jobRoleDao.getJobRolesWithFilter(filter);
 

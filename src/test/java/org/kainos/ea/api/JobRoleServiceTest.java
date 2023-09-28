@@ -3,12 +3,14 @@ package org.kainos.ea.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.kainos.ea.cli.JobRoleFilter;
-import org.kainos.ea.client.FailedToGetJobRolesException;
+import org.kainos.ea.client.FailedToGetJobRole;
 import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.client.FailedToDeleteJobRoleException;
-import org.kainos.ea.client.FailedToGetJobRole;
+import org.kainos.ea.client.FailedToGetJobRolesException;
+
+import org.kainos.ea.cli.JobRoleFilter;
+
 import org.kainos.ea.client.JobRolesNotFoundException;
 import org.kainos.ea.db.JobRoleDao;
 import org.mockito.Mockito;
@@ -43,7 +45,9 @@ public class JobRoleServiceTest {
                 "Job Spec",
                 "sharepoint link",
                 "band name",
-                "capability name"
+                "capability name",
+                "Principal",
+                "Workday"
         );
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(jobRole);
@@ -81,7 +85,9 @@ public class JobRoleServiceTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "Principal",
+                "Workday");
 
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
@@ -116,7 +122,9 @@ public class JobRoleServiceTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "Principal",
+                "Workday");
 
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
@@ -135,7 +143,9 @@ public class JobRoleServiceTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "Principal",
+                "Workday");
 
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(expectedRole);
 
@@ -166,5 +176,39 @@ public class JobRoleServiceTest {
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenThrow(SQLException.class);
 
         assertThrows(FailedToGetJobRole.class, () -> jobRoleService.getRoleById(id));
+    }
+
+    @Test
+    void editRole_ShouldEditJobRoleSuccessfully_WhenDaoReturnsSuccess()
+            throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
+        int id = 5;
+        JobRoleRequest updatedJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
+
+        // Mock the jobRoleDao.editJobRole to return a success indicator, e.g., 1 for one row affected.
+        Mockito.when(jobRoleDaoMock.editJobRole(id, updatedJobRole)).thenReturn(5);
+
+        // Mock the jobRoleDao to return an existing job role when getById is called.
+        JobRoleRequest existingJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
+        Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(existingJobRole);
+
+        // Call the editJobRole method in jobRoleService
+        jobRoleService.editJobRole(id, updatedJobRole);
+
+        // Verify that the jobRoleDao.editJobRole was called with the correct parameters
+        Mockito.verify(jobRoleDaoMock).editJobRole(id, updatedJobRole);
+
+    }
+
+    @Test
+    void editRole_ShouldThrowJobRoleDoesNotExistException_WhenSQLExceptionCaught() throws SQLException {
+        int id = 5;
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities"
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "Principal", "Workday");
+
+        Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleRequest)).thenThrow(SQLException.class);
+
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.editJobRole(id, jobRoleRequest));
     }
 }
