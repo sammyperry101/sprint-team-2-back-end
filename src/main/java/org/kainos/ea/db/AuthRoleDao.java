@@ -4,6 +4,7 @@ import org.kainos.ea.cli.AuthRole;
 import org.kainos.ea.client.FailedToGetAuthRoles;
 import org.kainos.ea.client.FailedToGetRoleException;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
