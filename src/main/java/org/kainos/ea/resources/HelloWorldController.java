@@ -11,7 +11,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 @Api("Hello World")
-@Path("/api")
 @RolesAllowed("Admin")
 
 public class HelloWorldController {
