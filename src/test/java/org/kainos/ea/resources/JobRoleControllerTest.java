@@ -102,7 +102,7 @@ public class JobRoleControllerTest {
     void editRole_ShouldReturnResponse200_WhenJobRoleHasBeenEdited()
             throws JobRoleDoesNotExistException, FailedToGetJobRole{
         int id = 5;
-        JobRoleEditRequest jobRole = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
 
         Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenReturn(5);
 
@@ -115,7 +115,7 @@ public class JobRoleControllerTest {
     void editRole_ShouldReturnResponse500_WhenServiceThrowsFailedToGetJobRole()
             throws JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
-        JobRoleEditRequest jobRole = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
         Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenThrow(FailedToGetJobRole.class);
 
         Response response = jobRoleController.editJobRole(id, jobRole);
@@ -127,7 +127,7 @@ public class JobRoleControllerTest {
     void editRole_ShouldReturnResponse400_WhenServiceThrowsJobRoleDoesNotExist()
             throws JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
-        JobRoleEditRequest jobRole = new JobRoleEditRequest("string", "string", "string", "string", 1, 1);
+        JobRoleRequest jobRole = new JobRoleRequest(1,"string", "string", "string", "string", "band", "capability");
         Mockito.when(jobRoleServiceMock.editJobRole(id, jobRole)).thenThrow(JobRoleDoesNotExistException.class);
 
         Response response = jobRoleController.editJobRole(id, jobRole);
@@ -142,7 +142,9 @@ public class JobRoleControllerTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "band",
+                "capability");
 
         Mockito.when(jobRoleServiceMock.getRoleById(anyInt())).thenReturn(expectedResult);
 

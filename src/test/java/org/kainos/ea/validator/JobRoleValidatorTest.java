@@ -3,6 +3,7 @@ package org.kainos.ea.validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.cli.JobRoleEditRequest;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.InvalidBandIDException;
 import org.kainos.ea.client.InvalidFamilyIDException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
@@ -15,18 +16,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class JobRoleValidatorTest {
 
     private JobRoleValidator jobRoleValidator;
-    private JobRoleEditRequest validJobRoleEditRequest;
+    private JobRoleRequest validJobRoleEditRequest;
 
     @BeforeEach
     public void setUp() {
         jobRoleValidator = new JobRoleValidator();
-        validJobRoleEditRequest = new JobRoleEditRequest(
+        validJobRoleEditRequest = new JobRoleRequest(1,
                 "validName",
                 "JobSpec",
                 "responsibilities",
                 "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx",
-                1,
-                1
+                "band",
+                "capability"
         );
     }
 
@@ -42,7 +43,7 @@ public class JobRoleValidatorTest {
 
     @Test
     public void isValidJobRole_NullName_ThrowsException() {
-        validJobRoleEditRequest.setName(null);
+        validJobRoleEditRequest.setRoleName(null);
         assertThrows(NullFieldException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
@@ -66,7 +67,7 @@ public class JobRoleValidatorTest {
 
     @Test
     public void isValidJobRole_InvalidName_ThrowsException() {
-        validJobRoleEditRequest.setName("A Really LONG name A Really LONG name A Really LONG name A Really LONG name A Really "+
+        validJobRoleEditRequest.setRoleName("A Really LONG name A Really LONG name A Really LONG name A Really LONG name A Really "+
                 "LONG name A Really LONG name A Really LONG name A Really LONG name A Really LONG name");
         assertThrows(InvalidNameException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
@@ -79,13 +80,13 @@ public class JobRoleValidatorTest {
 
     @Test
     public void isValidJobRole_InvalidBandId_ThrowsException() {
-        validJobRoleEditRequest.setBandId(-1);
+        validJobRoleEditRequest.setBandName("");
         assertThrows(InvalidBandIDException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 
     @Test
     public void isValidJobRole_InvalidFamilyId_ThrowsException() {
-        validJobRoleEditRequest.setFamilyId(0);
+        validJobRoleEditRequest.setCapabilityName("");
         assertThrows(InvalidFamilyIDException.class, () -> jobRoleValidator.validateJobRole(validJobRoleEditRequest));
     }
 

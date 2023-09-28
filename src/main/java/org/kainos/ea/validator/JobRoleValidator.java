@@ -1,6 +1,7 @@
 package org.kainos.ea.validator;
 
 import org.kainos.ea.cli.JobRoleEditRequest;
+import org.kainos.ea.cli.JobRoleRequest;
 import org.kainos.ea.client.InvalidBandIDException;
 import org.kainos.ea.client.InvalidFamilyIDException;
 import org.kainos.ea.client.InvalidSharepointLinkException;
@@ -19,34 +20,34 @@ public class JobRoleValidator {
     FamilyDao familyDao = new FamilyDao(databaseConnector);
 
 
-    public boolean validateJobRole(JobRoleEditRequest jobRoleEditRequest) throws SQLException, InvalidNameException,
+    public boolean validateJobRole(JobRoleRequest jobRoleRequest) throws SQLException, InvalidNameException,
             InvalidSharepointLinkException, InvalidBandIDException, InvalidFamilyIDException, NullFieldException {
-        if (jobRoleEditRequest == null) {
+        if (jobRoleRequest == null) {
             throw new NullFieldException();
         }
-        if (jobRoleEditRequest.getName() == null) {
+        if (jobRoleRequest.getRoleName() == null) {
             throw new NullFieldException();
         }
-        if (jobRoleEditRequest.getJob_Spec() == null) {
+        if (jobRoleRequest.getJob_Spec() == null) {
             throw new NullFieldException();
         }
-        if (jobRoleEditRequest.getResponsibilities() == null) {
+        if (jobRoleRequest.getResponsibilities() == null) {
             throw new NullFieldException();
         }
-        if (jobRoleEditRequest.getSharepointLink() == null) {
+        if (jobRoleRequest.getSharepointLink() == null) {
             throw new NullFieldException();
         }
-        if (jobRoleEditRequest.getName().length() > 70) {
+        if (jobRoleRequest.getRoleName().length() > 70) {
             throw new InvalidNameException();
         }
-        if (!(jobRoleEditRequest.getSharepointLink()
+        if (!(jobRoleRequest.getSharepointLink()
                 .matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))) {
             throw new InvalidSharepointLinkException();
         }
-        if (bandDao.checkBandIDExists(jobRoleEditRequest.getBandId()) <= -1) { //Check the BandID is valid
+        if (bandDao.checkBandIDExists(jobRoleRequest.getBandName()) <= -1) { //Check the BandID is valid
             throw new InvalidBandIDException();
         }
-        if (familyDao.checkFamilyIDExists(jobRoleEditRequest.getFamilyId()) <= 0) {
+        if (familyDao.checkFamilyIDExists(jobRoleRequest.getCapabilityName()) <= 0) {
             throw new InvalidFamilyIDException();
         }
         return true;

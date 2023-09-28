@@ -41,7 +41,9 @@ public class JobRoleServiceTest {
                 "Job Spec",
                 "sharepoint link",
                 "band name",
-                "capability name"
+                "capability name",
+                "band",
+                "capability"
         );
 
         Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(jobRole);
@@ -79,7 +81,9 @@ public class JobRoleServiceTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "band",
+                "capability");
 
         List<JobRoleRequest> expectedRoles = new ArrayList<>();
         expectedRoles.add(expectedRole);
@@ -115,7 +119,9 @@ public class JobRoleServiceTest {
                 "testname",
                 "testlink",
                 "testname",
-                "testname");
+                "testname",
+                "band",
+                "capability");
 
         Mockito.when(jobRoleDaoMock.getRoleById(anyInt())).thenReturn(expectedRole);
 
@@ -146,33 +152,33 @@ public class JobRoleServiceTest {
     void editRole_ShouldEditJobRoleSuccessfully_WhenDaoReturnsSuccess()
             throws SQLException, JobRoleDoesNotExistException, FailedToGetJobRole {
         int id = 5;
-        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities"
-                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
+        JobRoleRequest updatedJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "band", "capability");
 
         // Mock the jobRoleDao.editJobRole to return a success indicator, e.g., 1 for one row affected.
-        Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleEditRequest)).thenReturn(5);
+        Mockito.when(jobRoleDaoMock.editJobRole(id, updatedJobRole)).thenReturn(5);
 
         // Mock the jobRoleDao to return an existing job role when getById is called.
-        JobRole existingJobRole = new JobRole(5, "NewName", "NewSpec", "NewResponsibilities"
-                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
-        Mockito.when(jobRoleDaoMock.getJobRoleById(id)).thenReturn(existingJobRole);
+        JobRoleRequest existingJobRole = new JobRoleRequest(5, "NewName", "NewSpec", "NewResponsibilities",
+                "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "band", "capability");
+        Mockito.when(jobRoleDaoMock.getRoleById(id)).thenReturn(existingJobRole);
 
         // Call the editJobRole method in jobRoleService
-        jobRoleService.editJobRole(id, jobRoleEditRequest);
+        jobRoleService.editJobRole(id, updatedJobRole);
 
         // Verify that the jobRoleDao.editJobRole was called with the correct parameters
-        Mockito.verify(jobRoleDaoMock).editJobRole(id, jobRoleEditRequest);
+        Mockito.verify(jobRoleDaoMock).editJobRole(id, updatedJobRole);
 
     }
 
     @Test
     void editRole_ShouldThrowJobRoleDoesNotExistException_WhenSQLExceptionCaught() throws SQLException {
         int id = 5;
-        JobRoleEditRequest jobRoleEditRequest = new JobRoleEditRequest("NewName", "NewSpec", "NewResponsibilities"
-                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", 2, 2);
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities"
+                , "https://kainossoftwareltd.sharepoint.com/SitePages/Home.aspx", "bandName", "capabilityName");
 
-        Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleEditRequest)).thenThrow(SQLException.class);
+        Mockito.when(jobRoleDaoMock.editJobRole(id, jobRoleRequest)).thenThrow(SQLException.class);
 
-        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.editJobRole(id, jobRoleEditRequest));
+        assertThrows(JobRoleDoesNotExistException.class, () -> jobRoleService.editJobRole(id, jobRoleRequest));
     }
 }

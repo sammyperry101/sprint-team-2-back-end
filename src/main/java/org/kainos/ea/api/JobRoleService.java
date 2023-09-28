@@ -77,16 +77,16 @@ public class JobRoleService {
         }
     }
 
-    public int editJobRole(int id, JobRoleEditRequest jobRoleEditRequest) throws JobRoleDoesNotExistException, FailedToGetJobRole {
+    public int editJobRole(int id, JobRoleRequest jobRoleRequest) throws JobRoleDoesNotExistException, FailedToGetJobRole {
         try {
-            JobRole jobRoleToUpdate = jobRoleDao.getJobRoleById(id);
+            JobRoleRequest jobRoleToUpdate = jobRoleDao.getRoleById(id);
 
             if(jobRoleToUpdate == null) {
                 throw new JobRoleDoesNotExistException();
             }
 
-            if (jobRoleValidator.validateJobRole(jobRoleEditRequest)) {
-                jobRoleDao.editJobRole(id, jobRoleEditRequest);
+            if (jobRoleValidator.validateJobRole(jobRoleRequest)) {
+                jobRoleDao.editJobRole(id, jobRoleRequest);
             }
             return id;
         } catch (SQLException | InvalidNameException | InvalidSharepointLinkException | InvalidBandIDException |
