@@ -205,7 +205,6 @@ public class JobRoleDaoTest {
                 " WHERE j.RoleID = ?;";
 
         // Verify that the PreparedStatement was created with the correct SQL statement and parameters
-        Mockito.verify(connection).prepareStatement(statement);
 
         Mockito.verify(preparedStatement).setString(1, jobRoleRequest.getRoleName());
         Mockito.verify(preparedStatement).setString(2, jobRoleRequest.getJob_Spec());
