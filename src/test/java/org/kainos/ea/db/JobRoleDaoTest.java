@@ -94,9 +94,10 @@ public class JobRoleDaoTest {
 
         Mockito.when(resultSet.getInt("RoleID")).thenReturn(1);
         Mockito.when(resultSet.getString("Name")).thenReturn("Name");
+        Mockito.when(resultSet.getString("Responsibilities")).thenReturn("responsibilities");
         Mockito.when(resultSet.getString("Sharepoint_Link")).thenReturn("sharepoint link");
-        Mockito.when(resultSet.getString("bandName")).thenReturn("band name");
-        Mockito.when(resultSet.getString("capabilityName")).thenReturn("capability name");
+        Mockito.when(resultSet.getString("bandName")).thenReturn("bandname");
+        Mockito.when(resultSet.getString("capabilityName")).thenReturn("capability");
 
         JobRoleRequest result = jobRoleDao.getRoleById(id);
 
@@ -186,7 +187,7 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldUpdateJobRole_WhenSuccessful() throws SQLException {
         int id = 5;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities", "NewLink", "bandName", "capability");
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"NewName", "NewSpec", "NewResponsibilities", "NewLink", "bandName", "capabilityName");
 
         DatabaseConnector.setConn(connection);
 
@@ -197,14 +198,18 @@ public class JobRoleDaoTest {
         jobRoleDao.editJobRole(id, jobRoleRequest);
 
         // Verify that the PreparedStatement was created with the correct SQL statement and parameters
-        Mockito.verify(connection).prepareStatement("UPDATE Job_Roles SET Name = ?, Job_Spec = ?, Responsibilities = ?," +
-                " Sharepoint_Link = ?, BandID = ?, FamilyID = ? WHERE RoleID = ?");
+        Mockito.verify(connection).prepareStatement("UPDATE Job_Roles AS j" +
+                "INNER JOIN Bands AS b ON j.BandID = b.BandID" +
+                "INNER JOIN Families AS f ON j.FamilyID = f.FamilyID" +
+                "INNER JOIN Capabilities AS c ON f.capabilityID = c.CapabilityID" +
+                "SET j.Name = ?, j.Job_Spec = ?, j.Responsibilities = ?, j.Sharepoint_Link = ?, b.Name = ?, c.Name = ?" +
+                "WHERE j.RoleID = ?");
         Mockito.verify(preparedStatement).setString(1, "NewName");
         Mockito.verify(preparedStatement).setString(2, "NewSpec");
         Mockito.verify(preparedStatement).setString(3, "NewResponsibilities");
         Mockito.verify(preparedStatement).setString(4, "NewLink");
-        Mockito.verify(preparedStatement).setInt(5, 2);
-        Mockito.verify(preparedStatement).setInt(6, 2);
+        Mockito.verify(preparedStatement).setString(5, "BandName");
+        Mockito.verify(preparedStatement).setString(6, "CapabilityName");
         Mockito.verify(preparedStatement).setInt(7, id);
 
         // Verify that executeUpdate() was called
@@ -214,7 +219,7 @@ public class JobRoleDaoTest {
     @Test
     void editRole_ShouldThrowSQLException_WhenSQLExceptionOccurs() throws SQLException {
         int id = 5;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"string", "string", "string", "string", "bandName", "bandName");
+        JobRoleRequest jobRoleRequest = new JobRoleRequest(1,"string", "string", "string", "string", "bandName", "capabilityName");
 
         DatabaseConnector.setConn(connection);
 
