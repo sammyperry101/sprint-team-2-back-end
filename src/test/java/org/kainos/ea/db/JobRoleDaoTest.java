@@ -3,7 +3,7 @@ package org.kainos.ea.db;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -86,7 +86,7 @@ public class JobRoleDaoTest {
                 "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Specification",
                 "Responsibilities",
@@ -102,7 +102,7 @@ public class JobRoleDaoTest {
         Mockito.when(resultSet.next()).thenReturn(true);
         Mockito.when(resultSet.getInt(1)).thenReturn(expectedResult);
 
-        int result = jobRoleDao.createJobRole(jobRoleRequest);
+        int result = jobRoleDao.createJobRole(jobRolePostRequest);
 
         assertEquals(expectedResult, result);
     }
@@ -117,7 +117,7 @@ public class JobRoleDaoTest {
                 "(`Name`, `Job_Spec`, `Responsibilities`, `Sharepoint_Link`, `BandID`, `FamilyID`) " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
 
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Specification",
                 "Responsibilities",
@@ -129,6 +129,6 @@ public class JobRoleDaoTest {
         Mockito.when(connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS))
                 .thenThrow(SQLException.class);
 
-        assertThrows(SQLException.class, () -> jobRoleDao.createJobRole(jobRoleRequest));
+        assertThrows(SQLException.class, () -> jobRoleDao.createJobRole(jobRolePostRequest));
     }
 }

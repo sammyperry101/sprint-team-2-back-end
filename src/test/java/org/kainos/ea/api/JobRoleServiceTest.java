@@ -3,13 +3,12 @@ package org.kainos.ea.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 import org.kainos.ea.client.*;
 import org.kainos.ea.core.BandValidator;
 import org.kainos.ea.core.FamilyValidator;
 import org.kainos.ea.core.JobRoleValidator;
 import org.kainos.ea.db.JobRoleDao;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -72,7 +71,7 @@ public class JobRoleServiceTest {
             throws SQLException, InvalidJobRoleException, FailedToCreateJobRoleException
     {
         int expectedResult = 1;
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Specification",
                 "Responsibilities",
@@ -81,9 +80,9 @@ public class JobRoleServiceTest {
                 1
         );
 
-        Mockito.when(jobRoleDaoMock.createJobRole(jobRoleRequest)).thenReturn(expectedResult);
+        Mockito.when(jobRoleDaoMock.createJobRole(jobRolePostRequest)).thenReturn(expectedResult);
 
-        int result = jobRoleService.createJobRole(jobRoleRequest);
+        int result = jobRoleService.createJobRole(jobRolePostRequest);
         assertEquals(expectedResult, result);
     }
 
@@ -91,7 +90,7 @@ public class JobRoleServiceTest {
     void createJobRole_shouldThrowFailedToCreateJobRoleException_whenDaoThrowsSQLException()
             throws SQLException
     {
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Specification",
                 "Responsibilities",
@@ -101,15 +100,15 @@ public class JobRoleServiceTest {
         );
 
 
-        Mockito.when(jobRoleDaoMock.createJobRole(jobRoleRequest)).thenThrow(SQLException.class);
+        Mockito.when(jobRoleDaoMock.createJobRole(jobRolePostRequest)).thenThrow(SQLException.class);
 
-        assertThrows(FailedToCreateJobRoleException.class, () -> jobRoleService.createJobRole(jobRoleRequest));
+        assertThrows(FailedToCreateJobRoleException.class, () -> jobRoleService.createJobRole(jobRolePostRequest));
     }
 
     @Test
     void createJobRole_shouldThrowInvalidJobRoleException_whenJobRoleIsInvalid()
             throws SQLException, FailedToGetFamilyException, FailedToGetBandException {
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Specification",
                 "Responsibilities",
@@ -118,8 +117,8 @@ public class JobRoleServiceTest {
                 1000
         );
 
-        Mockito.when(jobRoleValidatorMock.isValidJobRole(jobRoleRequest)).thenReturn("Band does not exist.");
+        Mockito.when(jobRoleValidatorMock.isValidJobRole(jobRolePostRequest)).thenReturn("Band does not exist.");
 
-        assertThrows(InvalidJobRoleException.class, () -> jobRoleService.createJobRole(jobRoleRequest));
+        assertThrows(InvalidJobRoleException.class, () -> jobRoleService.createJobRole(jobRolePostRequest));
     }
 }

@@ -2,7 +2,7 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobRoleService;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 import org.kainos.ea.client.FailedToCreateJobRoleException;
 import org.kainos.ea.client.FailedToGetJobRoles;
 import org.kainos.ea.client.InvalidJobRoleException;
@@ -44,7 +44,7 @@ public class JobRoleController {
     @POST
     @Path("/job-roles")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createJobRole(JobRoleRequest jobRole){
+    public Response createJobRole(JobRolePostRequest jobRole){
         try{
             return Response.status(Response.Status.CREATED).entity(jobRoleService.createJobRole(jobRole)).build();
         } catch (FailedToCreateJobRoleException e){

@@ -1,7 +1,7 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class JobRoleDao {
     }
 
     //todo Admin authorisation
-    public Integer createJobRole(JobRoleRequest jobRole)
+    public Integer createJobRole(JobRolePostRequest jobRole)
             throws SQLException
     {
         Connection conn = DatabaseConnector.getConnection();

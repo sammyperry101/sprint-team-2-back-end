@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardWebServiceApplication;
 import org.kainos.ea.DropwizardWebServiceConfiguration;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -38,7 +38,7 @@ public class JobRoleIntegrationTest {
 
     @Test
     void createJobRole_shouldReturnIdOfCreatedJobRole(){
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Spec",
                 "Responsibilities",
@@ -48,7 +48,7 @@ public class JobRoleIntegrationTest {
         );
 
         Response response = APP.client().target("http://localhost:8080/api/job-roles")
-                .request().post(Entity.entity(jobRoleRequest, MediaType.APPLICATION_JSON_TYPE));
+                .request().post(Entity.entity(jobRolePostRequest, MediaType.APPLICATION_JSON_TYPE));
 
         assertEquals(201, response.getStatus());
         assertTrue(response.readEntity(Integer.class) > 1);
@@ -56,7 +56,7 @@ public class JobRoleIntegrationTest {
 
     @Test
     void createJobRole_shouldReturn400_whenInvalidJobRole(){
-        JobRoleRequest jobRoleRequest = new JobRoleRequest(
+        JobRolePostRequest jobRolePostRequest = new JobRolePostRequest(
                 "Name",
                 "Spec",
                 "Responsibilities",
@@ -66,7 +66,7 @@ public class JobRoleIntegrationTest {
         );
 
         Response response = APP.client().target("http://localhost:8080/api/job-roles")
-                .request().post(Entity.entity(jobRoleRequest, MediaType.APPLICATION_JSON_TYPE));
+                .request().post(Entity.entity(jobRolePostRequest, MediaType.APPLICATION_JSON_TYPE));
 
         assertEquals(400, response.getStatus());
     }

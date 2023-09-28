@@ -1,7 +1,7 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
+import org.kainos.ea.cli.JobRolePostRequest;
 import org.kainos.ea.client.*;
 import org.kainos.ea.core.BandValidator;
 import org.kainos.ea.core.FamilyValidator;
@@ -35,7 +35,7 @@ public class JobRoleService {
         }
     }
 
-    public Integer createJobRole(JobRoleRequest jobRole)
+    public Integer createJobRole(JobRolePostRequest jobRole)
             throws FailedToCreateJobRoleException, InvalidJobRoleException
     {
         try{

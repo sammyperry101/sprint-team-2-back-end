@@ -1,15 +1,8 @@
 package org.kainos.ea.core;
 
-import org.kainos.ea.api.BandService;
-import org.kainos.ea.api.FamilyService;
-import org.kainos.ea.cli.Band;
-import org.kainos.ea.cli.Family;
-import org.kainos.ea.cli.JobRole;
-import org.kainos.ea.cli.JobRoleRequest;
-import org.kainos.ea.client.BandDoesNotExistException;
+import org.kainos.ea.cli.JobRolePostRequest;
 import org.kainos.ea.client.FailedToGetBandException;
 import org.kainos.ea.client.FailedToGetFamilyException;
-import org.kainos.ea.client.FamilyDoesNotExistException;
 
 public class JobRoleValidator {
     BandValidator bandValidator;
@@ -23,7 +16,7 @@ public class JobRoleValidator {
         this.familyValidator = familyValidator;
     }
 
-    public String isValidJobRole(JobRoleRequest jobRole)
+    public String isValidJobRole(JobRolePostRequest jobRole)
             throws FailedToGetBandException, FailedToGetFamilyException
     {
 
